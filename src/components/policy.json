@@ -1,0 +1,56 @@
+[
+  {
+    "id": 0,
+    "description": "By submitting this offer for providing tutoring services, I acknowledge and agree that if Ringle, in its sole discretion, decides to accept my offer, Ringle and I will be parties to the following agreement under which I will provide such tutoring services and Ringle will provide compensation in return for such services in accordance with the following terms and conditions (“Agreement”).",
+  },
+  {
+    "id": 1,
+    "description": "I'm aware that if the feedback report is not submitted in 6 hrs after a class, Ringle compensates 90% of the contracted price. If the feedback report is not submitted in 24hrs after a class, Ringle compensates 83.5% of the contracted price.",
+    "checked": false
+  },
+  {
+    "id": 2,
+    "description": "I'm aware that the compensation will be processed when the feedback report is submitted.",
+    "checked": false
+  },
+  {
+    "id": 3,
+    "description": "I agree to remain in the classroom for the full 40 minutes, even if a student does not join. If the class is delayed by my end issue, I will compensate for the lost time.",
+    "checked": false
+  },
+  {
+    "id": 4,
+    "description": "I'm aware that I may be asked to perform a short activity (ex. Correcting 2-3 English sentences) whiling waiting in a classroom. But when the student joins, I am not responsible for completing the task.",
+    "checked": false
+  },
+  {
+    "id": 5,
+    "description": "I agree to share my voice data with the student to help him/her improve English. The voice would be only used to maintain the quality and promote educational purpose.",
+    "checked": false
+  },
+  {
+    "id": 6,
+    "description": "I am aware that Ringle doesn't record any type of video.",
+    "checked": false
+  },
+  {
+    "id": 7,
+    "description": "If a class has a technical issue due to a student's or tutor's issue, and class time was within 15 minutes, I agree to receive 50% of original contracted price.",
+    "checked": false
+  },
+  {
+    "id": 8,
+    "description": "If the quality of a class was severely affected by bad internet environment, sound noise, and etc, I agree to receive less than 50% of original contracted price.",
+    "checked": false
+  },
+  {
+    "id": 9,
+    "description": "[Warning] If you cancel a class that will begin in an hour before a session, no matter what your situation is, you consent to pay $10 to Ringle.",
+    "checked": false
+  },
+  {
+    "id": 10,
+    "description": "Check all items.",
+    "checked": false
+  }
+]
