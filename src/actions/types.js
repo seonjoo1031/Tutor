@@ -19,3 +19,14 @@ export const PAST_LESSONS_FETCH = 'past_lessons_fetch';
 // course
 export const DETAIL_COURSE_FETCH = 'detail_course_fetch';
 export const DETAIL_COURSE_GET_SUCCESS = 'get_detail_course_success';
+
+// auth
+export const OTHER_LOGIN_USER = 'other_login_user';
+export const LOGIN_USER_SUCCESS = 'login_user_success';
+export const LOGIN_USER_FAIL = 'login_user_fail';
+export const LOGIN_USER = 'login_user';
+export const OTHER_LOGIN_USER_SIGN_UP = 'other_login_user_sign_up';
+
+// sign up
+export const EMAIL_CHANGED = 'email_changed';
+export const PASSWORD_CHANGED = 'password_changed';

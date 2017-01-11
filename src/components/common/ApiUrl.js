@@ -27,3 +27,20 @@ export const urlForCourseDetail = (course_id) => {
   query = `https://www.ringleplus.com/api/v1/courseinfo/course_detail?course_id=${course_id}`;
   return fetch(query);
 };
+
+export const urlForFBAndGGLogin = (email) => {
+  query = `https://www.ringleplus.com/api/v1/userinfo/facebook?email=${email}`;
+  return fetch(query);
+};
+
+export const urlForSignup = () => {
+  query = `https://www.ringleplus.com/api/v1/userinfo/signup`;
+  return query;
+};
+
+export const ringle_auth_signInWithEmailAndPassword = (email, password, registrationToken) => {
+  //post method!
+  query = `https://www.ringleplus.com/api/v1/userinfo/email?email=${email}&password=${password}&registration_token=${registrationToken}`;
+  console.log(query);
+  return fetch(query);
+};
