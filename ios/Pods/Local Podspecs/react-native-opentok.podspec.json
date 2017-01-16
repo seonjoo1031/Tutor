@@ -1,0 +1,27 @@
+{
+  "name": "react-native-opentok",
+  "version": "0.0.1",
+  "summary": "An OpenTok SDK for react-native",
+  "authors": {
+    "Mike Grabowski": "mike@callstack.io",
+    "Mike Chudziak": "mike.chudziak@callstack.io"
+  },
+  "homepage": "https://github.com/callstack/react-native-video",
+  "license": "MIT",
+  "platforms": {
+    "ios": "7.0"
+  },
+  "source": {
+    "git": "https://github.com/callstack/react-native-opentok.git",
+    "tag": "0.0.1"
+  },
+  "source_files": "*.{h,m}",
+  "dependencies": {
+    "React": [
+
+    ],
+    "OpenTok": [
+
+    ]
+  }
+}

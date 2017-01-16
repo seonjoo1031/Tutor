@@ -15,6 +15,7 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import Login from './components/Login'; // 자동 로그인 처리 및 일정 시간 뒤 로그인으로
 import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
+import Splash from './components/Splash';
 
 
 const TabIcon = ({ selected, title }) => {
@@ -26,6 +27,8 @@ const TabIcon = ({ selected, title }) => {
 const RouterComponent = () => {
   return (
     <Router>
+
+      <Scene key="splash" component={Splash} hideNavBar={true} type={ActionConst.RESET} />
       <Scene key="auth" type={ActionConst.RESET}>
         <Scene key="login" component={Login} hideNavBar={true} />
         <Scene key="loginForm" component={LoginForm} title='LOGIN' hideNavBar={true}/>

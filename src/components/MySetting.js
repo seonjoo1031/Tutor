@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Linking, AsyncStorage, Alert } from 'react-native';
+import { View, ScrollView, Linking, AsyncStorage, Alert, Text, Switch } from 'react-native';
+import { connect } from 'react-redux';
 import { FBLoginManager } from 'react-native-facebook-login';
+import { GoogleSignin } from 'react-native-google-signin';
 import { Actions } from 'react-native-router-flux';
+import { ringleEmailToggle } from '../actions';
 import { MySettingCard } from './common';
 import TabNaviBar from './common/TabNaviBar';
 
 
 class MySetting extends Component {
+
+  componentWillMount() {
+    this.constructEmailCheckerState(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.constructEmailCheckerState(nextProps);
+  }
+
   onNamePressed() {
   }
 
@@ -59,15 +71,15 @@ class MySetting extends Component {
           }
         });
           break;
-        // case 'google':
-        // GoogleSignin.signOut()
-        // .then(() => {
-        //   console.log('successfully logged out..');
-        // })
-        // .catch((error) => {
-        //   console.log(error);
-        // });
-        //   break;
+        case 'google':
+        GoogleSignin.signOut()
+        .then(() => {
+          console.log('successfully logged out..');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+          break;
 
         default:
           break;
@@ -77,6 +89,80 @@ class MySetting extends Component {
     AsyncStorage.multiRemove(['login_channel', 'email', 'password', 'signin']);
     console.log(AsyncStorage.getAllKeys());
     Actions.auth();
+  }
+
+  constructEmailCheckerState({ringleEmails, ringleEmailCheckers}){
+    console.log('이부분이 실행이 될 때, ringleEmailChecker가 존재하나?');
+    console.log(ringleEmails);
+    var array = [];
+    if (ringleEmails != null){
+      ringleEmails.forEach((val,i) => {
+        const ringleEmailChecker = ringleEmailCheckers.find(x => x.ringle_email_id === val.id);
+        if (ringleEmailChecker != null){
+          array.push(
+            { ringle_email_id: val.id, receive: ringleEmailChecker.receive}
+          )
+        }else{
+          array.push(
+            { ringle_email_id: val.id, receive: true}
+          )
+        }
+      });
+    }
+    this.setState({
+      checker_array: array,
+    });
+  }
+  updateCheckerArray(id){
+    const ringleEmailChecker_selected = this.state.checker_array.find(x => x.ringle_email_id ===id);
+    console.log('빨리~~');
+    var array = this.state.checker_array;
+    array.forEach((val,i)=>{
+      if (val.ringle_email_id === id){
+        val.receive = !val.receive;
+      }
+    });
+    this.setState({
+      checker_array: array,
+    });
+  }
+
+  renderEmailChecker(){
+    const {email} = this.props.user;
+
+    var email_checker_final_array = [];
+    console.log(this.props.ringleEmailCheckers);
+    if (this.props.ringleEmails != null){
+      this.props.ringleEmails.forEach((val,i) => {
+        console.log('data....');
+        const ringleEmailChecker = this.state.checker_array.find(x => x.ringle_email_id === val.id);
+        var bool = true;
+        if (ringleEmailChecker){
+          bool = ringleEmailChecker.receive;
+        }
+          email_checker_final_array.push(
+            <View key={i} style={{paddingLeft:20,paddingRight:20, marginTop: 10,
+              flexDirection:'row', justifyContent:'space-between'
+            }}>
+              <Text style={{ color: '#2e2b4f' }}>{val.description}</Text>
+              <Switch
+                value={bool}
+                onValueChange={() =>{
+                  this.updateCheckerArray(val.id);
+                  this.props.ringleEmailToggle(val.id,email);
+                  }
+                }
+              />
+            </View>
+          );
+      });
+    }
+
+    return(
+      <View>
+        {email_checker_final_array}
+      </View>
+    );
   }
 
   render() {
@@ -91,7 +177,7 @@ class MySetting extends Component {
             <MySettingCard onPress={this.onPressedTimezone.bind(this)} label="Timezone" content='timezone'/>
             <MySettingCard onPress={console.log('update info')} label="Update Info" content='v.1.0.0'/>
             <MySettingCard onPress={this.onPressedLogoutIcon.bind(this)} label="Logout" content=""/>
-
+            {this.renderEmailChecker()}
           </View>
 
         </ScrollView>
@@ -101,4 +187,14 @@ class MySetting extends Component {
   }
 }
 
-export default MySetting;
+const mapStateToProps = state => {
+  const { user, ringleEmails, ringleEmailCheckers } = state.auth;
+
+  return {
+    user: user,
+    ringleEmails: ringleEmails,
+    ringleEmailCheckers: ringleEmailCheckers,
+  };
+};
+
+export default connect(mapStateToProps, { ringleEmailToggle })(MySetting);

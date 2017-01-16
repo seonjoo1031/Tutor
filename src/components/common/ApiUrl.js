@@ -44,3 +44,8 @@ export const ringle_auth_signInWithEmailAndPassword = (email, password, registra
   console.log(query);
   return fetch(query);
 };
+
+export const urlForRegisterToken = () => {
+  query =  'https://www.ringleplus.com/api/v1/userinfo/registertoken';
+  return query;
+}

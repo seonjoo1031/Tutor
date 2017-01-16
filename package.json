@@ -11,6 +11,7 @@
     "react-addons-shallow-compare": "^15.3.2",
     "react-native": "0.39.2",
     "react-native-facebook-login": "^1.4.0",
+    "react-native-fcm": "^4.0.0",
     "react-native-fence-html": "^1.0.6",
     "react-native-google-signin": "^0.8.1",
     "react-native-router-flux": "^3.37.0",

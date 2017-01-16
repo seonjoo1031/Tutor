@@ -69,17 +69,8 @@ class Login extends Component {
   }
 
   onEmailLoginBtnPress() {
-    // console.log('login button');
-    // Actions.loginForm();
-    FBLoginManager.logout((error, data) => {
-      if (!error) {
-        console.log('successfully logged out..');
-      } else {
-        console.log(error, data);
-      }
-    });
-
-    Actions.auth();
+    console.log('login button');
+    Actions.loginForm();
   }
 
   handleResponseFB(res) {
@@ -99,6 +90,12 @@ class Login extends Component {
     }
   }
 
+  renderSpinner() {
+    if (this.props.loading) {
+      return <Spinner size="large" />;
+    }
+  }
+
   render() {
     return (
       <ScrollView style={[{ flex: 1, backgroundColor: '#f9f9f4' }, GF.border('red')]} >
@@ -109,6 +106,7 @@ class Login extends Component {
         <View style={{ backgroundColor: '#f9f9f4', marginBottom: 20 }} >
           <View style={{ alignItems: 'center', marginTop: 150 }}>
             {this.renderRingleLogo()}
+            {this.renderSpinner()}
           </View>
           <View style={{ flex: 1 }}>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between',
@@ -156,5 +154,10 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = ({ auth }) => {
+  const { loading } = auth;
 
-export default connect(null, { otherLoginUser })(Login);
+  return { loading };
+};
+
+export default connect(mapStateToProps, { otherLoginUser })(Login);

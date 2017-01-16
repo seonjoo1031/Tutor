@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, ListView, View, StatusBar } from 'react-native';
 //import { Actions } from 'react-native-router-flux';
-//import FCM from 'react-native-fcm';
-//import { urlForRegisterToken } from '../components/common/ApiUrl'; // 토큰 보내는 쿼리
+import FCM from 'react-native-fcm';
+import { urlForRegisterToken } from '../components/common/ApiUrl'; // 토큰 보내는 쿼리
 import { upcomingLessonsFetch, unAssignedLessonsFetch } from '../actions';
 import { Spinner, LessonScrollView } from './common';
 import LessonScrollContent from './common/LessonScrollContent';
@@ -17,14 +17,67 @@ class Main extends Component {
 
   componentWillMount() {
     //this.props.coursesFetch('sungpah@ringleplus.com');
-    this.props.upcomingLessonsFetch('sungpah@ringleplus.com');
-    this.props.unAssignedLessonsFetch('sungpah@ringleplus.com');
+    this.props.upcomingLessonsFetch(this.props.user.email);
+    this.props.unAssignedLessonsFetch(this.props.user.email);
 
     this.createDataSource(this.props);
   }
 
+  componentDidMount() {
+    FCM.requestPermissions(); // for iOS
+    FCM.getFCMToken().then(token => {
+      // store fcm token in your server
+      console.log('token!!');
+      console.log(token);
+      fetch(urlForRegisterToken(), {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: this.props.user.email,
+          registration_token: token
+        })
+      })
+      .then(response => response.json())
+      .then(json => console.log(json.response))
+      .catch(error =>
+        console.log(error)
+      )
+      .done();
+    });
+
+    FCM.getInitialNotification().then(notif => {
+      console.log("INITIAL NOTIFICATION", notif)
+    });
+
+    this.notificationUnsubscribe = FCM.on("notification", notif => {
+      console.log("Notification", notif);
+
+      this.sendRemote(notif);
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     this.createDataSource(nextProps);
+  }
+
+  sendRemote(notif) {
+    console.log('send remote..');
+    if (notif.fcm === undefined) {
+        return;
+    }
+
+    FCM.presentLocalNotification({
+      title: notif.fcm.title,
+      body: notif.fcm.body,
+      priority: 'high',
+      click_action: notif.fcm.click_action,
+      show_in_foreground: true,
+      local: true,
+      largeIcon: notiIcon,
+    });
   }
 
   createDataSource({ upcomingLessons, unassignedLessons }) {
@@ -91,8 +144,10 @@ class Main extends Component {
 }
 
 const mapStateToProps = state => {
+  const { user } = state.auth;
   const { upcomingLessons, unassignedLessons, loading } = state.upcomingLessons;
   return {
+    user: user,
     upcomingLessons: upcomingLessons, //coursesFetch -> course reducer -> save data to state -> getting this data..?
     unassignedLessons: unassignedLessons,
     loading: loading

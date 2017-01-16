@@ -1,0 +1,1 @@
+../../../../../react-native-opentok/RCTOpenTokPublisherViewManager.h
