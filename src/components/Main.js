@@ -64,19 +64,23 @@ class Main extends Component {
   }
 
   sendRemote(notif) {
-    console.log('send remote..');
-    if (notif.fcm === undefined) {
+    console.log('send remote..', notif);
+    console.log('notif body', notif.notification);
+
+    if (notif.notification === undefined) {
+        console.log('!!!!!!!');
         return;
     }
 
     FCM.presentLocalNotification({
-      title: notif.fcm.title,
-      body: notif.fcm.body,
+      title: notif.notification.body,
+      body: notif.notification.body,
       priority: 'high',
-      click_action: notif.fcm.click_action,
+      // click_action: notif.fcm.click_action,
       show_in_foreground: true,
       local: true,
-      largeIcon: notiIcon,
+      content_available: true
+      // largeIcon: notiIcon,
     });
   }
 
