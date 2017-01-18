@@ -49,3 +49,8 @@ export const urlForRegisterToken = () => {
   query =  'https://www.ringleplus.com/api/v1/userinfo/registertoken';
   return query;
 }
+
+export const urlForChatWithAdmin = () => {
+  query = "https://www.ringleplus.com/api/v1/chat/insert_chat";
+  return query;
+};

@@ -30,3 +30,8 @@ export const OTHER_LOGIN_USER_SIGN_UP = 'other_login_user_sign_up';
 // sign up
 export const EMAIL_CHANGED = 'email_changed';
 export const PASSWORD_CHANGED = 'password_changed';
+
+// chat
+export const APPEND_MESSAGE = 'append_message';
+export const APPEND_MESSAGE_COUNTER_PART = 'append_message_counter_part';
+export const CHAT_INSERTED = 'chat_inserted';

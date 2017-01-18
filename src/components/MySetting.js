@@ -166,15 +166,17 @@ class MySetting extends Component {
   }
 
   render() {
+    const { email, first_name, last_name, timezone, property_1 } = this.props.user;
+
     return (
       <View style={{ marginBottom: 50, flex: 1, backgroundColor: '#f9f9f4' }}>
         <TabNaviBar />
         <ScrollView style={{ flex: 1, marginTop: 20, backgroundColor: '#f9f9f4' }}>
           <View>
-            <MySettingCard onPress={this.onNamePressed.bind(this)} label="Name" content='name'/>
-            <MySettingCard onPress={this.onEmailPressed.bind(this)} label="Email" content='email'/>
+            <MySettingCard onPress={this.onNamePressed.bind(this)} label="Name" content={`${first_name},${last_name}`}/>
+            <MySettingCard onPress={this.onEmailPressed.bind(this)} label="Email" content={email}/>
             <MySettingCard onPress={this.onPressedChat.bind(this)} label="링글에게 물어보세요!" content=">"/>
-            <MySettingCard onPress={this.onPressedTimezone.bind(this)} label="Timezone" content='timezone'/>
+            <MySettingCard onPress={this.onPressedTimezone.bind(this)} label="Timezone" content={timezone}/>
             <MySettingCard onPress={console.log('update info')} label="Update Info" content='v.1.0.0'/>
             <MySettingCard onPress={this.onPressedLogoutIcon.bind(this)} label="Logout" content=""/>
             {this.renderEmailChecker()}

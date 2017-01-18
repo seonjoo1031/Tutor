@@ -3,3 +3,4 @@ export * from './UpcomingLessonsActions';
 export * from './PastLessonsActions';
 export * from './CourseContentActions';
 export * from './AuthActions';
+export * from './ChatActions';

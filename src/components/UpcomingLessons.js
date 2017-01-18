@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, ScrollView, ListView, Text, Alert } from 'react-native';
+import { View, ScrollView, ListView, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { upcomingLessonsFetch } from '../actions';
-import { PreparationOptionButton, Spinner } from './common';
+import { Spinner } from './common';
 import UpcomingLessonListItem from './UpcomingLessonListItem';
 import TabNaviBar from './common/TabNaviBar';
 
@@ -13,9 +13,8 @@ class UpcomingLessons extends Component {
 
   componentWillMount() {
     console.log(this.props);
-    this.props.upcomingLessonsFetch('sungpah@ringleplus.com');
+    this.props.upcomingLessonsFetch(this.props.user.email);
     this.createDataSource(this.props);
-    this.preparationOptionFunction = this.preparationOptionFunction.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,19 +68,6 @@ class UpcomingLessons extends Component {
     return <UpcomingLessonListItem upcomingLesson={upcomingLesson} />;
   }
 
-  preparationOptionFunction(type) {
-    if (type === 'student') {
-        Alert.alert(
-          'hi',
-          null,
-          [
-            { text: 'OK', onPress: () => console.log('OK Pressed') },
-          ]
-        );
-    }
-  }
-
-
   render() {
     return (
       <View style={{ flex: 1, marginBottom: 50, backgroundColor: '#f9f9f4' }}>
@@ -91,18 +77,7 @@ class UpcomingLessons extends Component {
             {this.listViewForUpcomingClass()}
             {this.renderSpinner()}
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10, padding: 20 }}>
-            <PreparationOptionButton
-            type='student'
-            onPress={this.preparationOptionFunction}
-            buttonText='Student Profile'
-            />
-            <PreparationOptionButton
-            type='student'
-            onPress={this.preparationOptionFunction}
-            buttonText='Request'
-            />
-        </View>
+
         </ScrollView>
         <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, backgroundColor: '#e3decf' }} />
       </View>
@@ -111,8 +86,10 @@ class UpcomingLessons extends Component {
 }
 
 const mapStateToProps = state => {
+  const { user } = state.auth;
   const { upcomingLessons, loading } = state.upcomingLessons;
   return {
+    user: user,
     upcomingLessons: upcomingLessons,
     loading: loading
   };

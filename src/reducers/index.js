@@ -4,6 +4,7 @@ import UpcomingReducer from './UpcomingReducer';
 import PastLessonsReducer from './PastLessonsReducer';
 import DetailCourseReducer from './DetailCourseReducer';
 import AuthReducer from './AuthReducer';
+import ChatReducer from './ChatReducer';
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
   upcomingLessons: UpcomingReducer,
   pastLessons: PastLessonsReducer,
   detailCourse: DetailCourseReducer,
-  auth: AuthReducer
+  auth: AuthReducer,
+  chat: ChatReducer
 });

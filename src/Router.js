@@ -16,6 +16,7 @@ import Login from './components/Login'; // 자동 로그인 처리 및 일정 �
 import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import Splash from './components/Splash';
+import LiveLesson from './components/LiveLesson';
 
 
 const TabIcon = ({ selected, title }) => {
@@ -50,6 +51,7 @@ const RouterComponent = () => {
       <Scene key="keyQuestions" component={KeyQuestions} title='KeyQuestions' />
       <Scene key="extraContents" component={ExtraContents} title='ExtraContents' />
       <Scene key="renderWebView" component={RenderWebView} title='Web' />
+      <Scene key="liveLesson" component={LiveLesson} hideNavBar={true} />
 
     </Router>
   );
