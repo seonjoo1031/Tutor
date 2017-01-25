@@ -8,9 +8,9 @@ const LessonScrollView = ({ desc, renderRow, dataSource, onPress }) => {
   return (
     <View style={[GF.border('gray'), { flexDirection: 'column' }]}>
       <View style={[GF.border('green'), { flexDirection: 'row', justifyContent: 'space-between' }]}>
-        <View style={[GF.border('red'), { flexDirection: 'row', marginBottom: 5, marginTop: 20, marginLeft: 10 }]}>
-          <Text style={[styles.title_text, { color: '#442dc9' }]}>{desc}</Text>
-          <Text style={[styles.title_text, { color: '#2e2b4f' }]}>Lessons</Text>
+        <View style={[GF.border('red'), { flexDirection: 'row', marginBottom: 5, marginTop: 10, marginLeft: 10 }]}>
+          <Text style={[styles.title_text, { fontFamily: 'Avenir', color: '#442dc9' }]}>{desc}</Text>
+          <Text style={[styles.title_text, { fontFamily: 'Avenir', color: '#2e2b4f' }]}>Lessons</Text>
         </View>
       </View>
 

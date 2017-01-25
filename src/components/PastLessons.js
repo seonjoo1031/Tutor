@@ -115,7 +115,7 @@ class PastLessons extends Component {
   //스피너 처리 해줘야됨
   renderSeeMoreButton() {
     return (
-      <Text style={[styles.white_text]}> 더 보기 + </Text>
+      <Text style={[styles.white_text]}> See more + </Text>
     );
   }
 
@@ -129,10 +129,11 @@ class PastLessons extends Component {
     const { pastLessonsContainerStyle } = styles;
     return (
       <View style={pastLessonsContainerStyle}>
-        <TabNaviBar />
+        <TabNaviBar title='Past Lessons' />
         <ScrollView style={[GF.border('red'), { flex: 1, marginTop: 20 }]}>
           <View style={[GF.border('black'), { alignItems: 'center', paddingBottom: 10 }]}>
-            <Text style={{ fontSize: 15, color: '#2e2b4f' }}>현재까지 총 수업 회수: {this.props.pastLessons.total_class_num}</Text>
+            <Text style={{ color: '#2e2b4f', fontFamily: 'Avenir' }}>Total Lessons</Text>
+            <Text style={{ fontSize: 30, color: '#7a5de8', fontFamily: 'Avenir-Heavy' }}>{this.props.pastLessons.total_class_num}</Text>
           </View>
           <View>
             {this.pastClassesListView()}

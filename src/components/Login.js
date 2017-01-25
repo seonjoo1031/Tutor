@@ -17,7 +17,7 @@ class Login extends Component {
   componentWillMount() {
     if (Platform.OS === 'ios') {
       GoogleSignin.configure({
-        iosClientId: '33230911454-bhm9ll8r3f1bclah0lr6iiqatuelj06t.apps.googleusercontent.com' //ios 설정 필요함.
+        iosClientId: '327989125487-38n9b5kegm29kd2j667cqcjjfsj2sv0f.apps.googleusercontent.com' //ios 설정 필요함.
       })
       .then(() => {});
     } else {
@@ -26,7 +26,7 @@ class Login extends Component {
         alert(err.message);
       });
       GoogleSignin.configure({
-        webClientId: '1005999098966-bveirigjrl7a4mqfiqq5aeqconlsm654.apps.googleusercontent.com'
+        webClientId: '327989125487-m0geig9msh8j6k07khpl19ldmclnbf2g.apps.googleusercontent.com'
       })
       .then(() => {
       });

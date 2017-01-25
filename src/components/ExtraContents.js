@@ -157,7 +157,7 @@ class ExtraContents extends Component {
     console.log(this.props);
     return (
       <View style={{ flex: 1 }}>
-        <Navibar title='ExtraContents' />
+        <Navibar title='Extra Contents' />
         <ScrollView style={{ flex: 1, marginBottom: 10, marginLeft: 10, marginRight: 10 }}>
           {this.renderContents()}
         </ScrollView>

@@ -53,6 +53,7 @@ class LoginForm extends Component {
     return (
       <View style={{ backgroundColor: '#f9f9f4', flex: 1 }}>
         <Navibar title='로그인' />
+        <View style={styles.emailpart}>
           <Input
             placeholder="student@gmail.com"
             onChangeText={this.onEmailChange.bind(this)}
@@ -72,6 +73,7 @@ class LoginForm extends Component {
           <View style={{ marginTop: 10 }}>
           {this.renderButton()}
           </View>
+        </View>
       </View>
     );
   }
@@ -79,6 +81,8 @@ class LoginForm extends Component {
 
 const styles = {
   emailpart: {
+    width: 300,
+    height: 300,
     paddingTop: 30,
     paddingRight: 20,
     paddingLeft: 20,

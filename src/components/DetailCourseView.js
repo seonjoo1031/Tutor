@@ -3,6 +3,8 @@ import { Text, View, ScrollView, Image, Alert,
   TouchableHighlight, Linking, Platform, Slider, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+
 import HTML from './react-native-fence-html';
 import { LessonContentButton, Spinner } from './common';
 import { detailCourseFetch } from '../actions';
@@ -108,26 +110,30 @@ class CourseView extends Component {
 
   renderCourseContentButton() {
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 20, marginBottom: 10, backgroundColor: '#f9f9f4' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding:10, backgroundColor: '#f9f9f4' }}>
         <LessonContentButton
         onPress={this.pressedLessonContent}
-        textType='QUESTIONS'
+        textType='Questions'
         contentType='question'
+        icon='question-circle-o'
         />
         <LessonContentButton
         onPress={this.pressedLessonContent}
-        textType='YOUTUBE'
+        textType='YouTube'
         contentType='video'
+        icon='youtube-play'
         />
         <LessonContentButton
         onPress={this.pressedLessonContent}
-        textType='ARTICLE'
+        textType='Article'
         contentType='article'
+        icon='newspaper-o'
         />
         <LessonContentButton
         onPress={this.pressedLessonContent}
-        textType='RingleBook'
+        textType='Ringle Book'
         contentType='coursedown'
+        icon='file-pdf-o'
         />
         </View>
       );
@@ -203,7 +209,7 @@ class CourseView extends Component {
 
   renderTitle() {
     return (
-        <Text style={[GF.border('red'), { fontSize: 25, color: '#2e2b4f' }]}>
+        <Text style={[GF.border('red'), { fontSize: 20, color: '#2e2b4f', fontFamily: 'Avenir-Heavy' }]}>
           {this.props.upcomingLesson.course_title}
         </Text>
     );
@@ -243,7 +249,16 @@ class CourseView extends Component {
           </View>
           {this.renderSummary()}
         </ScrollView>
+
+        <View style={[{ position: 'absolute', top:0, left: 0, right: 0, height: 60,
+          backgroundColor: 'transparent', paddingTop: 0, paddingLeft: 0, justifyContent: 'center' },GF.border('red')]}
+        >
+          <TouchableOpacity underlayColor='transparent' style={[GF.border('yellow'), { paddingTop: 20, paddingLeft: 8 }]} onPress={() => Actions.pop()}>
+            <MIcon name='chevron-left' size={24} color='#7a5de8' />
+          </TouchableOpacity>
+        </View>
         {this.renderNaviBar()}
+
 
       </View>
     );
@@ -350,27 +365,6 @@ const htmlStyles = {
   },
 };
 
-function withLeadingZero(amount) {
-  if (amount < 10) {
-    return `0${amount}`;
-  } else {
-    return `${amount}`;
-  }
-}
-
-function formattedTime(timeInSeconds) {
-  var minutes = Math.floor(timeInSeconds / 60);
-  var seconds = timeInSeconds - (minutes * 60);
-  if (timeInSeconds < 0) {
-    minutes = 0;
-    seconds = 0;
-  }
-  if (isNaN(minutes) || isNaN(seconds)) {
-    return '';
-  } else {
-    return (`${withLeadingZero(minutes)}:${withLeadingZero(seconds.toFixed(0))}`);
-  }
-}
 
 const mapStateToProps = state => {
   const { detailCourse, loading } = state.detailCourse;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { TouchableHighlight, View, Text } from 'react-native';
-//import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const GF = require('../GF');
-
+//<Text>{iconName}</Text>
 //borderColor 설정
 const LoginButton = ({ onPress, iconName, color }) => {
   const { loginButtonStyle } = styles;
@@ -15,7 +15,7 @@ const LoginButton = ({ onPress, iconName, color }) => {
         onPress={onPress}
       >
         <View style={[loginButtonStyle, { borderColor: color }]}>
-          <Text>{iconName}</Text>
+          <Icon name={iconName} size={24} color={color} />
         </View>
       </TouchableHighlight>
     </View>

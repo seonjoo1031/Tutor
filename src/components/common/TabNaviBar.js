@@ -9,24 +9,13 @@ class TabNaviBar extends Component {
     };
   }
 
-  onCancel() {
-    console.log('CANCEL');
-    this.setState({ visible: false });
-  }
-  onOpen() {
-    console.log('OPEN');
-    this.setState({ visible: true });
-  }
-
   render() {
-
-
     if (Platform.OS === 'ios') {
       return (
         <View style={{ height: 70 }}>
           <View style={{ backgroundColor: '#7a5de8', height: 20 }} />
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffffff' }}>
-            <Image style={{ width: 40, height: 40 }} source={require('../../../Resource/logo1.png')} />
+            <Text style={{fontSize: 15, color: '#2e2b4f', fontFamily: 'Avenir'}}>{this.props.title}</Text>
           </View>
 
           <View style={{ position: 'absolute', top: 69, left: 0, right: 0, height: 1, backgroundColor: '#e3decf' }} />

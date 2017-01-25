@@ -31,12 +31,25 @@ class RenderWebView extends Component {
     }
   }
 
+  renderNaviBar() {
+    console.log(this.props);
+    if (this.props.fromWhere === 'googleDocs') {
+      return (
+        <Navibar title='Google Document' />
+      );
+    }
+      return (
+        <Navibar title='Article' />
+      );
+    
+  }
+
 
   render() {
     //device height만큼 만들면 되겠규만?
     return (
       <View style={{ flex: 1 }}>
-        <Navibar title='Article' />
+        {this.renderNaviBar()}
         <WebView
             source={{ uri: this.props.url }}
             allowsInlineMediaPlayback={true}

@@ -6,6 +6,8 @@ import {
     Text,
     TouchableHighlight
 } from 'react-native';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+
 
 export default class CheckBox extends Component {
     constructor(props) {
@@ -17,18 +19,21 @@ export default class CheckBox extends Component {
     }
 
     renderText() {
+      console.log(this.props.text);
         if (!this.props.text) return null;
+
         return (
-            <Text style={[styles.rightText, this.props.rightTextStyle]}>{this.props.text}</Text>
+            <Text style={styles.rightText}>{this.props.text}</Text>
         );
     }
 
     renderImage() {
 
-      var source = this.props.data.checked ? require('../../../Resource/ic_check_box.png') : require('../../../Resource/ic_check_box_outline_blank.png');
+      //var source = this.props.data.checked ? require('../../../Resource/ic_check_box.png') : require('../../../Resource/ic_check_box_outline_blank.png');
+      var source = this.props.data.checked ? 'check-box' : 'check-box-outline-blank';
 
       return (
-          <Image source={source} />
+          <MIcon name={source} size={22} color='#7a5de8' />
       );
     }
 
@@ -51,13 +56,14 @@ export default class CheckBox extends Component {
 const styles = StyleSheet.create({
   container: {
       flexDirection: 'row',
-      alignItems: 'center'
+
   },
   leftText: {
       flex: 1,
   },
   rightText: {
       flex: 1,
-      marginLeft: 10
+      marginLeft: 10,
+      fontFamily: 'Avenir'
   }
 });

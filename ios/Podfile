@@ -17,6 +17,7 @@ target 'Tutor' do
 
 pod 'react-native-opentok', :path => '../react-native-opentok'
 pod 'Firebase/Messaging'
+pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
 
 end

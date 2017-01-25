@@ -19,7 +19,7 @@ class PastLessonListItem extends Component {
         <View>
           <View style={{ flexDirection: 'row', padding: 10 }}>
             <Image style={thumb} source={{ uri: img_url }} />
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
               <Text style={date} numberOfLines={1}>
                 {start_time}
               </Text>
@@ -42,10 +42,12 @@ const styles = {
     marginRight: 10
   },
   date: {
+    fontFamily: 'Avenir',
     fontSize: 15,
     color: '#7a5de8'
   },
   titleTextStyle: {
+    fontFamily: 'Avenir',
     fontSize: 12,
     color: '#2e2b4f'
   },

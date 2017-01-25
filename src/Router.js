@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View } from 'react-native';
 import { Scene, Router, ActionConst } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Main from './components/Main';
 import Apply from './components/Apply';
 import PastLessons from './components/PastLessons';
@@ -17,11 +18,14 @@ import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import Splash from './components/Splash';
 import LiveLesson from './components/LiveLesson';
+import Compensation from './components/Compensation';
 
 
 const TabIcon = ({ selected, title }) => {
   return (
-    <Text style={{ color: selected ? '#7a5de8' : '#2e2b4f' }}>{title}</Text>
+    <View>
+      <Icon name={title} size={24} color={selected ? '#7a5de8' : '#CCCCF2'} />
+    </View>
   );
 };
 
@@ -38,12 +42,12 @@ const RouterComponent = () => {
 
       <Scene key="signup" component={Signup} title='Sign Up' hideNavBar={true} />
 
-      <Scene key="main" tabs={true} title='Ringle' hideNavBar={true} type={ActionConst.RESET} >
+      <Scene key="main" tabs={true} title='home' hideNavBar={true} type={ActionConst.RESET} >
         <Scene key="firstPage" component={Main} icon={TabIcon} hideNavBar={true} />
-        <Scene key="apply" component={Apply} icon={TabIcon} title='Apply' hideNavBar={true} />
-        <Scene key="upcomingLessons" component={UpcomingLessons} icon={TabIcon} title='Upcoming lessons' hideNavBar={true} />
-        <Scene key="pastLessons" component={PastLessons} icon={TabIcon} title='Past lessons' hideNavBar={true} />
-        <Scene key="mySetting" component={MySetting} icon={TabIcon} title='My setting' hideNavBar={true} />
+        <Scene key="apply" component={Apply} icon={TabIcon} title='calendar-plus-o' hideNavBar={true} />
+        <Scene key="upcomingLessons" component={UpcomingLessons} icon={TabIcon} title='book' hideNavBar={true} />
+        <Scene key="pastLessons" component={PastLessons} icon={TabIcon} title='history' hideNavBar={true} />
+        <Scene key="mySetting" component={MySetting} icon={TabIcon} title='user' hideNavBar={true} />
       </Scene>
 
       <Scene key="courseView" component={CourseView} hideNavBar={true} />
@@ -52,6 +56,8 @@ const RouterComponent = () => {
       <Scene key="extraContents" component={ExtraContents} title='ExtraContents' />
       <Scene key="renderWebView" component={RenderWebView} title='Web' />
       <Scene key="liveLesson" component={LiveLesson} hideNavBar={true} />
+      <Scene key="compensation" component={Compensation} hideNavBar={true} />
+
 
     </Router>
   );

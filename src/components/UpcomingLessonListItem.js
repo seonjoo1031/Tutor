@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight, Image, Alert } from 'react-native';
+import { Text, View, TouchableHighlight, Image, Alert, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { PreparationOptionButton, Button } from './common';
@@ -35,13 +35,13 @@ class UpcomingLessonListItem extends Component {
 
   render() {
     const { thumnail, start_time_short, course_title } = this.props.upcomingLesson;
-    const { thumb, date, titleTextStyle, separator } = styles;
+    const { thumb, date, titleTextStyle, separator, textStyle, buttonStyle } = styles;
     return (
       <TouchableHighlight onPress={() => this.rowPressed()} underlayColor='#CCCCF2'>
-        <View>
+        <View style={{paddingTop: 5}}>
           <View style={{ flexDirection: 'row', padding: 10 }}>
             <Image style={thumb} source={{ uri: thumnail }} />
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
               <Text style={date} numberOfLines={1}>
                 {start_time_short}
               </Text>
@@ -50,22 +50,23 @@ class UpcomingLessonListItem extends Component {
               </Text>
             </View>
            </View>
-           <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10, padding: 20 }}>
+           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems:'center', paddingTop:2, paddingBottom:10 }}>
              <PreparationOptionButton
              type='student'
              onPress={this.preparationOptionFunction}
-             buttonText='Student Profile'
+             buttonText='Student Info'
              />
              <PreparationOptionButton
              type='student'
              onPress={this.preparationOptionFunction}
              buttonText='Request'
              />
-             <PreparationOptionButton
-             type='live'
-             onPress={this.preparationOptionFunction}
-             buttonText='Live class'
-             />
+
+             <TouchableOpacity onPress={()=>this.preparationOptionFunction('live')} style={buttonStyle}>
+               <Text style={textStyle}>
+                 Enter Class
+               </Text>
+             </TouchableOpacity>
          </View>
         <View style={separator} />
         </View>
@@ -78,19 +79,36 @@ const styles = {
   thumb: {
     width: 100,
     height: 50,
+    marginLeft: 5,
     marginRight: 10
   },
   date: {
+    fontFamily: 'Avenir',
     fontSize: 15,
     color: '#7a5de8'
   },
   titleTextStyle: {
+    fontFamily: 'Avenir',
     fontSize: 12,
     color: '#2e2b4f'
   },
   separator: {
     height: 1,
     backgroundColor: '#dddddd'
+  },
+  textStyle: {
+    alignSelf: 'center',
+    color: '#ffffff',
+    fontFamily: 'Avenir-Heavy'
+  },
+  buttonStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#7a5de8',
+    borderRadius: 8,
+    height: 33,
+    width: 100,
+    marginLeft: 8, marginRight: 8
   }
 };
 

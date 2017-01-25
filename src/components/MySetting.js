@@ -5,7 +5,7 @@ import { FBLoginManager } from 'react-native-facebook-login';
 import { GoogleSignin } from 'react-native-google-signin';
 import { Actions } from 'react-native-router-flux';
 import { ringleEmailToggle } from '../actions';
-import { MySettingCard } from './common';
+import { MySettingCard, MySettingButton } from './common';
 import TabNaviBar from './common/TabNaviBar';
 
 
@@ -41,7 +41,7 @@ class MySetting extends Component {
   }
 
   onPressedTimezone() {
-    alert('Timezone변경은 현재 데스크탑으로 가능하십니다.');
+    alert('Modifying timezone is available on only desktop.');
   }
 
   //logout
@@ -170,15 +170,16 @@ class MySetting extends Component {
 
     return (
       <View style={{ marginBottom: 50, flex: 1, backgroundColor: '#f9f9f4' }}>
-        <TabNaviBar />
+        <TabNaviBar title='My Setting' />
         <ScrollView style={{ flex: 1, marginTop: 20, backgroundColor: '#f9f9f4' }}>
           <View>
-            <MySettingCard onPress={this.onNamePressed.bind(this)} label="Name" content={`${first_name},${last_name}`}/>
-            <MySettingCard onPress={this.onEmailPressed.bind(this)} label="Email" content={email}/>
-            <MySettingCard onPress={this.onPressedChat.bind(this)} label="링글에게 물어보세요!" content=">"/>
-            <MySettingCard onPress={this.onPressedTimezone.bind(this)} label="Timezone" content={timezone}/>
-            <MySettingCard onPress={console.log('update info')} label="Update Info" content='v.1.0.0'/>
-            <MySettingCard onPress={this.onPressedLogoutIcon.bind(this)} label="Logout" content=""/>
+            <MySettingCard onPress={this.onNamePressed.bind(this)} icon='person' label="Name" content={`${first_name},${last_name}`}/>
+            <MySettingCard onPress={this.onEmailPressed.bind(this)} icon='email' label="Email" content={email}/>
+            <MySettingCard onPress={this.onPressedTimezone.bind(this)} icon='location-on' label="Timezone" content={timezone}/>
+            <MySettingCard onPress={console.log('update info')} icon='info' label="Update Info" content='v.1.0.0'/>
+            <MySettingButton onPress={()=>Actions.compensation()} icon='attach-money' label="My Compensation" content=""/>
+            <MySettingButton onPress={this.onPressedChat.bind(this)} icon='help-outline' label="Contat us" content=""/>
+            <MySettingButton onPress={this.onPressedLogoutIcon.bind(this)} icon='exit-to-app' label="Logout" content=""/>
             {this.renderEmailChecker()}
           </View>
 

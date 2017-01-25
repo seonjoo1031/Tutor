@@ -71,8 +71,8 @@ class UpcomingLessons extends Component {
   render() {
     return (
       <View style={{ flex: 1, marginBottom: 50, backgroundColor: '#f9f9f4' }}>
-        <TabNaviBar/>
-        <ScrollView style={{ flex: 1, marginTop: 20 }}>
+        <TabNaviBar title='Upcoming Lessons'/>
+        <ScrollView style={{ flex: 1 }}>
           <View>
             {this.listViewForUpcomingClass()}
             {this.renderSpinner()}

@@ -35,3 +35,7 @@ export const PASSWORD_CHANGED = 'password_changed';
 export const APPEND_MESSAGE = 'append_message';
 export const APPEND_MESSAGE_COUNTER_PART = 'append_message_counter_part';
 export const CHAT_INSERTED = 'chat_inserted';
+
+// apply
+export const UPDATE_APPLY = 'update_apply';
+export const APPLY_SUCCESS = 'apply_success';

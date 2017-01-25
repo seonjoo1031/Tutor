@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, TouchableHighlight, Text, Platform, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+
 
 const GF = require('../GF');
 
@@ -14,17 +16,14 @@ class Navibar extends Component {
           <View style={{ backgroundColor: '#7a5de8', height: 20 }} />
 
           <View style={{ backgroundColor: '#ffffff', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: '#442dc9', fontSize: 20 }}>
+            <Text style={{ color: '#442dc9', fontSize: 15, fontFamily: 'Avenir' }}>
             {title}
             </Text>
           </View>
-          
-            <TouchableHighlight style={{ position: 'absolute', top: 29, left: 0, right: 0, width: 200, height: 50 }} underlayColor='transparent' onPress={() => { Actions.pop(); }} >
-            <Image
-            style={{ width: 25, height: 25 }}
-            source={require('../../../Resource/back32.png')}
-            />
-            </TouchableHighlight>
+
+          <TouchableHighlight style={{ position: 'absolute', top: 29, left: 0, right: 0, width: 200, height: 50 }} underlayColor='transparent' onPress={() => { Actions.pop(); }} >
+            <MIcon name='chevron-left' size={24} color='#7a5de8' />
+          </TouchableHighlight>
 
           <View style={{ position: 'absolute', top: 64, left: 0, right: 0, height: 1, backgroundColor: '#e3decf' }} />
         </View>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
-import Navibar from './common/Navibar';
+import { Text, View, Image, TouchableHighlight } from 'react-native';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import SLIcon from 'react-native-vector-icons/SimpleLineIcons';
+import PastNavibar from './common/PastNavibar';
 
 
 const GF = require('./GF');
@@ -13,9 +15,11 @@ class CourseView extends Component {
 
   renderTitle() {
     return (
-      <Text style={[GF.border('red'), { fontSize: 25, color: '#2e2b4f' }]}>
+      <View style={{paddingTop:10, paddingBottom:10, backgroundColor: '#f9f9f4', alignItems: 'center'}}>
+      <Text style={[GF.border('red'), { fontSize: 20, color: '#2e2b4f', fontFamily: 'Avenir-Heavy' }]}>
         {this.props.pastLesson.title}
       </Text>
+      </View>
     );
   }
 
@@ -30,7 +34,7 @@ class CourseView extends Component {
 
   renderNaviBar() {
     return (
-      <Navibar
+      <PastNavibar
       title='Course'
       />
     );
@@ -39,31 +43,99 @@ class CourseView extends Component {
   renderScore() {
     if(this.props.pastLesson.evaluation_for_tutor.score == 0){
       return(
-        <View>
-          <Text>Not evaluated yet</Text>
+        <View style={{alignItems: 'center', paddingTop:10}}>
+          <EvilIcon name='exclamation' size={45} color='#7a5de8' />
+          <Text style={{fontFamily: 'Avenir', color:'#2e2b4f', fontSize:15}}>Not evaluated yet</Text>
         </View>
       );
     }
     return (
+      <View style={{justifyContent:'flex-start', width:300}}>
       <View>
-        <Text>Score : {this.props.pastLesson.evaluation_for_tutor.score} / {this.props.pastLesson.evaluation_for_tutor.score_max}</Text>
-        <Text>Point : {this.props.pastLesson.evaluation_for_tutor.point}</Text>
+        <View>
+          <View style={styles.rowStyle}>
+            <EvilIcon name='user' style={styles.iconStyle} />
+            <View style={styles.nameStyle}>
+            <Text style={{fontFamily: 'Avenir', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>STUDENT</Text>
+            </View>
+            <View style={{paddingLeft:10}}>
+              <Text style={{fontFamily: 'Avenir', color:'#2e2b4f'}}>Seonjoo Park</Text>
+            </View>
+          </View>
+          <View style={styles.separator} />
 
+          <View style={styles.rowStyle}>
+            <EvilIcon name='like' style={styles.iconStyle} />
+            <View style={styles.nameStyle}>
+            <Text style={{fontFamily: 'Avenir', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>SCORE</Text>
+            </View>
+            <View style={{paddingLeft:10}}>
+              <Text style={{fontFamily: 'Avenir', color:'#2e2b4f'}}>{this.props.pastLesson.evaluation_for_tutor.score} / {this.props.pastLesson.evaluation_for_tutor.score_max}</Text>
+            </View>
+          </View>
+          <View style={styles.separator} />
+
+          <View style={styles.rowStyle}>
+            <EvilIcon name='heart' style={styles.iconStyle} />
+            <View style={styles.nameStyle}>
+            <Text style={{fontFamily: 'Avenir', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>POINT</Text>
+            </View>
+            <View style={{paddingLeft:10}}>
+              <Text style={{fontFamily: 'Avenir', color:'#2e2b4f'}}>{this.props.pastLesson.evaluation_for_tutor.point}</Text>
+            </View>
+          </View>
+          <View style={styles.separator} />
+
+          <View style={styles.rowStyle}>
+            <EvilIcon name='envelope' style={styles.iconStyle} />
+            <View style={styles.nameStyle}>
+            <Text style={{fontFamily: 'Avenir', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>FEEDBACK</Text>
+            </View>
+            <View style={{paddingLeft:10}}>
+              <Text style={{fontFamily: 'Avenir', color:'#7a5de8'}}>Need to write</Text>
+            </View>
+          </View>
+          <View style={styles.separator} />
+
+          <TouchableHighlight
+          onPress={() => { this.feedbackGiftPressed(this.props.pastLesson.feedback_gift_url); }}
+          underlayColor='#CCCCF2'
+          >
+            <View style={styles.rowStyle}>
+              <EvilIcon name='external-link' style={styles.iconStyle} />
+              <View style={{paddingLeft: 7}}>
+              <Text style={{fontFamily: 'Avenir', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>GOOGLE DOCS</Text>
+              </View>
+              <View style={{paddingLeft:130}}>
+                <EvilIcon name='chevron-right' style={{fontSize: 24, color: '#2e2b4f'}} />
+              </View>
+            </View>
+          </TouchableHighlight>
+
+        </View>
+      </View>
       </View>
     );
   }
 
+  //<View style={{height:1, width:300, backgroundColor: '#dddddd'}} />
+
+
   render() {
     return (
       <View style={{ flex: 1 }}>
+
+
         {this.renderNaviBar()}
-
-
         {this.renderImage()}
-        <View style={[{ paddingTop: 10, paddingLeft: 15, paddingRight: 15, paddingBottom: 15,
-          backgroundColor: '#f9f9f4', opacity: 1.0, alignItems: 'center' }, GF.border('blue')]}
+        {this.renderTitle()}
+
+        <View style={{height:1, backgroundColor: '#dddddd'}} />
+
+
+        <View style={[{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15,
+          backgroundColor: '#f9f9f4', flex:1, alignItems: 'center' }, GF.border('blue')]}
         >
-          {this.renderTitle()}
           {this.renderScore()}
         </View>
 
@@ -75,8 +147,25 @@ class CourseView extends Component {
 }
 
 const styles = {
+  separator: {
+    height:1, width:300, backgroundColor: '#dddddd'
+  },
+  rowStyle: {
+    flexDirection:'row', paddingTop:10, paddingBottom:10, alignItems:'center'
+  },
+  iconStyle: {
+    fontSize: 24,
+    color: '#897FA6'
+  },
+  nameStyle: {
+    width: 100,
+    paddingLeft: 7
+  },
+  textStyle: {
+    fontFamily: 'Avenir',
+    color: '#2e2b4f'
+  },
   imageStyle: {
-
     resizeMode: 'cover',
     backgroundColor: 'rgba(0,0,0,0)',
     width: null,

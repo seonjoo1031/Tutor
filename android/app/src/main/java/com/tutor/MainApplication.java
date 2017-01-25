@@ -11,6 +11,12 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import io.callstack.react.opentok.MainPackage;
+import com.facebook.FacebookSdk;
+import com.magus.fblogin.FacebookLoginPackage;
+import com.evollu.react.fcm.FIRMessagingPackage;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,8 +33,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new FIRMessagingPackage(),
-            new VectorIconsPackage()
+          new RNGoogleSigninPackage(),
+          new FIRMessagingPackage(),
+          new VectorIconsPackage(),
+          new MainPackage(),
+          new FacebookLoginPackage()
       );
     }
   };

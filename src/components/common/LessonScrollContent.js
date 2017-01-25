@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, Modal, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import SLIcon from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+
 import { Button } from './Button';
+import { MainButton } from './MainButton';
 import { CardSection } from './CardSection';
 import policy from '../policy.json';
 import { updateConfirm } from '../../actions';
@@ -58,6 +64,7 @@ class LessonScrollContent extends Component {
       }
 
       this.setState({ showConfirmModal: false });
+
     }
     else {
       alert('Please check all policies.');
@@ -133,7 +140,7 @@ class LessonScrollContent extends Component {
     else {
       const items = this.state.dataArray;
 
-      data.checked = !data.checked;
+      data.checked = !data.checked; //이 data가 dataArray에서 온 것
       this.setState(
         {
           dataArray: items
@@ -185,7 +192,10 @@ class LessonScrollContent extends Component {
           >
             <View style={containerStyle}>
               <CardSection style={cardSectionStyle}>
-                <Text>{this.state.dataArray[0].description}</Text>
+                <View style={{alignItems:'center'}}>
+                <Text style={[styles.textStyle, {paddingBottom:10}]}>{this.state.dataArray[0].description}</Text>
+                <Text style={styles.textStyle}>Cacellation Policy</Text>
+                </View>
               </CardSection>
               <CardSection style={{ flexDirection: 'column', height: 400 }}>
                 <ScrollView
@@ -201,9 +211,9 @@ class LessonScrollContent extends Component {
                 </ScrollView>
               </CardSection>
 
-              <CardSection style={cardSectionStyle}>
-                <Button onPress={this.onAccept.bind(this)}>Yes</Button>
-                <Button onPress={this.onDecline.bind(this)}>No</Button>
+              <CardSection style={{justifyContent:'center'}}>
+                <Button onPress={this.onAccept.bind(this)} style={{width:100}}>Yes</Button>
+                <Button onPress={this.onDecline.bind(this)} style={{width:100}}>No</Button>
               </CardSection>
             </View>
           </Modal>
@@ -220,15 +230,19 @@ class LessonScrollContent extends Component {
     if (hours <= 12) {
       var fee = ((12-hours)/12)*10;
       return (
-        <View>
-          <Text>{'fee '+fee.toFixed(2)}</Text>
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+          <MIcon name='error' size={20} color='#897FA6' />
+          <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>{' Your fee '}</Text>
+          <Text style={{ fontSize: 20, color: '#7a5de8', fontFamily: 'Avenir-Heavy' }}>{fee.toFixed(2)}</Text>
         </View>
       );
     }
     else if (hours > 12) {
       return (
-        <View>
-          <Text>no fee</Text>
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+          <MIcon name='error' size={20} color='#897FA6' />
+
+          <Text style={styles.textStyle}> No fee</Text>
         </View>
       );
     }
@@ -262,10 +276,18 @@ class LessonScrollContent extends Component {
       diff = diff/24
       var days = Math.floor(diff);
 
+      //default(column)--> 가로 정렬이 align / 즉 자기축 아닌게 align인가보다
       return (
-        <View>
-          <Text>{days+' day '+hours+' hours '+mins+' minutes left'}</Text>
-          <Text>{'left hours '+leftHours}</Text>
+        <View style={{alignItems:'center'}}>
+          <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
+            Time left to Cancel
+          </Text>
+          <Text style={[styles.textStyle, {paddingBottom:10}]}>{days+' day '+hours+' hours '+mins+' minutes'}</Text>
+
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+          <Text style={{ fontSize: 30, color: '#7a5de8', fontFamily: 'Avenir-Heavy' }}>{leftHours}</Text>
+          <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>{' hours left'}</Text>
+          </View>
           {this.renderFee(leftHours)}
         </View>
       );
@@ -276,8 +298,16 @@ class LessonScrollContent extends Component {
     if (this.state.showCancelModal) {
       return (
         <View>
-          <CardSection style={{ flexDirection: 'column' }}>
-            <Text>{this.props.timeNow}</Text>
+          <CardSection style={{justifyContent:'center', alignItems: 'center'}}>
+
+            <MIcon name='watch-later' size={20} color='#897FA6' />
+            <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
+              {' Current time  '}
+            </Text>
+            <Text style={[styles.textStyle, GF.border('red')]}>
+              {this.props.timeNow}
+            </Text>
+
           </CardSection>
 
           <CardSection style={{ flexDirection: 'column' }}>
@@ -311,14 +341,16 @@ class LessonScrollContent extends Component {
             animationType="slide"
             onRequestClose={() => {}}
           >
-            <View style={containerStyle}>
+          <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
+            <View style={{width:300}}>
               {this.renderCancelDesc()}
 
-              <CardSection>
-                <Button onPress={this.onCancelAccept.bind(this)}>Yes</Button>
-                <Button onPress={this.onDecline.bind(this)}>No</Button>
+              <CardSection style={{justifyContent:'center'}}>
+                <Button onPress={this.onCancelAccept.bind(this)} style={{width:100}}>Yes</Button>
+                <Button onPress={this.onDecline.bind(this)} style={{width:100}}>No</Button>
               </CardSection>
             </View>
+          </View>
           </Modal>
         </View>
       );
@@ -332,21 +364,34 @@ class LessonScrollContent extends Component {
     if (this.props.course.tutor_confirmed) {
       return (
         <View>
-          <Text style={[{ fontSize: 15, color: '#2e2b4f', textAlign: 'center' }, GF.border('red')]}>
-            Confirmed
-          </Text>
-          <Button onPress={this.onCancelPress.bind(this)}>Cancel</Button>
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={[{ fontSize: 16, color: '#B1D877', fontFamily: 'Avenir-Heavy' }, GF.border('red')]}>
+              {'Confirmed'}
+            </Text>
+            <MIcon name='check-circle' size={23} color='#B1D877' />
+          </View>
+
+          <View style={{ paddingTop: 4, alignItems: 'center' }}>
+            <MainButton onPress={this.onCancelPress.bind(this)} style={{width:80}}>CANCEL</MainButton>
+          </View>
         </View>
       );
     }
 
     return (
       <View>
-        <Text style={[{ fontSize: 15, color: '#2e2b4f', textAlign: 'center' }, GF.border('red')]}>
-          UnConfirmed
-        </Text>
-        <Button style={[GF.border('red')]} onPress={this.onConfirmPress.bind(this)}>Confirm</Button>
-        <Button style={[GF.border('red')]} onPress={this.onUnconfirmedCancelPress.bind(this)}>Cancel</Button>
+        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={[{ fontSize: 15, color: '#F16A70', fontFamily: 'Avenir-Heavy' }, GF.border('red')]}>
+            {'Unconfirmed'}
+          </Text>
+          <MIcon name='error' size={23} color='#F16A70' />
+
+        </View>
+
+        <View style={{ paddingTop: 4, flexDirection: 'row', justifyContent: 'center' }}>
+          <MainButton onPress={this.onConfirmPress.bind(this)} style={{width:80}}>CONFIRM</MainButton>
+          <MainButton onPress={this.onUnconfirmedCancelPress.bind(this)} style={{width:80}}>CANCEL</MainButton>
+        </View>
       </View>
     );
   }
@@ -356,14 +401,36 @@ class LessonScrollContent extends Component {
     const { textStyle } = styles;
 
     return (
-        <View style={[{ width: 200, height: 200, justifyContent: 'center' }, styles.lessonCardStyle]}>
-          <View style={[{ padding: 10, marginTop: 5, alignItems: 'center' }, , GF.border('blue')]}>
-            <Text style={[textStyle, GF.border('red') ]}>
-              {'Lesson ID('+id+')'}
-            </Text>
-            <Text style={[textStyle, GF.border('red')]}>
-              {'Start : '+start_time_short}
-            </Text>
+        <View style={[{ left: 10, width: 200, height: 170, margin:5, justifyContent: 'center' }, styles.lessonCardStyle]}>
+          <View style={{ margin: 10 }}>
+            <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom: 2}}>
+              <EvilIcon name='tag' size={20} color='#897FA6' />
+
+              <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
+                {'Lesson ID  '}
+              </Text>
+              <Text style={{fontFamily: 'Avenir-Heavy', fontSize: 20, color: '#2e2b4f'}}>
+                {id}
+              </Text>
+            </View>
+
+            <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom: 6}}>
+              <EvilIcon name='clock' size={20} color='#897FA6' />
+              <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
+                {'Start  '}
+              </Text>
+              <Text style={[textStyle, GF.border('red')]}>
+                {start_time_short}
+              </Text>
+            </View>
+
+            <View style={{flexDirection: 'row', paddingBottom: 6, marginRight:20}}>
+              <EvilIcon name='pencil' size={20} color='#897FA6' />
+              <Text style={{fontSize: 13, color: '#2e2b4f', fontFamily: 'Avenir'}} numberOfLines={1}>
+                Google vs Amazon I (Retail focus)
+              </Text>
+            </View>
+
             {this.renderButton()}
           </View>
           {this.renderCancel()}
@@ -376,7 +443,7 @@ class LessonScrollContent extends Component {
 
 const styles = {
   lessonCardStyle: {
-    backgroundColor: 'white',
+    backgroundColor: '#f9f9f4',
     padding: 0,
     marginLeft: 5,
     marginRight: 5,
@@ -385,17 +452,15 @@ const styles = {
     elevation: 1,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#7a5de8',
-    alignItems: 'center'
-
+    borderColor: '#e3decf',
   },
   cardSectionStyle: {
     justifyContent: 'center'
   },
   textStyle: {
     fontSize: 15,
-    textAlign: 'center',
     color: '#2e2b4f',
+    fontFamily: 'Avenir'
   },
   containerStyle: {
     backgroundColor: 'rgba(0, 0, 0, 0.75)',

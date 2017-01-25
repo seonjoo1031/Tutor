@@ -8,7 +8,7 @@ import { upcomingLessonsFetch, unAssignedLessonsFetch } from '../actions';
 import { Spinner, LessonScrollView } from './common';
 import LessonScrollContent from './common/LessonScrollContent';
 import UnassignedScrollContent from './common/UnassignedScrollContent';
-import TabNaviBar from './common/TabNaviBar';
+import MainNaviBar from './common/MainNaviBar';
 
 const GF = require('./GF');
 
@@ -79,8 +79,10 @@ class Main extends Component {
       // click_action: notif.fcm.click_action,
       show_in_foreground: true,
       local: true,
-      content_available: true
+      content_available: true,
       // largeIcon: notiIcon,
+      vibrate: 300,
+      sound: 'default'
     });
   }
 
@@ -126,8 +128,8 @@ class Main extends Component {
          backgroundColor="#7a5de8"
          barStyle="default"
         />
-        <TabNaviBar />
-        <ScrollView style={[GF.border('green'), { flex: 1, backgroundColor: '#f9f9f4', paddingTop: 10 }]}>
+        <MainNaviBar />
+        <ScrollView style={[GF.border('green'), { flex: 1, backgroundColor: '#f9f9f4' }]}>
           <LessonScrollView
           desc='My'
           renderRow={this.renderRow}
