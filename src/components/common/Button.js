@@ -17,8 +17,8 @@ const styles = {
   textStyle: {
     alignSelf: 'center',
     color: '#7a5de8',
-    fontSize: 15,
-    fontFamily: 'Avenir-Heavy'
+    fontSize: 13,
+    fontFamily: 'Raleway'
   },
   buttonStyle: {
     alignItems: 'center',
@@ -27,10 +27,8 @@ const styles = {
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#7a5de8',
-    marginLeft: 8,
-    marginRight: 10,
-    marginTop: 5,
-    height: 40
+    margin:5,
+    height: 35
   }
 };
 

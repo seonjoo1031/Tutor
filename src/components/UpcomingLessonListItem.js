@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight, Image, Alert, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableHighlight, Image, Alert, TouchableOpacity, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { PreparationOptionButton, Button } from './common';
-
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+import { PreparationOptionButton, Button, CardSection } from './common';
 
 const GF = require('./GF');
+const width = Dimensions.get('window').width;
 
 class UpcomingLessonListItem extends Component {
+
+  state={
+    showModal: false
+  }
 
   componentWillMount() {
     this.preparationOptionFunction = this.preparationOptionFunction.bind(this);
@@ -15,13 +20,7 @@ class UpcomingLessonListItem extends Component {
 
   preparationOptionFunction(type) {
     if (type === 'student') {
-      Alert.alert(
-        'hi',
-        null,
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ]
-      );
+      this.setState({ showModal: !this.state.showModal });
     }
     else if (type === 'live') {
       console.log(this.props.upcomingLesson);
@@ -31,6 +30,70 @@ class UpcomingLessonListItem extends Component {
 
   rowPressed() {
     Actions.detailCourseView({ courseId: this.props.upcomingLesson.course_id, upcomingLesson: this.props.upcomingLesson });
+  }
+
+
+  onModalPress() {
+		this.setState({
+			...this.state,
+			showModal : false
+		});
+	}
+
+  renderModal() {
+
+    const { first_name, last_name, timezone, email } = this.props.upcomingLesson.student;
+
+      return(
+        <View>
+          <Modal
+            visible={this.state.showModal}
+            transparent
+            animationType="slide"
+          >
+          <TouchableWithoutFeedback onPress={this.onModalPress.bind(this)}>
+            <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
+              <View>
+              <CardSection style={{ flexDirection: 'column', paddingTop:20, paddingBottom:20, width:width*0.75 }}>
+                <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
+                  <MIcon name='account-circle' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+                  <View>
+                    <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                      Name
+                    </Text>
+                    <Text style={[styles.modalTextStyle]}>{first_name} {last_name}</Text>
+                  </View>
+                </View>
+
+                <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
+                  <MIcon name='location-on' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+                  <View>
+                    <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                      Timezone
+                    </Text>
+                    <Text style={[styles.modalTextStyle]}>{timezone}</Text>
+                  </View>
+                </View>
+
+                <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
+                  <MIcon name='email' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+                  <View>
+                    <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                      Email
+                    </Text>
+                    <Text style={[styles.modalTextStyle]}>{email}</Text>
+                  </View>
+                </View>
+              </CardSection>
+              </View>
+            </View>
+
+          </TouchableWithoutFeedback>
+          </Modal>
+        </View>
+      );
+
+
   }
 
   render() {
@@ -56,11 +119,7 @@ class UpcomingLessonListItem extends Component {
              onPress={this.preparationOptionFunction}
              buttonText='Student Info'
              />
-             <PreparationOptionButton
-             type='student'
-             onPress={this.preparationOptionFunction}
-             buttonText='Request'
-             />
+
 
              <TouchableOpacity onPress={()=>this.preparationOptionFunction('live')} style={buttonStyle}>
                <Text style={textStyle}>
@@ -69,8 +128,10 @@ class UpcomingLessonListItem extends Component {
              </TouchableOpacity>
          </View>
         <View style={separator} />
+        {this.renderModal()}
         </View>
       </TouchableHighlight>
+
     );
   }
 }
@@ -83,12 +144,12 @@ const styles = {
     marginRight: 10
   },
   date: {
-    fontFamily: 'Avenir',
+    fontFamily: 'Raleway',
     fontSize: 15,
     color: '#7a5de8'
   },
   titleTextStyle: {
-    fontFamily: 'Avenir',
+    fontFamily: 'Raleway',
     fontSize: 12,
     color: '#2e2b4f'
   },
@@ -99,17 +160,22 @@ const styles = {
   textStyle: {
     alignSelf: 'center',
     color: '#ffffff',
-    fontFamily: 'Avenir-Heavy'
+    fontFamily: 'Raleway'
   },
   buttonStyle: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#7a5de8',
-    borderRadius: 8,
-    height: 33,
-    width: 100,
-    marginLeft: 8, marginRight: 8
-  }
+    borderRadius: 10,
+    height: 35,
+    width: width*0.33,
+    marginLeft: 15
+  },
+  modalTextStyle: {
+    fontSize: 15,
+    color: '#2e2b4f',
+    fontFamily: 'Raleway'
+  },
 };
 
 const mapStateToProps = state => {

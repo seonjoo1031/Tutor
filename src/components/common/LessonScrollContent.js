@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Modal, ScrollView } from 'react-native';
+import { View, Text, Modal, ScrollView, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SLIcon from 'react-native-vector-icons/SimpleLineIcons';
@@ -15,6 +15,10 @@ import Checkbox from './Checkbox';
 
 
 const GF = require('../GF');
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
 class LessonScrollContent extends Component {
 
   constructor(props) {
@@ -194,10 +198,10 @@ class LessonScrollContent extends Component {
               <CardSection style={cardSectionStyle}>
                 <View style={{alignItems:'center'}}>
                 <Text style={[styles.textStyle, {paddingBottom:10}]}>{this.state.dataArray[0].description}</Text>
-                <Text style={styles.textStyle}>Cacellation Policy</Text>
+                <Text style={[styles.textStyle, {color:'#7a5de8'}]}>Cacellation Policy</Text>
                 </View>
               </CardSection>
-              <CardSection style={{ flexDirection: 'column', height: 400 }}>
+              <CardSection style={{ flexDirection: 'column', height: height*0.7 }}>
                 <ScrollView
                   style={[GF.border('red')]}
                 >
@@ -212,8 +216,8 @@ class LessonScrollContent extends Component {
               </CardSection>
 
               <CardSection style={{justifyContent:'center'}}>
-                <Button onPress={this.onAccept.bind(this)} style={{width:100}}>Yes</Button>
-                <Button onPress={this.onDecline.bind(this)} style={{width:100}}>No</Button>
+                <Button onPress={this.onAccept.bind(this)} style={{width:100, marginRight:30}}>Yes</Button>
+                <Button onPress={this.onDecline.bind(this)} style={{width:100, marginLeft:30}}>No</Button>
               </CardSection>
             </View>
           </Modal>
@@ -231,18 +235,24 @@ class LessonScrollContent extends Component {
       var fee = ((12-hours)/12)*10;
       return (
         <View style={{flexDirection:'row', alignItems:'center'}}>
-          <MIcon name='error' size={20} color='#897FA6' />
-          <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>{' Your fee '}</Text>
-          <Text style={{ fontSize: 20, color: '#7a5de8', fontFamily: 'Avenir-Heavy' }}>{fee.toFixed(2)}</Text>
+          <MIcon name='monetization-on' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+          <View>
+          <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>{' Your fee '}</Text>
+          <Text style={[styles.textStyle]}>${fee.toFixed(2)}</Text>
+          </View>
         </View>
       );
     }
     else if (hours > 12) {
       return (
         <View style={{flexDirection:'row', alignItems:'center'}}>
-          <MIcon name='error' size={20} color='#897FA6' />
-
-          <Text style={styles.textStyle}> No fee</Text>
+          <MIcon name='monetization-on' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+          <View>
+            <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+              Fee
+            </Text>
+            <Text style={[styles.textStyle]}>None</Text>
+          </View>
         </View>
       );
     }
@@ -260,8 +270,8 @@ class LessonScrollContent extends Component {
 
     if(diff<0){
       return (
-        <View>
-          <Text>Time over</Text>
+        <View style={{alignItems:'center'}}>
+          <Text style={styles.textStyle}>This is a past lesson.</Text>
         </View>
       );
     }
@@ -278,55 +288,87 @@ class LessonScrollContent extends Component {
 
       //default(column)--> 가로 정렬이 align / 즉 자기축 아닌게 align인가보다
       return (
-        <View style={{alignItems:'center'}}>
-          <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
-            Time left to Cancel
-          </Text>
-          <Text style={[styles.textStyle, {paddingBottom:10}]}>{days+' day '+hours+' hours '+mins+' minutes'}</Text>
-
-          <View style={{flexDirection:'row', alignItems:'center'}}>
-          <Text style={{ fontSize: 30, color: '#7a5de8', fontFamily: 'Avenir-Heavy' }}>{leftHours}</Text>
-          <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>{' hours left'}</Text>
+        <View>
+          <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
+            <MIcon name='watch-later' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+            <View>
+              <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                Current Time
+              </Text>
+              <Text style={[styles.textStyle]}>{this.props.timeNow}</Text>
+            </View>
           </View>
+
+          <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
+            <MIcon name='timer' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+            <View>
+              <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                Time left to Cancel
+              </Text>
+              <Text style={[styles.textStyle]}>{days} days {hours} hours {mins} mins ({leftHours} hours)</Text>
+            </View>
+          </View>
+
           {this.renderFee(leftHours)}
         </View>
       );
     }
   }
 
+
   renderCancelDesc() {
     if (this.state.showCancelModal) {
       return (
         <View>
-          <CardSection style={{justifyContent:'center', alignItems: 'center'}}>
-
-            <MIcon name='watch-later' size={20} color='#897FA6' />
-            <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
-              {' Current time  '}
-            </Text>
-            <Text style={[styles.textStyle, GF.border('red')]}>
-              {this.props.timeNow}
-            </Text>
-
-          </CardSection>
-
-          <CardSection style={{ flexDirection: 'column' }}>
+          <CardSection style={{ flexDirection: 'column', paddingTop:20, paddingBottom:20, width:width*0.85 }}>
             {this.renderTimeCalc()}
           </CardSection>
-
         </View>
       );
     }
     else if (this.state.showUnconfirmedCancelModal) {
       return (
         <View>
-        <CardSection style={{ flexDirection: 'column' }}>
-          <Text>Just cancel</Text>
+        <CardSection style={{ flexDirection: 'column', padding:15 }}>
+          <Text style={{fontFamily:'Raleway', fontSize:14, color:'#2e2b4f', alignSelf:'center'}}>
+            This lesson is assigned to you.
+          </Text>
+
+          <Text style={{fontFamily:'Raleway', fontSize:14, color:'#2e2b4f', alignSelf:'center'}}>
+            Do you want to cancel it?
+          </Text>
         </CardSection>
         </View>
       );
     }
     return <View />
+  }
+
+  renderCancelButton() {
+    const date = new Date();
+    const currentTime = date.getTime();
+    const { start_time_mil } = this.props.course;
+
+    var diff = start_time_mil - currentTime;
+
+    if(diff<0){
+      return (
+        <CardSection style={{justifyContent:'center', paddingTop:10, paddingBottom:10, paddingLeft:30, paddingRight:30}}>
+          <Button onPress={this.onDecline.bind(this)} style={{width:100}}>OK</Button>
+        </CardSection>
+      );
+    }
+    else{
+      return (
+        <CardSection style={{justifyContent:'space-between', paddingTop:10, paddingBottom:10, paddingLeft:30, paddingRight:30}}>
+          <Button onPress={this.onCancelAccept.bind(this)} style={{width:100}}>Accept</Button>
+          <Button onPress={this.onDecline.bind(this)} style={{width:100}}>Decline</Button>
+        </CardSection>
+      );
+
+
+    }
+
   }
 
   renderCancel() {
@@ -342,13 +384,10 @@ class LessonScrollContent extends Component {
             onRequestClose={() => {}}
           >
           <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
-            <View style={{width:300}}>
+            <View>
               {this.renderCancelDesc()}
+              {this.renderCancelButton()}
 
-              <CardSection style={{justifyContent:'center'}}>
-                <Button onPress={this.onCancelAccept.bind(this)} style={{width:100}}>Yes</Button>
-                <Button onPress={this.onDecline.bind(this)} style={{width:100}}>No</Button>
-              </CardSection>
             </View>
           </View>
           </Modal>
@@ -365,14 +404,14 @@ class LessonScrollContent extends Component {
       return (
         <View>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={[{ fontSize: 16, color: '#B1D877', fontFamily: 'Avenir-Heavy' }, GF.border('red')]}>
+            <Text style={[{ fontSize: 16, color: '#B1D877', fontFamily: 'Raleway' }, GF.border('red')]}>
               {'Confirmed'}
             </Text>
             <MIcon name='check-circle' size={23} color='#B1D877' />
           </View>
 
           <View style={{ paddingTop: 4, alignItems: 'center' }}>
-            <MainButton onPress={this.onCancelPress.bind(this)} style={{width:80}}>CANCEL</MainButton>
+            <MainButton onPress={this.onCancelPress.bind(this)} style={{width:100}}>CANCEL</MainButton>
           </View>
         </View>
       );
@@ -381,7 +420,7 @@ class LessonScrollContent extends Component {
     return (
       <View>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={[{ fontSize: 15, color: '#F16A70', fontFamily: 'Avenir-Heavy' }, GF.border('red')]}>
+          <Text style={[{ fontSize: 15, color: '#F16A70', fontFamily: 'Raleway' }, GF.border('red')]}>
             {'Unconfirmed'}
           </Text>
           <MIcon name='error' size={23} color='#F16A70' />
@@ -389,34 +428,33 @@ class LessonScrollContent extends Component {
         </View>
 
         <View style={{ paddingTop: 4, flexDirection: 'row', justifyContent: 'center' }}>
-          <MainButton onPress={this.onConfirmPress.bind(this)} style={{width:80}}>CONFIRM</MainButton>
-          <MainButton onPress={this.onUnconfirmedCancelPress.bind(this)} style={{width:80}}>CANCEL</MainButton>
+          <MainButton onPress={this.onConfirmPress.bind(this)} style={{width:90}}>CONFIRM</MainButton>
+          <MainButton onPress={this.onUnconfirmedCancelPress.bind(this)} style={{width:90}}>CANCEL</MainButton>
         </View>
       </View>
     );
   }
 
   render() {
-    const { id, start_time_short } = this.props.course;
+    const { id, start_time_short, course_title } = this.props.course;
     const { textStyle } = styles;
 
     return (
-        <View style={[{ left: 10, width: 200, height: 170, margin:5, justifyContent: 'center' }, styles.lessonCardStyle]}>
+        <View style={[{ width: width*0.55, height: height*0.3, justifyContent: 'center' }, styles.lessonCardStyle]}>
           <View style={{ margin: 10 }}>
             <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom: 2}}>
-              <EvilIcon name='tag' size={20} color='#897FA6' />
-
-              <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
+              <MIcon name='loyalty' size={20} color='#7a5de8' style={{opacity:0.5, paddingRight:5}} />
+              <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#897FA6'}}>
                 {'Lesson ID  '}
               </Text>
-              <Text style={{fontFamily: 'Avenir-Heavy', fontSize: 20, color: '#2e2b4f'}}>
+              <Text style={{fontFamily: 'Raleway', fontSize: 20, color: '#2e2b4f'}}>
                 {id}
               </Text>
             </View>
 
             <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom: 6}}>
-              <EvilIcon name='clock' size={20} color='#897FA6' />
-              <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
+              <MIcon name='watch-later' size={20} color='#7a5de8' style={{opacity:0.5, paddingRight:5}} />
+              <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#897FA6'}}>
                 {'Start  '}
               </Text>
               <Text style={[textStyle, GF.border('red')]}>
@@ -424,10 +462,11 @@ class LessonScrollContent extends Component {
               </Text>
             </View>
 
-            <View style={{flexDirection: 'row', paddingBottom: 6, marginRight:20}}>
-              <EvilIcon name='pencil' size={20} color='#897FA6' />
-              <Text style={{fontSize: 13, color: '#2e2b4f', fontFamily: 'Avenir'}} numberOfLines={1}>
-                Google vs Amazon I (Retail focus)
+            <View style={{flexDirection: 'row', paddingBottom: 6, marginRight:20, alignItems:'center'}}>
+              <MIcon name='create' size={20} color='#7a5de8' style={{opacity:0.5, paddingRight:5}} />
+
+              <Text style={{fontSize: 13, color: '#2e2b4f', fontFamily:'Raleway'}} numberOfLines={1}>
+                {course_title}
               </Text>
             </View>
 
@@ -445,8 +484,8 @@ const styles = {
   lessonCardStyle: {
     backgroundColor: '#f9f9f4',
     padding: 0,
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 10,
+    marginRight: 10,
     marginTop: 5,
     marginBottom: 5,
     elevation: 1,
@@ -460,7 +499,7 @@ const styles = {
   textStyle: {
     fontSize: 15,
     color: '#2e2b4f',
-    fontFamily: 'Avenir'
+    fontFamily: 'Raleway'
   },
   containerStyle: {
     backgroundColor: 'rgba(0, 0, 0, 0.75)',

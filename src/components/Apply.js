@@ -11,9 +11,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
-import Calendar from 'react-native-calendar';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
-import { updateApply } from '../actions';
+import Calendar from '../../react-native-calendar';
+
+import { applyFetch, updateApply } from '../actions';
 import { CardSection, Button } from './common';
 import ApplyCheckbox from './common/ApplyCheckbox';
 import TabNaviBar from './common/TabNaviBar';
@@ -35,24 +37,22 @@ class Apply extends Component {
       scheduledStates: [],//added..
       disabledStates:[],//added..
       appliedStates:[],//added..
-      week_panel_obj:[],
+      // week_panel_obj:[],
       visible: false,
       apply_array: [],
-      loading: true
+
     };
+
+
     this.onDateChange = this.onDateChange.bind(this);
     this.onMonthChangeWithFetchingFromServer = this.onMonthChangeWithFetchingFromServer.bind(this);
   }
 
   componentWillMount(){
+
+    this.props.applyFetch(this.props.user.email);
     //꼭, auto =1을 붙여주세요. 붙이지 않을 시에는 자동으로 서버 연산된 값이 오는게 아니라 manually입력을 해야 합니다.
-    query = `https://www.ringleplus.com/api/v1/calendar/get_calendar?email=${this.props.user.email}&year=2017&month=1&week_num=1&auto=1`;
-    fetch(query)
-    .then( response => response.json() )
-    .then( json => this.init(json.response))
-    .catch((error) => {
-      console.log(error);
-    })
+
   }
 
   onDateChange(day){
@@ -72,26 +72,13 @@ class Apply extends Component {
     })
   }
 
-  init(res){
-    console.log(res);
-    const week_panel_obj = res.week_panel;
-    //14개의 오브젝트가 날라올 것인데, 이를 일단 하나씩 콘솔을 찍어보도록 한다.
-    //그다음 처음 7개 day_short_formatted를 나열한다.
-    //index = 0~ 7
-    //initially print 7 element.
-    //state를 하나 만들어서, 7개 rendering해주는 것.
-    this.setState({
-      week_panel_obj:week_panel_obj,
-      loading:false
-    });
-  }
-
 //    return <View><Text>{obj.classtime_str}</Text></View>;
 
   onClick(data) {
     const items = this.state.apply_array;
 
     data.checked = !data.checked; //이 data가 apply array에서 온 것
+    console.log('on click', data.checked);
     this.setState(
       {
         apply_array: items
@@ -102,6 +89,12 @@ class Apply extends Component {
   renderRow(obj){
     //obj.having_schedule..
     //obj.applied..
+
+    console.log(obj)
+    if(obj.applied && obj.checked===undefined){
+      obj.checked=true;
+    }
+
     return (
       <View style={[GF.border('yellow'), {flexDirection:'row'}]}>
         <ApplyCheckbox
@@ -131,9 +124,11 @@ class Apply extends Component {
 
     var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
+    // console.log('week panel', this.props.weekPanel);
+
     return (
       <View>
-        <View style={{padding: 5, backgroundColor: '#fff', alignItems:'flex-end'}}>
+        <View style={{marginTop:5, marginBottom:15, backgroundColor: '#fff', alignItems:'flex-end'}}>
           <TouchableOpacity
           onPress={()=>this.onDecline(this.state.apply_array)}
           >
@@ -141,7 +136,7 @@ class Apply extends Component {
           </TouchableOpacity>
         </View>
 
-        <View style={[GF.border('blue'), {flexDirection:'row', width:width*0.87, justifyContent:'center'}]}>
+        <View style={[GF.border('blue'), {flexDirection:'row', width:width*0.87, justifyContent:'center', marginBottom:5}]}>
           <View style={[GF.border('red'), {alignItems:'center', width:width*0.07}]} />
           <View style={[GF.border('red'), {alignItems:'center', width:width*0.15}]}>
             <Text style={styles.textStyle}>ID</Text>
@@ -195,8 +190,9 @@ class Apply extends Component {
   onDecline(obj) {
     this.setState({ visible: false });
     for(i=0; i<obj.length; i++){
-      obj[i].checked=false;
+      obj[i].checked=undefined;
     }
+
   }
 
   renderCalendar() {
@@ -208,7 +204,7 @@ class Apply extends Component {
         backgroundColor: '#CCCCF2'
       },
       selectedDayCircle: {
-        backgroundColor: '#897FA6',
+        backgroundColor: '#7a5de8',
       },
       day: {
         color: '#2e2b4f'
@@ -226,12 +222,12 @@ class Apply extends Component {
         color: '#7a5de8'
       },
       currentDayCircle: {
-      backgroundColor: '#897FA6',
+      backgroundColor: '#7a5de8',
     },
     }
 
     for (i = 0; i <= 6; i++){
-      const obj = this.state.week_panel_obj.find(x => x.index === i);
+      const obj = this.props.weekPanel.find(x => x.index === i);
       if (obj === undefined){
       }else{
         var day = obj.day.substring(0,10);
@@ -240,14 +236,14 @@ class Apply extends Component {
     }
 
     return(
-      <View>
+      <View style={{marginTop:20, borderWidth:1, borderColor:'#e3decf'}}>
         <Calendar
           eventDates={eventDates}
           customStyle={customStyle}
           weekStart={0}
           onDateSelect={(date) => {
             for (i = 0; i <= 6; i++){
-              const obj = this.state.week_panel_obj.find(x => x.index === i);
+              const obj = this.props.weekPanel.find(x => x.index === i);
               if (obj === undefined){
               }else{
                 if( date.substring(0,10) == obj.day.substring(0,10) ) {
@@ -264,7 +260,7 @@ class Apply extends Component {
   }
 
   renderSpinner() {
-    if (this.state.loading) {
+    if (this.props.loading) {
       return (
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size={'large'} />
@@ -274,13 +270,15 @@ class Apply extends Component {
   }
 
   onSave() {
-    var appliedArray=[];
+    var applyObj=[];
+
+    console.log('check box', this.state.apply_array);
 
     for (i = 0; i < this.state.apply_array.length; i++){
 
       if(this.state.apply_array[i].checked){
         console.log(this.state.apply_array[i].classtime_str);
-        appliedArray.push({
+        applyObj.push({
           classtime_id: this.state.apply_array[i].classtime_id,
           selected: true
         });
@@ -288,38 +286,56 @@ class Apply extends Component {
       }
       else{
         // this.state.apply_array[i].checked=false;
-        appliedArray.push({
+        applyObj.push({
           classtime_id: this.state.apply_array[i].classtime_id,
           selected: false
         });
       }
 
     }
-    console.log(appliedArray);
-    this.props.updateApply(appliedArray, this.props.user.token);
-    for(i=0; i<this.state.apply_array.length; i++){
-      this.state.apply_array[i].checked=false;
-    }
+    console.log(applyObj);
+    this.props.updateApply(applyObj, this.props.user.token);
+
     this.setState({ visible: false });
 
 
   }
 
   render() {
-    // console.log('date..');
-    // console.log(Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
-    // console.log(this.state.date.getTimezoneOffset()/60);
-    //
-    // console.log('시간');
-    // console.log(this.state.date);
+    console.log(this.props);
+
 
     return (
       <View style={{ flex: 1, marginBottom: 50, backgroundColor: '#f9f9f4' }}>
       <TabNaviBar title='Apply'/>
         <View style={styles.container}>
-          <Text>Your current time zone is .. => </Text>
-          <Text>{JSON.stringify(this.state.date)}</Text>
-          <Text>{this.state.date.getHours()}</Text>
+          <Text style={{fontFamily:'Raleway', color:'#2e2b4f', fontSize:15, paddingBottom:10}}>Your Current Time</Text>
+
+          <View>
+            <View style={styles.separator} />
+          </View>
+
+          <View style={{alignSelf:'center', marginTop:10}}>
+            <View style={{flexDirection:'row', alignItems:'center', marginBottom:5}}>
+              <MIcon name='watch-later' size={25} color='#7a5de8' style={{paddingRight:5, opacity:0.5}}/>
+              <View style={{width:width*0.18}}>
+                <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#897FA6'}}>
+                  Date
+                </Text>
+              </View>
+              <Text style={{fontFamily:'Raleway', color:'#7a5de8', fontSize:17}}>{this.props.timeNow}</Text>
+            </View>
+
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='location-on' size={25} color='#7a5de8' style={{paddingRight:5, opacity:0.5}}/>
+              <View style={{width:width*0.18}}>
+              <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#897FA6'}}>
+                Location
+              </Text>
+              </View>
+              <Text style={{fontFamily:'Raleway', color:'#2e2b4f', fontSize:15}}>{this.props.user.timezone}</Text>
+            </View>
+          </View>
 
           {this.renderCalendar()}
 
@@ -332,7 +348,7 @@ class Apply extends Component {
             <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
               <View style={{width:width}}>
 
-                <CardSection style={{justifyContent:'center'}}>
+                <CardSection style={{justifyContent:'center', paddingBottom:10}}>
                   {this.render_apply_times()}
                 </CardSection>
                 <CardSection style={{justifyContent:'center'}}>
@@ -345,6 +361,9 @@ class Apply extends Component {
           </Modal>
           {this.renderSpinner()}
         </View>
+
+        <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, backgroundColor: '#e3decf' }} />
+
       </View>
     );
   }
@@ -353,7 +372,7 @@ class Apply extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    marginTop:20,
     alignItems: 'center',
     backgroundColor: '#f9f9f4',
   },
@@ -368,18 +387,28 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   textStyle: {
-    fontFamily: 'Avenir',
+    fontFamily: 'Raleway',
     color: '#897FA6',
-    fontSize: 12
-
+    fontSize: 13
   },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd',
+    width:width*0.9
+  }
 });
 
 const mapStateToProps = state => {
   const { user } = state.auth;
+  const { loading, weekPanel } = state.apply;
+  const { timeNow } = state.upcomingLessons;
   return {
-    user: user
+    user: user,
+    weekPanel: weekPanel,
+    loading: loading,
+    timeNow: timeNow
   };
+
 };
 
-export default connect(mapStateToProps, { updateApply })(Apply);
+export default connect(mapStateToProps, { applyFetch, updateApply })(Apply);

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight, Text, Platform, Image } from 'react-native';
+import { View, TouchableHighlight, Text, Platform, Image, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 
-
 const GF = require('../GF');
+
+const height = Dimensions.get('window').height;
 
 class Navibar extends Component {
 
@@ -16,12 +17,12 @@ class Navibar extends Component {
           <View style={{ backgroundColor: '#7a5de8', height: 20 }} />
 
           <View style={{ backgroundColor: '#ffffff', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: '#442dc9', fontSize: 15, fontFamily: 'Avenir' }}>
+            <Text style={{ color: '#442dc9', fontSize: 15, fontFamily: 'Raleway' }}>
             {title}
             </Text>
           </View>
 
-          <TouchableHighlight style={{ position: 'absolute', top: 29, left: 0, right: 0, width: 200, height: 50 }} underlayColor='transparent' onPress={() => { Actions.pop(); }} >
+          <TouchableHighlight style={{ position: 'absolute', top: 31, left: 5, right: 0, width: 200, height: 50 }} underlayColor='transparent' onPress={() => { Actions.pop(); }} >
             <MIcon name='chevron-left' size={24} color='#7a5de8' />
           </TouchableHighlight>
 
@@ -31,32 +32,23 @@ class Navibar extends Component {
     } else {
       return (
         <View
-        style={[styles.naviBarStyle, GF.border('green'), Platform.OS === 'ios' ? { marginTop: 20 } : { marginTop: 0 }]}
+        style={{backgroundColor:'#ffffff', height:55}}
         >
-          <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent:'center' }}>
             <View style={[GF.border('black')], { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
               <Text
-              style={{ color: '#442dc9', fontSize: 25 }}
+              style={{ color: '#442dc9', fontSize: 15, fontFamily: 'Raleway' }}
               >
               {title}
               </Text>
             </View>
           </View>
-          <View
-          style={[{ position: 'absolute', left: 0, right: 0, width: 50, height: 50 },
-          GF.border('red'), Platform.OS === 'ios' ? { position: 'absolute', top: 0 } : { position: 'absolute', top: 0 }]}
-          >
-            <View style={[Platform.OS === 'ios' ? { } : {marginTop: 4 }]}>
-              <TouchableHighlight
-              style={[{ width: 50, height: 50, justifyContent: 'center', alignItems: 'center' }, GF.border('green')]} underlayColor='transparent' onPress={() => { Actions.pop(); }}>
-              <Image
-              style={{ width: 25, height: 25 }}
-              source={require('../../../Resource/back32.png')}
-              />
-              </TouchableHighlight>
-            </View>
-          </View>
-          <View style={{ position: 'absolute', top: 53, left: 0, right: 0, height: 0.7, backgroundColor: '#e3decf' }} />
+
+          <TouchableHighlight style={{ position: 'absolute', top: 16, left: 10, right: 0 }} underlayColor='transparent' onPress={() => { Actions.pop(); }} >
+            <MIcon name='chevron-left' size={24} color='#7a5de8' />
+          </TouchableHighlight>
+
+          <View style={{ position: 'absolute', top: 54, left: 0, right: 0, height: 1, backgroundColor: '#e3decf' }} />
         </View>
       );
     }

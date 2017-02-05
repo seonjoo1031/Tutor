@@ -5,11 +5,11 @@ import {
 } from './types';
 import { urlForPreStudy, urlForUpdateConfirm, urlForUnassignedLessons } from '../components/common/ApiUrl';
 
-export const unAssignedLessonsFetch = (email) => {
+export const unAssignedLessonsFetch = (token) => {
   console.log('unassigned lessons fetch...');
   return (dispatch) => {
     dispatch({ type: UNASSIGNED_LESSONS_FETCH });
-    urlForUnassignedLessons(email)
+    urlForUnassignedLessons(token)
     .then((response) => response.json())
     .then(json => getUnassignedLessonsSuccess(dispatch, json.response))
     .catch((error) => {
@@ -26,11 +26,11 @@ export const getUnassignedLessonsSuccess = (dispatch, response) => {
   });
 };
 
-export const upcomingLessonsFetch = (email) => {
+export const upcomingLessonsFetch = (token) => {
   console.log('upcomingLessonsFetch..working');
   return (dispatch) => {
     dispatch({ type: UPCOMING_LESSONS_FETCH });
-    urlForPreStudy(email)
+    urlForPreStudy(token)
     .then((response) => response.json())
     .then(json => getUpcomingLessonsSuccess(dispatch, json.response))
     .catch((error) => {

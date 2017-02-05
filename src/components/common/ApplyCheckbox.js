@@ -74,10 +74,10 @@ export default class ApplyCheckBox extends Component {
               </View>
 
               <View style={[GF.border('blue'), {width:width*0.15}]}>
-              <Text style={[styles.textStyle, {fontSize:13, alignSelf:'center'}]}>{this.props.data.classtime_id}</Text>
+              <Text style={[styles.textStyle, {fontSize:15, paddingLeft:7}]}>{this.props.data.classtime_id}</Text>
               </View>
 
-              <View style={[GF.border('blue'), {width:width*0.3, alignItems:'center'}]}>
+              <View style={[GF.border('blue'), {width:width*0.3, paddingLeft:10}]}>
               {this.renderText()}
               </View>
 
@@ -100,6 +100,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       borderTopWidth: 1,
       borderColor: '#e3decf',
+      paddingBottom:5,
+      paddingTop:5
 
 
   },
@@ -107,7 +109,8 @@ const styles = StyleSheet.create({
       flex: 1,
   },
   textStyle: {
-      fontFamily: 'Avenir',
-      color:'#2e2b4f'
+      fontFamily: 'Raleway',
+      color:'#2e2b4f',
+      fontSize:15
   }
 });

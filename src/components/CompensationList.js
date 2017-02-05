@@ -8,41 +8,59 @@ const GF = require('./GF');
 const width = Dimensions.get('window').width;
 
 
-class UpcomingLessonListItem extends Component {
+class CompensationListItem extends Component {
+
+  renderStatus() {
+    const { paid } = this.props.compensationItem;
+    console.log(paid);
+    if(paid)
+    {
+      return(
+        <Text style={{fontFamily: 'Raleway',
+        fontSize: 13,
+        color: '#ffffff',
+        alignSelf:'center',
+        backgroundColor:'#B1D877'}}> Paid </Text>
+      );
+
+    }
+
+    else{
+      return(
+        <Text style={{fontFamily: 'Raleway',
+        fontSize: 13,
+        color: '#ffffff',
+        alignSelf:'center',
+        backgroundColor:'#F16A70'}}> Not Paid </Text>
+      );
+    }
+  }
 
 
 //course_id,
   render() {
-    const { id, start_time_short, course_title } = this.props.upcomingLesson;
-    const { separator, textStyle, titleStyle } = styles;
+    const { id, start_time, money } = this.props.compensationItem;
+    const { separator, textStyle } = styles;
     return (
       <View>
-        <View style={[GF.border('blue'),{ alignItems:'center',paddingTop:10, paddingBottom:10}]}>
-          <View style={{ flexDirection: 'row', alignItems:'center' }}>
+          <View style={{ flexDirection: 'row', alignItems:'center', justifyContent:'space-between', padding:10 }}>
             <View style={[GF.border('blue'), {width:width*0.12}]}>
               <Text style={textStyle}>{id}</Text>
             </View>
             <View style={[GF.border('blue'), {width:width*0.3, alignItems:'center'}]}>
-              <Text style={textStyle}>{start_time_short}</Text>
+              <Text style={textStyle}>{start_time.substring(0,10)}</Text>
             </View>
-            <View style={[GF.border('blue'), {width:width*0.2, alignItems:'center'}]}>
-              <Text style={textStyle}>Seonjoo</Text>
-            </View>
+
             <View style={[GF.border('blue'), {width:width*0.12, alignItems:'center'}]}>
-              <Text style={textStyle}>$16</Text>
+              <Text style={textStyle}>${money}</Text>
             </View>
             <View style={[GF.border('blue'), {width:width*0.2, alignItems:'center'}]}>
-              <Text style={{fontFamily: 'Avenir',
-              fontSize: 13,
-              color: '#ffffff',
-              alignSelf:'center',
-              backgroundColor:'#F16A70'}}> Not paid </Text>
+              {this.renderStatus()}
             </View>
 
 
            </View>
 
-        </View>
         <View style={separator} />
       </View>
     );
@@ -58,17 +76,12 @@ class UpcomingLessonListItem extends Component {
 
 const styles = {
   textStyle: {
-    fontFamily: 'Avenir',
-    fontSize: 13,
+    fontFamily: 'Raleway',
+    fontSize: 15,
     color: '#2e2b4f',
     alignSelf:'center'
   },
-  titleStyle: {
-    fontFamily: 'Avenir',
-    fontSize: 12,
-    color: '#2e2b4f',
-    paddingRight: 10
-  },
+
   separator: {
     height: 1,
     backgroundColor: '#dddddd'
@@ -82,4 +95,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(UpcomingLessonListItem);
+export default connect(mapStateToProps)(CompensationListItem);

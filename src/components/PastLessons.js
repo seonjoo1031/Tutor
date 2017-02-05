@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, ListView, Text, TouchableHighlight, Platform } from 'react-native';
+import { View, ScrollView, ListView, Text, TouchableHighlight, Platform, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { pastLessonsFetch } from '../actions';
 import PastLessonListItem from './PastLessonListItem';
@@ -11,12 +11,14 @@ const GF = require('./GF');
 //back key에서 tempData와 page리셋 해줘야함.
 var tempData = null;
 var page = 1;
+const width = Dimensions.get('window').width;
+
 
 class PastLessons extends Component {
   state = { page: 1 };
   componentWillMount() {
     console.log(this.props);
-    this.props.pastLessonsFetch('sungpah@ringleplus.com', page);
+    this.props.pastLessonsFetch(this.props.user.token, page);
     this.createDataSource(this.props);
   }
 
@@ -84,10 +86,7 @@ class PastLessons extends Component {
         );
       } else {
         return (
-          <View style={[GF.border('black'), { alignItems: 'center', marginTop: 100, padding: 10, flexDirection: 'column' }]} >
-            <Text style={{ color: '#897FA6' }}>아직 링글 수업을 들으시지 않았군요?</Text>
-            <Text style={{ color: '#897FA6' }}>오늘 한 번 체험해보세요.</Text>
-          </View>
+          <View />
           );
       }
     }
@@ -99,7 +98,7 @@ class PastLessons extends Component {
         <View style={{ marginTop: 80, flexDirection: 'column', alignItems: 'center' }}>
           <Spinner
           size="large"
-          loadingText='교재를 불러오는 중입니다..'
+          loadingText='Loading lessons..'
           />
         </View>
       );
@@ -108,14 +107,14 @@ class PastLessons extends Component {
 
   renderSeeMoreClasses() {
     page++;
-    this.props.pastLessonsFetch('sungpah@ringleplus.com', page);
+    this.props.pastLessonsFetch(this.props.user.token, page);
     this.createDataSource(this.props);
   }
 
   //스피너 처리 해줘야됨
   renderSeeMoreButton() {
     return (
-      <Text style={[styles.white_text]}> See more + </Text>
+      <Text style={[styles.white_text]}> View more </Text>
     );
   }
 
@@ -132,9 +131,15 @@ class PastLessons extends Component {
         <TabNaviBar title='Past Lessons' />
         <ScrollView style={[GF.border('red'), { flex: 1, marginTop: 20 }]}>
           <View style={[GF.border('black'), { alignItems: 'center', paddingBottom: 10 }]}>
-            <Text style={{ color: '#2e2b4f', fontFamily: 'Avenir' }}>Total Lessons</Text>
-            <Text style={{ fontSize: 30, color: '#7a5de8', fontFamily: 'Avenir-Heavy' }}>{this.props.pastLessons.total_class_num}</Text>
+            <Text style={{ color: '#2e2b4f', fontFamily: 'Raleway', fontSize:15}}>Your Total Lessons</Text>
+
+            <Text style={{ fontSize: 25, color: '#7a5de8', fontFamily: 'Raleway', paddingTop:5 }}>{this.props.pastLessons.total_class_num}</Text>
           </View>
+
+          <View style={{alignItems:'center', marginBottom:10}}>
+            <View style={styles.separator} />
+          </View>
+
           <View>
             {this.pastClassesListView()}
             {this.pastClasses()}
@@ -176,13 +181,22 @@ const styles = {
   white_text: {
     color: '#7a5de8',
     textAlign: 'center',
+    fontFamily:'Raleway',
     fontSize: 15
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#7a5de8',
+    opacity:0.5,
+    width:width*0.15
   }
 };
 
 const mapStateToProps = state => {
+  const { user } = state.auth;
   const { pastLessons, pastLessonsListings, loading } = state.pastLessons;
   return {
+    user: user,
     pastLessons: pastLessons,
     pastLessonsListings: pastLessonsListings,
     loading: loading

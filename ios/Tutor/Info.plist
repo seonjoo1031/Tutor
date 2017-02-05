@@ -23,7 +23,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb139661396532480</string>
+				<string>fb225397481197446</string>
 			</array>
 		</dict>
 		<dict>
@@ -46,7 +46,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>FacebookAppID</key>
-	<string>139661396532480</string>
+	<string>225397481197446</string>
 	<key>FacebookDisplayName</key>
 	<string>Tutor</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -81,18 +81,19 @@
 	<string>$(PRODUCT_NAME) microphone use</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>{human-readable reason for photo access}</string>
-  <key>UIAppFonts</key>
-  <array>
-    <string>FontAwesome.ttf</string>
-    <string>SimpleLineIcons.ttf</string>
-    <string>Entypo.ttf</string>
-    <string>EvilIcons.ttf</string>
-    <string>Foundation.ttf</string>
-    <string>Ionicons.ttf</string>
-    <string>MaterialIcons.ttf</string>
-    <string>Octicons.ttf</string>
-    <string>Zocial.ttf</string>
-  </array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome.ttf</string>
+		<string>Raleway.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>Zocial.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

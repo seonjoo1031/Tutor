@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import { AsyncStorage, View, Text, Platform, Image, TouchableHighlight, StatusBar, ScrollView } from 'react-native';
+import { AsyncStorage, View, Text, Platform, Image, TouchableOpacity, StatusBar, ScrollView, Dimensions } from 'react-native';
 import { FBLoginManager } from 'react-native-facebook-login';
 import { GoogleSignin } from 'react-native-google-signin';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { otherLoginUser } from '../actions';
-import { LoginButton, Spinner } from './common';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+
+import { otherLoginUser, emailChanged, passwordChanged, loginUser } from '../actions';
+import { LoginButton, OtherLoginButton, Spinner, SignInput } from './common';
 
 const GF = require('./GF');
 
 //눌렀을 때 로그인 버튼을 감싸고 있는 뷰가 스피너로 바뀌게.
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 class Login extends Component {
   state = { user: null };
@@ -68,11 +74,6 @@ class Login extends Component {
     }).done();
   }
 
-  onEmailLoginBtnPress() {
-    console.log('login button');
-    Actions.loginForm();
-  }
-
   handleResponseFB(res) {
     // 내려오는 response가 이름, ID, EMAIL
     this.props.otherLoginUser(res.email, 'facebook');
@@ -81,11 +82,11 @@ class Login extends Component {
   renderRingleLogo() {
     if (Platform.OS === 'ios') {
       return (
-        <Image style={{ width: 100, height: 100 }} source={require('../../Resource/logo1.png')} />
+        <Image style={{ width: width*0.45, height: width*0.45 }} source={require('../../Resource/logo2.png')} />
       );
     } else {
       return (
-        <Image style={{ width: 150, height: 150 }} source={require('../../Resource/logo1.png')} />
+        <Image style={{ width: 150, height: 150 }} source={require('../../Resource/logo2.png')} />
       );
     }
   }
@@ -96,68 +97,179 @@ class Login extends Component {
     }
   }
 
+  //onChangeText={this.onEmailChange.bind(this)}
+  //value={this.props.email}
+
+  onEmailChange(text) {
+    this.props.emailChanged(text.toLowerCase());
+  }
+
+  onPasswordChange(text) {
+    this.props.passwordChanged(text.toLowerCase());
+  }
+
+  onSignupButtonPress() {
+    console.log('sign up on press');
+    Actions.signup();
+  }
+
+  onLoginButtonPress() {
+    //여기서 빈 값 처리 해주면 될 듯
+    console.log(this.props);
+    this.props.loginUser(this.props.email, this.props.password, 'email');
+  }
+
+  renderError() {
+    if(this.props.error!==''){
+
+      return (
+        <View style={{alignItems:'center', justifyContent:'center'}}>
+        <View style={{backgroundColor:'#dd4b39', opacity:0.8, flexDirection:'row', paddingLeft:5, paddingRight:5}}>
+        <Text style={styles.errorTextStyle}>
+          {this.props.error}
+        </Text>
+        <MIcon name='error' size={20} color='#f5f5fc' style={{paddingLeft:5}} />
+        </View>
+        </View>
+      );
+    }
+  }
+
+  renderInput() {
+    return(
+      <View style={{height:height*0.5}}>
+
+
+        {this.renderError()}
+
+        <View style={{flexDirection:'row', width:width-60, alignItems:'center'}}>
+          <MIcon name='email' style={styles.iconStyle} />
+          <SignInput
+            placeholder="Email"
+            onChangeText={this.onEmailChange.bind(this)}
+            value={this.props.email}
+            keyboardType='email-address'
+          />
+        </View>
+
+        <View style={styles.separator} />
+
+
+        <View style={{flexDirection:'row', width:width-60, alignItems:'center', marginTop:10}}>
+          <MIcon name='lock' style={styles.iconStyle} />
+          <SignInput
+            secureTextEntry
+            placeholder="Password"
+            onChangeText={this.onPasswordChange.bind(this)}
+            value={this.props.password}
+          />
+        </View>
+
+        <View style={styles.separator} />
+
+        <LoginButton
+        onPress={this.onLoginButtonPress.bind(this)}
+        text='Log In' color='#f5f5fc'
+        />
+
+        <Text style={[styles.textStyle, {marginTop:15, alignSelf:'center', opacity:0.8}]}>Or login with</Text>
+
+        <View style={{flexDirection:'row', width:width-60, height:45}}>
+          <View style={{paddingRight:5, flex:1}}>
+          <OtherLoginButton
+          onPress={this.onFBLoginBtnPress.bind(this)}
+          iconName='facebook-f' text='Facebook' color='#29487d'
+          />
+          </View>
+
+          <View style={{paddingLeft:5, flex:1}}>
+          <OtherLoginButton
+          onPress={this.onGoogleLoginBtnPress.bind(this)}
+          iconName='google' text='Google+' color='#dd4b39'
+          />
+          </View>
+        </View>
+
+        <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center', marginTop:35}}>
+          <Text style={[styles.textStyle, {opacity:0.8}]}>
+            {"Don't have an account?"}
+          </Text>
+
+          <TouchableOpacity
+          style={{ paddingLeft: 10, paddingRight: 10 }}
+          underlayColor='#CCCCF2'
+          onPress={this.onSignupButtonPress.bind(this)}
+          >
+              <Text style={{ fontSize: 15, color: '#f5f5fc', fontFamily:'Raleway'}}>
+              Sign Up
+              </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
   render() {
+    console.log(width, height);
+
     return (
-      <ScrollView style={[{ flex: 1, backgroundColor: '#f9f9f4' }, GF.border('red')]} >
+      <ScrollView style={[{ flex: 1, backgroundColor: '#7a5de8' }, GF.border('red')]} >
         <StatusBar
          backgroundColor="#7a5de8"
          barStyle="default"
         />
-        <View style={{ backgroundColor: '#f9f9f4', marginBottom: 20 }} >
-          <View style={{ alignItems: 'center', marginTop: 150 }}>
+        <View>
+          <View style={{ alignItems: 'center', marginTop: height*0.15}}>
             {this.renderRingleLogo()}
             {this.renderSpinner()}
           </View>
           <View style={{ flex: 1 }}>
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between',
-            marginLeft: 30, marginRight: 30, marginTop: 40 }}>
-              <LoginButton
-              onPress={this.onFBLoginBtnPress.bind(this)}
-              iconName='facebook-f' color='#29487d'
-              />
-              <LoginButton
-              onPress={this.onGoogleLoginBtnPress.bind(this)}
-              iconName='google' color='#dd4b39'
-              />
-              <LoginButton
-              onPress={this.onEmailLoginBtnPress.bind(this)}
-              iconName='envelope-o' color='#7a5de8'
-              />
+            <View style={{ flex:1,
+            marginLeft: 30, marginRight: 30, marginTop: 20}}>
+              {this.renderInput()}
             </View>
           </View>
-          <View style={{ alignItems: 'center'}}>
-            <TouchableHighlight
-            style={{ width: 80, height: 30, alignItems: 'center', marginTop: 25 }}
-            underlayColor='#CCCCF2'
-            onPress={() => Actions.signup()}
-            >
-            <Text style={{ fontSize: 18, color: '#7a5de8', textDecorationLine: 'underline' }}> 회원가입</Text>
-            </TouchableHighlight>
-          </View>
-          <View style={{ flexDirection: 'column', marginTop: 30, marginLeft: 30, marginRight: 16, alignItems: 'center' }}>
-            <View>
-              <Text style={{ fontSize: 13, color: '#7a5de8' }}>회원가입을 하시면 Ringle의{'\n'}</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableHighlight
-              underlayColor='#CCCCF2'
-              onPress={() => Actions.privacyPolicy()}
-              >
-              <Text style={{ fontSize: 13, color: '#7a5de8', textDecorationLine: 'underline' }}> 개인정보 보호정책</Text>
-              </TouchableHighlight>
-              <Text style={{ fontSize: 13, color: '#7a5de8' }}>에 동의하는 것입니다.</Text>
-            </View>
-          </View>
+
+
         </View>
       </ScrollView>
     );
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  const { loading } = auth;
+const styles = {
+  textStyle: {
+    fontSize: 13,
+    color: '#f5f5fc',
+    fontFamily: 'Raleway'
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd',
+    opacity:0.3,
+  },
+  errorTextStyle: {
+    fontSize: 15,
+    alignSelf: 'center',
 
-  return { loading };
+    color:'#f5f5fc',
+
+    fontFamily:'Raleway',
+  },
+  iconStyle: {
+    fontSize:25,
+    color:'#f5f5fc',
+    paddingLeft:10,
+    paddingRight:20,
+    opacity:0.8
+  }
+
 };
 
-export default connect(mapStateToProps, { otherLoginUser })(Login);
+const mapStateToProps = ({ auth }) => {
+  const { email, password, error, loading } = auth;
+
+  return { email, password, error, loading };
+};
+
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser, otherLoginUser })(Login);

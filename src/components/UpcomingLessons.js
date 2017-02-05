@@ -13,7 +13,7 @@ class UpcomingLessons extends Component {
 
   componentWillMount() {
     console.log(this.props);
-    this.props.upcomingLessonsFetch(this.props.user.email);
+    this.props.upcomingLessonsFetch(this.props.user.token);
     this.createDataSource(this.props);
   }
 
@@ -34,7 +34,7 @@ class UpcomingLessons extends Component {
     if (this.props.upcomingLessons !== null) {
       if (this.props.upcomingLessons.length === 0) {
         return (<View style={{ alignItems: 'center', marginTop: 15 }}>
-          <Text style={{ fontSize: 15, color: '#897FA6' }}>No upcoming lesson.</Text>
+          <Text style={{ fontSize: 15, color: '#897FA6', fontFamily:'Raleway' }}>No upcoming lesson.</Text>
         </View>);
       } else {
         return (

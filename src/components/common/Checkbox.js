@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
   rightText: {
       flex: 1,
       marginLeft: 10,
-      fontFamily: 'Avenir'
+      fontFamily: 'Raleway'
   }
 });

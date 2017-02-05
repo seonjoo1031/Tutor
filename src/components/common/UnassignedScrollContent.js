@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Modal, ScrollView } from 'react-native';
+import { View, Text, Modal, ScrollView, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
@@ -14,6 +14,10 @@ import Checkbox from './Checkbox';
 
 
 const GF = require('../GF');
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
 class UnassignedScrollContent extends Component {
 
   constructor(props) {
@@ -171,10 +175,10 @@ class UnassignedScrollContent extends Component {
               <CardSection style={cardSectionStyle}>
                 <View style={{alignItems:'center'}}>
                 <Text style={[styles.textStyle, {paddingBottom:10}]}>{this.state.dataArray[0].description}</Text>
-                <Text style={styles.textStyle}>Cacellation Policy</Text>
+                <Text style={[styles.textStyle, {color:'#7a5de8'}]}>Cacellation Policy</Text>
                 </View>
               </CardSection>
-              <CardSection style={{ flexDirection: 'column', height: 400 }}>
+              <CardSection style={{ flexDirection: 'column', height: height*0.7 }}>
                 <ScrollView
                   style={[GF.border('red')]}
                 >
@@ -189,8 +193,8 @@ class UnassignedScrollContent extends Component {
               </CardSection>
 
               <CardSection style={{justifyContent:'center'}}>
-                <Button onPress={this.onAccept.bind(this)} style={{width:100}}>Yes</Button>
-                <Button onPress={this.onDecline.bind(this)} style={{width:100}}>No</Button>
+                <Button onPress={this.onAccept.bind(this)} style={{width:100, marginRight:30}}>Yes</Button>
+                <Button onPress={this.onDecline.bind(this)} style={{width:100, marginLeft:30}}>No</Button>
               </CardSection>
             </View>
           </Modal>
@@ -208,7 +212,7 @@ class UnassignedScrollContent extends Component {
     return (
       <View>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={[{ fontSize: 15, color: '#F16A70', fontFamily: 'Avenir-Heavy' }, GF.border('red')]}>
+          <Text style={[{ fontSize: 15, color: '#F16A70', fontFamily: 'Raleway' }, GF.border('red')]}>
             {'Unconfirmed'}
           </Text>
           <MIcon name='error' size={23} color='#F16A70' />
@@ -216,7 +220,7 @@ class UnassignedScrollContent extends Component {
         </View>
 
         <View style={{ paddingTop: 4, flexDirection: 'row', justifyContent: 'center' }}>
-          <MainButton onPress={this.onConfirmPress.bind(this)} style={{width:80}}>CONFIRM</MainButton>
+          <MainButton onPress={this.onConfirmPress.bind(this)} style={{width:100}}>CONFIRM</MainButton>
         </View>
       </View>
     );
@@ -225,25 +229,25 @@ class UnassignedScrollContent extends Component {
   render() {
     console.log(this.props.course);
     const { lesson_id, start_time_short } = this.props.course;
+
     const { textStyle } = styles;
 
     return (
-      <View style={[{ left: 10, width: 200, height: 180, justifyContent: 'center' }, styles.lessonCardStyle]}>
+      <View style={[{ width: width*0.55, height: height*0.3, justifyContent: 'center' }, styles.lessonCardStyle]}>
         <View style={[{ padding: 10 }, , GF.border('blue')]}>
           <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom: 2}}>
-            <EvilIcon name='tag' size={20} color='#897FA6' />
-
-            <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
+            <MIcon name='loyalty' size={20} color='#7a5de8' style={{opacity:0.5, paddingRight:5}} />
+            <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#897FA6'}}>
               {'Lesson ID  '}
             </Text>
-            <Text style={{fontFamily: 'Avenir-Heavy', fontSize: 20, color: '#2e2b4f'}}>
+            <Text style={{fontFamily: 'Raleway', fontSize: 20, color: '#2e2b4f'}}>
               {lesson_id}
             </Text>
           </View>
 
           <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom: 6}}>
-            <EvilIcon name='clock' size={20} color='#897FA6' />
-            <Text style={{fontFamily: 'Avenir', fontSize: 13, color: '#897FA6'}}>
+            <MIcon name='watch-later' size={20} color='#7a5de8' style={{opacity:0.5, paddingRight:5}} />
+            <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#897FA6'}}>
               {'Start  '}
             </Text>
             <Text style={[textStyle, GF.border('red')]}>
@@ -252,9 +256,10 @@ class UnassignedScrollContent extends Component {
           </View>
 
           <View style={{flexDirection: 'row', paddingBottom: 6, marginRight:20}}>
-            <EvilIcon name='pencil' size={20} color='#897FA6' />
-            <Text style={{fontSize: 13, color: '#2e2b4f', fontFamily: 'Avenir'}} numberOfLines={2}>
-              Google vs Amazon I (Retail focus)
+            <MIcon name='create' size={20} color='#7a5de8' style={{opacity:0.5, paddingRight:5}} />
+
+            <Text style={{fontSize: 13, color: '#2e2b4f', fontFamily: 'Raleway'}} numberOfLines={2}>
+              {this.props.course.course.title}
             </Text>
           </View>
 
@@ -271,8 +276,8 @@ const styles = {
   lessonCardStyle: {
     backgroundColor: '#f9f9f4',
     padding: 0,
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 10,
+    marginRight: 10,
     marginTop: 5,
     marginBottom: 5,
     elevation: 1,
@@ -285,8 +290,8 @@ const styles = {
   },
   textStyle: {
     fontSize: 15,
-    textAlign: 'center',
     color: '#2e2b4f',
+    fontFamily: 'Raleway'
   },
   containerStyle: {
     backgroundColor: 'rgba(0, 0, 0, 0.75)',

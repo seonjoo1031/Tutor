@@ -42,12 +42,12 @@ const styles = {
     marginRight: 10
   },
   date: {
-    fontFamily: 'Avenir',
+    fontFamily: 'Raleway',
     fontSize: 15,
     color: '#7a5de8'
   },
   titleTextStyle: {
-    fontFamily: 'Avenir',
+    fontFamily: 'Raleway',
     fontSize: 12,
     color: '#2e2b4f'
   },

@@ -5,7 +5,7 @@ const Spinner = ({ size, loadingText }) => {
   return (
     <View style={styles.spinnerStyle}>
       <ActivityIndicator size={size || 'large'} />
-      <Text style={{ fontSize: 15, color: '#897FA6' }}>{loadingText}</Text>
+      <Text style={{ fontSize: 15, color: '#897FA6', fontFamily:'Raleway' }}>{loadingText}</Text>
     </View>
   );
 };

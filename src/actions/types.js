@@ -26,10 +26,18 @@ export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 export const OTHER_LOGIN_USER_SIGN_UP = 'other_login_user_sign_up';
+export const REFERRAL_EMAIL_CHECK = 'referral_email_check';
+export const GET_REFERRAL_MESSAGE = 'get_referral_message';
 
 // sign up
 export const EMAIL_CHANGED = 'email_changed';
 export const PASSWORD_CHANGED = 'password_changed';
+export const PASSWORD_CONFIRM_CHANGED = 'password_confirmed_changed';
+export const FIRST_NAME_CHANGED = 'first_name_changed';
+export const REFERRAL_CHANGED = 'referral_changed';
+export const SCHOOL_CHANGED = 'school_changed';
+export const DEPARTMENT_CHANGED = 'department_changed';
+
 
 // chat
 export const APPEND_MESSAGE = 'append_message';
@@ -38,4 +46,10 @@ export const CHAT_INSERTED = 'chat_inserted';
 
 // apply
 export const UPDATE_APPLY = 'update_apply';
-export const APPLY_SUCCESS = 'apply_success';
+export const UPDATE_APPLY_SUCCESS = 'update_apply_success';
+export const APPLY_FETCH = 'apply_fetch';
+export const GET_APPLY_SUCCESS = 'get_apply_success';
+
+// compensation
+export const COMPENSATION_FETCH = 'compensation_fetch';
+export const GET_COMPENSATION_SUCCESS = 'get_compensation_success';

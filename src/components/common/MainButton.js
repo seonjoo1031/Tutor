@@ -18,17 +18,18 @@ const styles = {
     alignSelf: 'center',
     color: '#7a5de8',
     fontSize: 12,
-    fontFamily: 'Avenir-Heavy'
+    fontFamily: 'Raleway'
   },
   buttonStyle: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f9f9f4',
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: '#7a5de8',
-    marginLeft: 8,
-    marginRight: 10,
-    marginTop: 5,
+    borderRadius:20,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 8,
     height: 35,
 
   }

@@ -1,90 +1,105 @@
 import React, { Component } from 'react';
-import { Text, View, AsyncStorage, Alert, Platform, TextInput, ScrollView } from 'react-native';
+import { Text, View, AsyncStorage, Alert, Platform, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { Spinner, Input, Button } from './common';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
+
+
+import { Spinner, Input, Button, SignInput, LoginButton } from './common';
 import {
   emailChanged,
   passwordChanged,
-  // passwordConfirmChanged,
+  passwordConfirmChanged,
   // nameChanged,
-  // firstNameChanged,
+  firstNameChanged,
   // phoneNumberChanged,
-  // referralChanged,
+  referralChanged,
+  schoolChanged,
+  departmentChanged,
   // jobChanged,
   // promoCodeChanged,
-  loginUser
+  loginUser,
+  referralEmailCheck
  } from '../actions';
  import { urlForSignup } from '../components/common/ApiUrl';
  import Navibar from './common/Navibar';
 
 class Signup extends Component {
   componentWillMount() {
-    if(this.props.existing_email!==''){
+    // console.log(this.props);
+    if(this.props.existing_email!==undefined){
       this.onEmailChange(this.props.existing_email);
     }
+    else{
+      this.props.emailChanged('');
+    }
+
+    this.props.passwordChanged('');
   }
 
   onEmailChange(text) {
-    this.props.emailChanged(text);
+    this.props.emailChanged(text.toLowerCase());
   }
 
   onPasswordChange(text) {
-    this.props.passwordChanged(text);
+    this.props.passwordChanged(text.toLowerCase());
   }
 
-  // onPasswordConfirmChange(text) {
-  //   this.props.passwordConfirmChanged(text);
-  // }
+  onPasswordConfirmChange(text) {
+    this.props.passwordConfirmChanged(text.toLowerCase());
+  }
   //
   // onNameChange(text) {
   //   this.props.nameChanged(text);
   // }
   //
-  // onFirstNameChange(text) {
-  //   this.props.firstNameChanged(text);
-  // }
-  //
-  // onphoneNumberChange(text) {
-  //   this.props.phoneNumberChanged(text);
-  // }
-  // //newly added three methods.
-  // onJobChange(text) {
-  //   this.props.jobChanged(text);
-  // }
-  //
-  // onPromotionCodeChange(text) {
-  //   this.props.promoCodeChanged(text);
-  // }
-  //
-  // onReferralChange(text) {
-  //   this.props.referralChanged(text);
-  // }
+  onFirstNameChange(text) {
+    this.props.firstNameChanged(text);
+  }
+
+  onReferralChange(text) {
+    this.props.referralChanged(text);
+  }
+
+  onSchoolChange(text) {
+    this.props.schoolChanged(text);
+  }
+
+  onDepartmentChange(text) {
+    this.props.departmentChanged(text);
+  }
 
   onSigninButtonPress() {
     if(this.props.email === '') {
-      alert('Email을 입력해주세요.');
+      alert('Please enter your email.');
       return;
     }
 
     if(this.props.password === '' || this.props.password.length < 6) {
-      alert('Password를 잘못 입력하셨습니다.');
+      alert('Wrong password.');
       return;
     }
 
-    // if(this.props.firstName === '') {
-    //   alert('First name을 입력해주세요.');
-    //   return;
-    // }
-    //
-    // if(this.props.phoneNumber === '') {
-    //   alert('핸드폰 번호를 입력해주세요.'); // 처리를 더 해줘야할듯.
-    //   return;
-    // }
-    //
-    // if(this.props.password !== this.props.passwordConfirm) {
-    //   alert('입력하신 비밀번호가 일치하지 않습니다.')
-    //   return;
-    // }
+    if(this.props.firstName === '') {
+      alert('Please enter your first name.');
+      return;
+    }
+
+    if(this.props.school === '') {
+      alert('Please enter your school name.');
+      return;
+    }
+
+    if(this.props.department === '') {
+      alert('Please enter your department.');
+      return;
+    }
+
+    if(this.props.password !== this.props.passwordConfirm) {
+      alert('The password does not match. Type the correct password.')
+      return;
+    }
 
     fetch(urlForSignup(), {
       method: 'POST',
@@ -94,12 +109,12 @@ class Signup extends Component {
       },
       body: JSON.stringify({
         email: this.props.email,
-        password: this.props.password
-        // korean_name: this.props.name,
-        // first_name: this.props.firstName,
-        // phone: this.props.phoneNumber,
-        // promoCode: this.props.promoCode,
-        // referral: this.props.referral
+        password: this.props.password,
+        first_name: this.props.firstName,
+        referral: this.props.referral,
+        school: this.props.school,
+        department: this.props.department,
+        role:1
       })
     })
     .then(response => response.json())
@@ -128,10 +143,27 @@ class Signup extends Component {
     }
 
     return (
-      <Button onPress={this.onSigninButtonPress.bind(this)}>
-        로그인
-      </Button>
+
+      <LoginButton
+      onPress={this.onSigninButtonPress.bind(this)}
+      text='Create' color='#f5f5fc'
+      />
     );
+  }
+
+  onDecline() {
+    Actions.pop();
+    this.props.emailChanged('');
+    this.props.passwordChanged('');
+    this.props.passwordConfirmChanged('');
+    this.props.firstNameChanged('');
+    this.props.referralChanged('');
+    this.props.schoolChanged('');
+    this.props.departmentChanged('');
+  }
+
+  onReferralEmailCheck() {
+    this.props.referralEmailCheck(this.props.referral);
   }
 
   render() {
@@ -139,32 +171,105 @@ class Signup extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#f9f9f4' }}>
-      <Navibar title='회원가입' />
-        <ScrollView style={{ backgroundColor: '#f9f9f4', marginBottom: 20 }}
+      <View style={{ backgroundColor: '#7a5de8', height: 20 }} />
+      <View style={{backgroundColor: '#7a5de8', paddingTop:10, padding:10}}>
+      <TouchableOpacity
+      onPress={this.onDecline.bind(this)}
+      >
+        <EvilIcon name='chevron-left' size={30} color='#f5f5fc' />
+      </TouchableOpacity>
+      </View>
+
+        <ScrollView style={{ backgroundColor: '#7a5de8'}}
         keyboardShouldPersistTaps={true}>
-          <View style={{ marginLeft: 10, marginRight: 10 }}>
-            <View style={{ marginTop: 15 }}>
-              <Input
+          <View style={{ marginLeft: 20, marginRight: 20}}>
+
+            <Text style={{fontFamily:'Raleway', fontSize:30, color:'#f5f5fc', paddingLeft:10, paddingTop:10}}>Sign up</Text>
+
+            <View style={{ marginTop: 30, flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='email' style={styles.iconStyle} />
+              <SignInput
                 placeholder='Email'
-                placeholderTextColor='#897FA6'
-                style={styles.inputStyle}
                 onChangeText={this.onEmailChange.bind(this)}
                 value={this.props.email}
-                underlineColorAndroid='#dddddd'
                 keyboardType='email-address'
               />
             </View>
-            <View style={{ marginTop: 15 }}>
-              <Input
-                placeholder='Password(*at least 6 characters)'
-                placeholderTextColor='#897FA6'
-                style={styles.inputStyle}
+            <View style={styles.separator} />
+
+            <View style={{ marginTop: 10, flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='lock' style={styles.iconStyle} />
+              <SignInput
+                placeholder='Password (at least 6 characters)'
                 onChangeText={this.onPasswordChange.bind(this)}
                 value={this.props.password}
                 secureTextEntry={true}
-                underlineColorAndroid='#dddddd'
               />
             </View>
+            <View style={styles.separator} />
+
+            <View style={{ marginTop: 10, flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='check-circle' style={styles.iconStyle} />
+              <SignInput
+                placeholder='Password Confirmation'
+                onChangeText={this.onPasswordConfirmChange.bind(this)}
+                value={this.props.passwordConfirm}
+                secureTextEntry={true}
+              />
+            </View>
+            <View style={styles.separator} />
+
+            <View style={{ marginTop: 10, flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='person' style={styles.iconStyle} />
+              <SignInput
+                placeholder='First Name'
+                onChangeText={this.onFirstNameChange.bind(this)}
+                value={this.props.firstName}
+              />
+            </View>
+            <View style={styles.separator} />
+
+            <View style={{ marginTop: 10, flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='location-city' style={styles.iconStyle} />
+              <SignInput
+                placeholder='School Name'
+                onChangeText={this.onSchoolChange.bind(this)}
+                value={this.props.school}
+              />
+            </View>
+            <View style={styles.separator} />
+
+            <View style={{ marginTop: 10, flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='school' style={styles.iconStyle} />
+              <SignInput
+                placeholder='Department'
+                onChangeText={this.onDepartmentChange.bind(this)}
+                value={this.props.department}
+              />
+            </View>
+            <View style={styles.separator} />
+
+            <View style={{ marginTop: 10, flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='thumb-up' style={styles.iconStyle} />
+              <SignInput
+                placeholder='Referral Code (Optional)'
+                onChangeText={this.onReferralChange.bind(this)}
+                value={this.props.referral}
+              />
+            </View>
+            <View style={styles.separator} />
+
+            <View style={{ alignItems: 'flex-end', marginTop:5 }}>
+              <TouchableOpacity
+              onPress={this.onReferralEmailCheck.bind(this)}
+              >
+                <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
+                <Text style={{ fontFamily:'Raleway', color: '#f5f5fc', fontSize:13 }}> Referral Code Check </Text>
+                <MIcon name='chevron-right' color='#f5f5fc' size={20} />
+                </View>
+              </TouchableOpacity>
+            </View>
+
 
             {this.renderSigninButton()}
           </View>
@@ -175,24 +280,34 @@ class Signup extends Component {
 }
 
 const styles = {
-  inputStyle: {
-    height: 50,
-    marginRight: 5,
-    flex: 1,
-    fontSize: 17,
-    color: '#2e2b4f',
-    paddingLeft: 10,
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd',
+    opacity:0.3,
+  },
+  iconStyle: {
+    fontSize:25,
+    color:'#f5f5fc',
+    paddingLeft:10,
+    paddingRight:20,
+    opacity:0.8
   }
 };
 
 const mapStateToProps = ({ auth }) => {
-  const { email, password } = auth;
+  const { email, password, passwordConfirm, firstName, error, loading, referral, school, department } = auth;
 
-  return { email, password };
+  return { email, password, passwordConfirm, firstName, error, loading, referral, school, department };
 };
 
 export default connect(mapStateToProps, {
   emailChanged,
   passwordChanged,
-  loginUser
+  passwordConfirmChanged,
+  firstNameChanged,
+  referralChanged,
+  schoolChanged,
+  departmentChanged,
+  loginUser,
+  referralEmailCheck
 })(Signup);

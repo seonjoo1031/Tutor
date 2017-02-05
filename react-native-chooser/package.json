@@ -1,0 +1,91 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "react-native-chooser",
+        "scope": null,
+        "escapedName": "react-native-chooser",
+        "name": "react-native-chooser",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/sungpahlee/Tutor"
+    ]
+  ],
+  "_from": "react-native-chooser@latest",
+  "_id": "react-native-chooser@1.2.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/react-native-chooser",
+  "_nodeVersion": "6.9.2",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/react-native-chooser-1.2.0.tgz_1485859914725_0.08632441121153533"
+  },
+  "_npmUser": {
+    "name": "js-media",
+    "email": "azhar.mw@gmail.com"
+  },
+  "_npmVersion": "3.10.9",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-chooser",
+    "scope": null,
+    "escapedName": "react-native-chooser",
+    "name": "react-native-chooser",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-chooser/-/react-native-chooser-1.2.0.tgz",
+  "_shasum": "52deaff86daafc7e79b189afa3384dbb33bbac4c",
+  "_shrinkwrap": null,
+  "_spec": "react-native-chooser",
+  "_where": "/Users/sungpahlee/Tutor",
+  "author": {
+    "name": "Azhar"
+  },
+  "bugs": {
+    "url": "https://github.com/gs-akhan/react-native-chooser/issues"
+  },
+  "dependencies": {},
+  "description": "Simple Cross platform SELECT tag for React-Native",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "52deaff86daafc7e79b189afa3384dbb33bbac4c",
+    "tarball": "https://registry.npmjs.org/react-native-chooser/-/react-native-chooser-1.2.0.tgz"
+  },
+  "gitHead": "fea7c86fd69ac1159a8aa0d6ee4406bd1f8e2430",
+  "homepage": "https://github.com/gs-akhan/react-native-chooser#readme",
+  "keywords": [
+    "react-native",
+    "chooser",
+    "select",
+    "picker"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "js-media",
+      "email": "azhar.mw@gmail.com"
+    }
+  ],
+  "name": "react-native-chooser",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gs-akhan/react-native-chooser.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.2.0"
+}

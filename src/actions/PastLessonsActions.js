@@ -1,11 +1,11 @@
 import { PAST_LESSONS_GET_SUCCESS, PAST_LESSONS_FETCH } from './types';
 import { urlForPostStudy } from '../components/common/ApiUrl';
 
-export const pastLessonsFetch = (email, page) => {
+export const pastLessonsFetch = (token, page) => {
   console.log('pastLessonsFetch..working');
   return (dispatch) => {
     dispatch({ type: PAST_LESSONS_FETCH });
-    urlForPostStudy(email, page)
+    urlForPostStudy(token, page)
     .then((response) => response.json())
     .then(json => { console.log(json.response); getPastLessonsSuccess(dispatch, json.response); })
     .catch((error) => {

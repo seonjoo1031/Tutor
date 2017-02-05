@@ -38,10 +38,15 @@ class RenderWebView extends Component {
         <Navibar title='Google Document' />
       );
     }
+    if (this.props.fromWhere === 'website') {
+      return (
+        <Navibar title='Ringle' />
+      );
+    }
       return (
         <Navibar title='Article' />
       );
-    
+
   }
 
 

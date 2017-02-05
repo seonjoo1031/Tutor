@@ -17,10 +17,10 @@ const MySettingButton = ({ onPress, label, content, icon }) => {
         paddingLeft: 20, paddingRight: 20, paddingTop: 10, paddingBottom: 10 }}
         >
           <View style={{flexDirection:'row'}}>
-            <MIcon name={icon} size={20} color='#897FA6' />
-            <Text style={{ paddingLeft:10, color: '#897FA6', fontFamily: 'Avenir', fontSize:13 }}>{label}</Text>
+            <MIcon name={icon} size={20} color='#7a5de8' style={{opacity:0.7}} />
+            <Text style={{ paddingLeft:10, color: '#897FA6', fontFamily: 'Raleway', fontSize:13 }}>{label}</Text>
           </View>
-            <MIcon name='chevron-right' size={20} color='#897FA6' />
+            <MIcon name='chevron-right' size={20} color='#7a5de8' style={{opacity:0.8}} />
         </View>
       </TouchableOpacity>
       <View style={separator} />

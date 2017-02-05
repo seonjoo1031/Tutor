@@ -38,6 +38,7 @@
 		4A95FD6E1E24D8F100EA5CA7 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A95FD6B1E24D8F100EA5CA7 /* FBSDKCoreKit.framework */; };
 		4A95FD6F1E24D8F100EA5CA7 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A95FD6C1E24D8F100EA5CA7 /* FBSDKLoginKit.framework */; };
 		4A95FD701E24D8F100EA5CA7 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A95FD6D1E24D8F100EA5CA7 /* FBSDKShareKit.framework */; };
+		4AE12A0F1E3AE18E00718D09 /* Raleway.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AE129F51E3AE13200718D09 /* Raleway.ttf */; };
 		544C24B3847644FAF77C560B /* libPods-Tutor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE0C12D1983FC1159327108 /* libPods-Tutor.a */; };
 		589A732E7ED7418D81C83BC8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A418044DFF44AF897A174D3 /* SystemConfiguration.framework */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -270,6 +271,7 @@
 		4A95FD6B1E24D8F100EA5CA7 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../node_modules/react-native-facebook-login/FacebookSDK/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		4A95FD6C1E24D8F100EA5CA7 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../node_modules/react-native-facebook-login/FacebookSDK/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
 		4A95FD6D1E24D8F100EA5CA7 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "../node_modules/react-native-facebook-login/FacebookSDK/FBSDKShareKit.framework"; sourceTree = "<group>"; };
+		4AE129F51E3AE13200718D09 /* Raleway.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Raleway.ttf; sourceTree = "<group>"; };
 		4B1DA8B561E84D0C9AF5DF7C /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		4BB1F629E3984C47A08D0A74 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -577,6 +579,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				4AE129F51E3AE13200718D09 /* Raleway.ttf */,
 				4A71772E1E25F6DC00A43260 /* GoogleSdk */,
 				4A95FD5A1E24D34F00EA5CA7 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* Tutor */,
@@ -949,6 +952,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A7177391E25F6DD00A43260 /* GoogleSignIn.bundle in Resources */,
+				4AE12A0F1E3AE18E00718D09 /* Raleway.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				4A1044DC1E28B3FA00F0623F /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,

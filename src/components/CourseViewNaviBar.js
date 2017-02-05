@@ -26,20 +26,25 @@ class CourseViewNaviBar extends Component {
              },
             opacity: opacity }]}
           >
-            <Text style={{ position: 'absolute', top: 29, left: 40, right: 0, fontSize: 15, color: '#7a5de8', fontFamily: 'Avenir' }} numberOfLines={1}>
-            {title}
-            </Text>
+
           </View>
           <View>
-            <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 20, backgroundColor: '#7a5de8' }}/>
-            <View style={[{ position: 'absolute', top:0, left: 5, right: 0, height: 70,
-              backgroundColor: 'transparent', paddingTop: 0, paddingLeft: 0, justifyContent: 'center' },GF.border('red')]}
+            <View style={{ height: 20, backgroundColor: '#7a5de8' }}/>
+            <View style={[{ height: 40,
+              backgroundColor: 'transparent', flexDirection:'row', alignItems:'center' },GF.border('red')]}
             >
-              <TouchableOpacity underlayColor='#dddddd' style={[GF.border('yellow')], { paddingTop: 12 }} onPress={() => Actions.pop()}>
+
+
+              <TouchableOpacity underlayColor='#dddddd' style={[GF.border('yellow')], { paddingLeft: 8, paddingRight: 8 }} onPress={() => Actions.pop()}>
                 <View style={{opacity:opacity}}>
                 <MIcon name='chevron-left' size={24} color='#7a5de8' />
                 </View>
               </TouchableOpacity>
+
+              <Text style={{ fontSize: 15, color: '#7a5de8', fontFamily: 'Raleway', opacity:opacity }} numberOfLines={1}>
+              {title}
+              </Text>
+
             </View>
           </View>
         </View>

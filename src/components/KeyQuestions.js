@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, ListView, Image } from 'react-native';
+import { Text, View, ScrollView, ListView, Image, Dimensions } from 'react-native';
 import Navibar from './common/Navibar';
 
 const GF = require('./GF');
+
+const width = Dimensions.get('window').width;
+
 
 
 class KeyQuestions extends Component {
@@ -35,16 +38,16 @@ class KeyQuestions extends Component {
             <View style={[GF.border('yellow')]}>
               <View style={[{ marginTop: 10, flexDirection: 'row' }, GF.border('red')]}>
                 <View>
-                  <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#7a5de8', paddingLeft: 3, paddingRight:3}}>{rowData.question_number + ". "}</Text>
+                  <Text style={{ fontFamily:'Raleway', fontWeight: 'bold', fontSize: 15, color: '#7a5de8', paddingLeft: 3, paddingRight:3}}>{rowData.question_number + ". "}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={[{ paddingRight: 10, color: '#2e2b4f', fontSize: 15 }]}>
+                  <Text style={[{ fontFamily:'Raleway', paddingRight: 10, color: '#2e2b4f', fontSize: 15 }]}>
                     {rowData.content_main}
                   </Text>
                 </View>
               </View>
               <View style={{ marginLeft: 25 }}>
-                <Text style={[{ fontWeight: 'bold', paddingTop: 5, color: '#897FA6' }]}>
+                <Text style={[{ fontFamily:'Raleway', fontWeight: 'bold', paddingTop: 5, color: '#897FA6' }]}>
                   {rowData.content_sub}
                 </Text>
               </View>
@@ -65,8 +68,8 @@ class KeyQuestions extends Component {
     if (this.dataSource.rowIdentities[0].length === 0) {
       return (
         <View style={{ alignItems: 'center', marginTop: 100 }}>
-          <Text style={{ color: '#2e2b4f', fontSize: 20 }}>이 교재에는 KeyQuestions이{'\n'}</Text>
-          <Text style={{ color: '#2e2b4f', fontSize: 20 }}>제공되지 않습니다.</Text>
+
+          <Text style={{ fontFamily:'Raleway', color: '#2e2b4f', fontSize: 15 }}>No key questions provided for this course.</Text>
         </View>
       );
     }
@@ -82,10 +85,10 @@ class KeyQuestions extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#f9f9f4' }}>
+      <View style={{ flex:1, backgroundColor: '#f9f9f4' }}>
         <Navibar title='Key Questions' />
         <ScrollView style={{ flex: 1 }}>
-          <View style={{ padding: 20, flex: 1 }}>
+          <View style={{ padding: 20 }}>
             {this.renderKeyQuestion()}
           </View>
         </ScrollView>
@@ -96,11 +99,9 @@ class KeyQuestions extends Component {
 
 const styles = {
   imageRow: {
-    flex: 1,
     resizeMode: 'contain',
     backgroundColor: 'rgba(0,0,0,0)',
-    width: null,
-    height: 200
+    height:200
   },
   answerButtonImageStyle: {
     width: 25,

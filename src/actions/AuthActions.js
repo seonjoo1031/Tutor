@@ -1,29 +1,31 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
-  // PASSWORD_CONFIRM_CHANGED,
-  // NAME_CHANGED,
-  // FIRST_NAME_CHANGED,
-  // PHONE_NUMBER_CHANGED,
+  PASSWORD_CONFIRM_CHANGED,
+  FIRST_NAME_CHANGED,
   LOGIN_USER,
-  // PROMOCODE_CHANGED,
-  // PROMOCODE_UPDATED,
   // FETCH_RINGLE_EMAIL_CHECKERS,
   // UPDATE_AND_FETCH_RINGLE_EMAIL_CHECKERS,
-  // JOB_CHANGED,
-  // REFERRAL_CHANGED,
+  REFERRAL_CHANGED,
+  SCHOOL_CHANGED,
+  DEPARTMENT_CHANGED,
   OTHER_LOGIN_USER,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  OTHER_LOGIN_USER_SIGN_UP
+  OTHER_LOGIN_USER_SIGN_UP,
+
+  REFERRAL_EMAIL_CHECK,
+  GET_REFERRAL_MESSAGE
 } from './types';
 
 import {
   ringle_auth_signInWithEmailAndPassword,
-  // ringle_email_toggle,
+  push_toggle,
+  email_toggle,
   urlForFBAndGGLogin,
+  urlForReferralEmailCheck
   // urlRingleEmailFetch
 } from '../components/common/ApiUrl';
 
@@ -37,7 +39,7 @@ export const loginUser = (email, password, loginType) => {
       .then((response) => response.json())
       .then(json => handleResponse(dispatch, json.response, loginType))
       .catch((error) => {
-        alert('정보가 잘못되었거나 인터넷이 불안정합니다. 다시 로그인 해주세요.');
+        alert('Your information is incorrent or internet communicaton is unstable. Please login again. ');
         console.log(error);
         //그다음 state를 항상 다시 꺼야 함..
         //LOGIN_USER_FAIL
@@ -63,7 +65,14 @@ export const otherLoginUser = (email, loginType) => {
 
 const otherLoginUserSignUp = (dispatch, email) => {
   dispatch({ type: OTHER_LOGIN_USER_SIGN_UP });
-  alert('Ringle에 오신 것을 환영합니다. 추가 정보를 입력해 주세요!');
+  Alert.alert(
+    'Welcome!', 'Please enter more information.',
+    [
+      { text: 'OK', onPress: () => { console.log('more info'); } },
+    ]
+  );
+
+  
   Actions.signup({ existing_email: email });
   // AsyncStorage.setItem('signin', 'off');
   // AsyncStorage.multiRemove(['login_channel', 'email', 'password', 'signin']);
@@ -124,4 +133,103 @@ export const passwordChanged = (text) => {
     type: PASSWORD_CHANGED,
     payload: text
   };
+};
+
+export const passwordConfirmChanged = (text) => {
+  return {
+    type: PASSWORD_CONFIRM_CHANGED,
+    payload: text
+  };
+};
+
+export const firstNameChanged = (text) => {
+  return {
+    type: FIRST_NAME_CHANGED,
+    payload: text
+  };
+};
+
+export const referralChanged = (text) => {
+  return {
+    type: REFERRAL_CHANGED,
+    payload: text
+  };
+};
+
+export const schoolChanged = (text) => {
+  return {
+    type: SCHOOL_CHANGED,
+    payload: text
+  };
+};
+
+export const departmentChanged = (text) => {
+  return {
+    type: DEPARTMENT_CHANGED,
+    payload: text
+  };
+};
+
+export const pushToggle = (boolean, token) => {
+  return (dispatch) => {
+    //여기서 누른 것을 일단 들어가서 고쳐주는게 맞고, 그다음 리스판스...
+    fetch(push_toggle(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        boolean: boolean,
+        token: token,
+      })
+    })
+    .then(response => response.json())
+    .then(json => console.log(json.response))
+    .catch(error => console.log(error))
+    .done();
+  };
+};
+
+export const emailToggle = (boolean, token) => {
+  return (dispatch) => {
+    //여기서 누른 것을 일단 들어가서 고쳐주는게 맞고, 그다음 리스판스...
+    fetch(email_toggle(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        boolean: boolean,
+        token: token,
+      })
+    })
+    .then(response => response.json())
+    .then(json => console.log(json.response))
+    .catch(error => console.log(error))
+    .done();
+  };
+};
+
+export const referralEmailCheck = (referral) => {
+  return (dispatch) => {
+    dispatch({ type: REFERRAL_EMAIL_CHECK });
+    urlForReferralEmailCheck(referral)
+      .then((response) => response.json())
+      .then(json => handleReferralMessage(dispatch, json.response))
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+const handleReferralMessage = (dispatch, response) => {
+  dispatch({ type: GET_REFERRAL_MESSAGE });
+  Alert.alert(
+    'Message', response.message,
+    [
+      { text: 'OK', onPress: () => { console.log(response.message); } },
+    ]
+  );
 };

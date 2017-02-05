@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, Image, Alert,
-  TouchableHighlight, Linking, Platform, Slider, TouchableOpacity } from 'react-native';
+  Linking, Platform, Slider, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
@@ -68,8 +68,8 @@ class CourseView extends Component {
       console.log('nothing to open');
     } else {
       Alert.alert(
-        '교재 다운받기',
-        '다운 받으시겠습니까?',
+        'Download Ringle Book',
+        'Do you want to download it?',
         [
           { text: 'OK', onPress: () => {
             Linking.canOpenURL(url).then(supported => {
@@ -209,7 +209,7 @@ class CourseView extends Component {
 
   renderTitle() {
     return (
-        <Text style={[GF.border('red'), { fontSize: 20, color: '#2e2b4f', fontFamily: 'Avenir-Heavy' }]}>
+        <Text style={[GF.border('red'), { fontSize: 20, color: '#2e2b4f', fontFamily: 'Raleway' }]}>
           {this.props.upcomingLesson.course_title}
         </Text>
     );
@@ -253,7 +253,7 @@ class CourseView extends Component {
         <View style={[{ position: 'absolute', top:0, left: 0, right: 0, height: 60,
           backgroundColor: 'transparent', paddingTop: 0, paddingLeft: 0, justifyContent: 'center' },GF.border('red')]}
         >
-          <TouchableOpacity underlayColor='transparent' style={[GF.border('yellow'), { paddingTop: 20, paddingLeft: 8 }]} onPress={() => Actions.pop()}>
+          <TouchableOpacity underlayColor='transparent' style={[GF.border('blue'), { paddingTop: 20, paddingLeft: 8 }]} onPress={() => Actions.pop()}>
             <MIcon name='chevron-left' size={24} color='#7a5de8' />
           </TouchableOpacity>
         </View>

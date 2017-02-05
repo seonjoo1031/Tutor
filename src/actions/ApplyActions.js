@@ -1,19 +1,59 @@
 import {
   UPDATE_APPLY,
-  APPLY_SUCCESS
+  UPDATE_APPLY_SUCCESS,
+  APPLY_FETCH,
+  GET_APPLY_SUCCESS
 } from './types';
 
-export const updateApply = (appliedArray, token) => {
+import { urlForUpdateApply, urlForApply } from '../components/common/ApiUrl';
+
+export const applyFetch = (email) => {
   return (dispatch) => {
-    dispatch({ type: UPDATE_APPLY });
-    console.log(appliedArray);
-    console.log(token);
+    dispatch({ type: APPLY_FETCH });
+    urlForApply(email)
+    .then((response) => response.json())
+    .then(json => getApplySuccess(dispatch, json.response))
+    .catch((error) => {
+      console.log(error);
+    });
   };
 };
 
-export const applySuccess = (dispatch, response) => {
+export const getApplySuccess = (dispatch, response) => {
   dispatch({
-    type: APPLY_SUCCESS,
-    updatedApply: response.array
+    type: GET_APPLY_SUCCESS,
+    weekPanel: response.week_panel
+  });
+};
+
+export const updateApply = (applyObj, token) => {
+  return (dispatch) => {
+    dispatch({ type: UPDATE_APPLY });
+    console.log(applyObj);
+    console.log(token);
+    fetch(urlForUpdateApply(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: token,
+        apply_objs: applyObj
+      })
+    })
+    .then((response) => response.json())
+    .then(json => updateApplySuccess(dispatch, json.response))
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+};
+
+export const updateApplySuccess = (dispatch, response) => {
+  // console.log('update apply', response);
+  dispatch({
+    type: UPDATE_APPLY_SUCCESS,
+    weekPanel: response.week_panel
   });
 };

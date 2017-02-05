@@ -7,6 +7,8 @@ export * from './PreparationOptionButton';
 export * from './MySettingCard';
 export * from './MySettingButton';
 export * from './LoginButton';
+export * from './OtherLoginButton';
+export * from './SignInput';
 export * from './Input';
 export * from './ChatBox';
 export * from './CardSection';
