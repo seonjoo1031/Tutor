@@ -44,6 +44,7 @@ class Select extends Component {
 			optionListStyle, transparent, animationType,
 			indicator, indicatorColor, indicatorSize, indicatorStyle, category} = this.props;
 
+			console.log(defaultText);
 		return (
 			<View style = {[styles.selectBox, style]}>
 
@@ -52,7 +53,7 @@ class Select extends Component {
 
 					>
 					<View style={styles.selectBoxContent}>
-						<Text style = {textStyle}>{this.state.defaultText+' ('+category+')'}</Text>
+						<Text style = {textStyle}>{this.props.defaultText+' ('+category+')'}</Text>
 						<Indicator direction={indicator} color={indicatorColor} size={indicatorSize} style={indicatorStyle} />
 
 					</View>

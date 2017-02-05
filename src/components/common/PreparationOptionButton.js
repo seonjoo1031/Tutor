@@ -5,7 +5,7 @@ const width = Dimensions.get('window').width;
 
 const PreparationOptionButton = ({ onPress, type, buttonText }) => {
   return (
-    <TouchableHighlight style={{ borderWidth: 1, borderRadius:10, borderColor: '#7a5de8',
+    <TouchableHighlight style={{ borderWidth: 1, borderRadius:15, borderColor: '#7a5de8',
     width: width*0.33, height: 35, marginRight: 15,
     justifyContent: 'center'
 

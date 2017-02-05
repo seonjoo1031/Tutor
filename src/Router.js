@@ -19,6 +19,7 @@ import Signup from './components/Signup';
 import Splash from './components/Splash';
 import LiveLesson from './components/LiveLesson';
 import Compensation from './components/Compensation';
+import Referral from './components/Referral';
 
 
 const TabIcon = ({ selected, title }) => {
@@ -57,7 +58,7 @@ const RouterComponent = () => {
       <Scene key="renderWebView" component={RenderWebView} title='Web' />
       <Scene key="liveLesson" component={LiveLesson} hideNavBar={true} />
       <Scene key="compensation" component={Compensation} hideNavBar={true} />
-
+      <Scene key="referral" component={Referral} hideNavBar={true} />
 
     </Router>
   );

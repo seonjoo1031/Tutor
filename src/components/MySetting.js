@@ -172,6 +172,7 @@ class MySetting extends Component {
             <MySettingCard icon='location-on' label="Timezone" content={timezone}/>
             <MySettingCard icon='info' label="Update Info" content='v.1.0.0'/>
             <MySettingButton onPress={()=>Actions.compensation()} icon='attach-money' label="My Compensation" content=""/>
+            <MySettingButton onPress={()=>Actions.referral()} icon='group-add' label="Referral Program" content=""/>
             <MySettingButton onPress={this.onPressedChat.bind(this)} icon='help-outline' label="Contact us" content=""/>
             <MySettingButton onPress={this.onPressedLogoutIcon.bind(this)} icon='exit-to-app' label="Logout" content=""/>
 

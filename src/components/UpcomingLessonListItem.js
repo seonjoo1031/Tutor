@@ -166,7 +166,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#7a5de8',
-    borderRadius: 10,
+    borderRadius: 15,
     height: 35,
     width: width*0.33,
     marginLeft: 15

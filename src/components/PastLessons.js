@@ -5,6 +5,8 @@ import { pastLessonsFetch } from '../actions';
 import PastLessonListItem from './PastLessonListItem';
 import { Spinner } from './common';
 import TabNaviBar from './common/TabNaviBar';
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+
 
 const GF = require('./GF');
 
@@ -130,14 +132,14 @@ class PastLessons extends Component {
       <View style={pastLessonsContainerStyle}>
         <TabNaviBar title='Past Lessons' />
         <ScrollView style={[GF.border('red'), { flex: 1, marginTop: 20 }]}>
-          <View style={[GF.border('black'), { alignItems: 'center', paddingBottom: 10 }]}>
+          <View style={[GF.border('black'), { alignItems: 'center', paddingBottom: 5 }]}>
             <Text style={{ color: '#2e2b4f', fontFamily: 'Raleway', fontSize:15}}>Your Total Lessons</Text>
 
             <Text style={{ fontSize: 25, color: '#7a5de8', fontFamily: 'Raleway', paddingTop:5 }}>{this.props.pastLessons.total_class_num}</Text>
           </View>
 
-          <View style={{alignItems:'center', marginBottom:10}}>
-            <View style={styles.separator} />
+          <View style={{alignItems:'center'}}>
+            <MIcon name='more-horiz' size={30} color='#7a5de8' style={{opacity:0.4}} />
           </View>
 
           <View>
@@ -188,7 +190,7 @@ const styles = {
     height: 1,
     backgroundColor: '#7a5de8',
     opacity:0.5,
-    width:width*0.15
+    width:width*0.3
   }
 };
 

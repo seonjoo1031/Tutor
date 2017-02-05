@@ -296,20 +296,20 @@ class LiveLesson extends Component {
       return (
       <View style={{ height: 300, backgroundColor: '#f9f9f4' }}>
         <View style={[{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }]}>
-          <Text>튜터와 대화</Text>
+          <Text style={{fontFamily:'Raleway', fontSize:14, marginLeft:5, marginBottom:10, color:'#2e2b4f'}}>To Student</Text>
           <View style={[{ flexDirection: 'row' }]}>
             <Input
-              placeholder="메시지를 입력하세요."
+              placeholder="Enter your message."
               onChangeText={this.onChangeText.bind(this)}
               value={this.state.text}
               autoCorrect={false}
               maxLength={255}
             />
             <TouchableOpacity
-              style={{ backgroundColor: '#f9f9f4', width: 50, height: 50, alignItems: 'center', justifyContent: 'center', borderColor: '#7a5de8', borderWidth: 1 }}
+              style={{ backgroundColor: '#f9f9f4', width: 50, height: 35, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(122,93,232,0.8)', borderRadius:8}}
               underlayColor='#CCCCF2'
               onPress={() => this.sendToCounterPart()} >
-              <Text style={{ color: '#7a5de8', fontWeight: 'bold' }}>전송</Text>
+              <Text style={{ fontFamily:'Raleway', fontSize:14, color: '#f5f5fc'}}>Send</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -339,20 +339,19 @@ class LiveLesson extends Component {
       return(
       <View style={{ height: 300, backgroundColor: '#f9f9f4' }}>
         <View style={[{ paddingLeft: 10, paddingRight: 10, marginBottom: 0 }, GF.border('red')]}>
-          <Text>Admin문의</Text>
+          <Text style={{fontFamily:'Raleway', fontSize:14, marginLeft:5, marginBottom:10, color:'#2e2b4f'}}>To Admin</Text>
           <View style={[{ flexDirection: 'row' }]}>
             <Input
-              placeholder="메시지를 입력하세요."
+              placeholder="Enter your message."
               onChangeText={this.onChangeText.bind(this)}
               value={this.state.text}
               autoCorrect={false}
               maxLength={255}
             />
             <TouchableOpacity
-              style={{ backgroundColor: '#f9f9f4', width: 50, height: 50, alignItems: 'center', justifyContent: 'center', borderColor: '#7a5de8', borderWidth: 1 }}
-              underlayColor='#CCCCF2'
+              style={{ backgroundColor: '#f9f9f4', width: 50, height: 35, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(122,93,232,0.8)', borderRadius:8}}
               onPress={() => this.sendToAdmin()} >
-              <Text style={{ color: '#7a5de8', fontWeight: 'bold' }}>전송</Text>
+              <Text style={{ fontFamily:'Raleway', fontSize:14, color: '#f5f5fc'}}>Send</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -424,8 +423,8 @@ class LiveLesson extends Component {
       }
     } else {
       return (
-        <View>
-          <Text>레슨에 입장 중입니다.</Text>
+        <View style={{ marginTop: 50, alignItems:'center' }}>
+          <Text style={{fontFamily:'Raleway', fontSize:14, color:'#897FA6'}}>Entering class..</Text>
         </View>
       );
     }
@@ -444,7 +443,7 @@ class LiveLesson extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#f9f9f4' }}>
-        <Navibar title='강의 듣기' />
+        <Navibar title='Live Lesson' />
           {this.renderOpenTok()}
 
         <ScrollView
@@ -454,32 +453,34 @@ class LiveLesson extends Component {
         </ScrollView>
         {this.renderChatWithAdmin()}
         {this.renderChatWithCounterPart()}
-        <View style={{position:'absolute', bottom:5, left:20, backgroundColor: '#f9f9f4' }}>
+        <View style={{position:'absolute', bottom:20, left:25, backgroundColor: '#f9f9f4' }}>
           <TouchableHighlight
             onPress={() => {
               this.setState({
                 is_admin_talk_enabled: !this.state.is_admin_talk_enabled,
                 is_counterpart_talk_enabled: false,
+                text:''
               })
             }}
             underlayColor='#CCCCF2'
             style={chatStyle}
           >
-            <Text style={{ color: '#7a5de8', }}>어드민과 대화 하기</Text>
+            <Text style={{ color: '#f5f5fc', fontFamily:'Raleway', fontSize:14 }}>Chat with Admin</Text>
           </TouchableHighlight>
         </View>
-        <View style={{position:'absolute', bottom:5, right:20 }}>
+        <View style={{position:'absolute', bottom:20, right:25 }}>
           <TouchableHighlight
             onPress={() => {
               this.setState({
                 is_counterpart_talk_enabled: !this.state.is_counterpart_talk_enabled,
                 is_admin_talk_enabled: false,
+                text:''
               })
           }}
             underlayColor='#CCCCF2'
             style={chatStyle}
           >
-            <Text style={{ color: '#7a5de8', }}>튜터와 대화하기</Text>
+            <Text style={{ color: '#f5f5fc', fontFamily:'Raleway', fontSize:14 }}>Chat with Student</Text>
           </TouchableHighlight>
         </View>
 
@@ -497,11 +498,13 @@ var styles = {
     alignSelf: 'stretch',
   },
   chatStyle: {
-    borderColor: '#442dc9',
-    borderWidth: 1,
-    padding: 5,
-    backgroundColor:'#f9f9f4',
-    borderRadius: 0,
+
+    padding: 8,
+
+    backgroundColor: 'rgba(122,93,232,0.8)',
+    borderRadius: 20,
+    width:150,
+    alignItems:'center'
   },
 }
 

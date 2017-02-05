@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 
 import {Select, Option} from '../../react-native-chooser';
-import { upcomingLessonsFetch, compensationFetch } from '../actions';
+import { compensationFetch, compensationFirstFetch } from '../actions';
 import { Spinner } from './common';
 import CompensationList from './CompensationList';
 import NaviBar from './common/Navibar';
@@ -19,18 +19,28 @@ var weekArr=[];
 
 class Compensation extends Component {
 
-  state={class:0, totalFee:0, year:'2017', week:'4'} //나중에 바꿔야 함
+  state={class:0, totalFee:0, year:'', week:''} //나중에 바꿔야 함
 
   componentWillMount() {
-    this.props.compensationFetch(this.props.user.token, this.state.year, this.state.week);
+    this.props.compensationFirstFetch(this.props.user.token);
     this.createDataSource(this.props);
     this.pushArray();
+
+    console.log(this.props);
+
 
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    console.log('next props');
+    if(nextProps.compensation.selected_year!==undefined){
+      this.setState({
+        year:nextProps.compensation.selected_year.toString(),
+        week:nextProps.compensation.selected_week.toString()
+      });
+    }
     this.createDataSource(nextProps);
+
   }
 
   createDataSource({ compensationListings }) {
@@ -154,7 +164,10 @@ class Compensation extends Component {
 
   render() {
     console.log(this.state);
-    console.log(weekArr.length);
+    var yy=this.state.year;
+    var ww=this.state.week;
+  
+
 
     return (
       <View style={{ flex: 1, backgroundColor: '#f9f9f4' }}>
@@ -163,7 +176,7 @@ class Compensation extends Component {
         <View style={{flexDirection:'row', justifyContent:'center'}}>
           <Select
               onSelect = {this.onYearChange.bind(this)}
-              defaultText  = {this.state.year}
+              defaultText  = {yy}
               category='Year'
               style = {{borderWidth : 1, borderColor : "#e3decf", backgroundColor:'white', width:width*0.45, margin:10}}
               textStyle = {styles.textStyle}
@@ -180,7 +193,7 @@ class Compensation extends Component {
 
           <Select
               onSelect = {this.onWeekChange.bind(this)}
-              defaultText  = {this.state.week}
+              defaultText  = {ww}
               category='Week'
               style = {{borderWidth : 1, borderColor : "#e3decf", backgroundColor:'white', width:width*0.45, margin:10}}
               textStyle = {styles.textStyle}
@@ -229,13 +242,15 @@ const styles = {
 
 const mapStateToProps = state => {
   const { user } = state.auth;
-  const { compensation, compensationListings, loading } = state.compensation;
+  const { year, week, compensation, compensationListings, loading } = state.compensation;
   return {
     user: user,
     compensation: compensation,
     compensationListings: compensationListings,
-    loading: loading
+    loading: loading,
+    year: year,
+    week: week
   };
 };
 
-export default connect(mapStateToProps, { compensationFetch, upcomingLessonsFetch })(Compensation);
+export default connect(mapStateToProps, { compensationFetch, compensationFirstFetch })(Compensation);

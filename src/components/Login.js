@@ -50,6 +50,7 @@ class Login extends Component {
         fetch(api)
         .then((response) => response.json())
         .then((res) => {
+          console.log('facebook login', res);
           this.handleResponseFB(res)
         })
         .catch((err) => console.log('error occurred', err.message))

@@ -26,15 +26,17 @@ const Input = ({ value, onChangeText, placeholder, secureTextEntry, maxLength, k
 
 const styles = {
   inputStyleIOS: {
-    height: 50,
+    height: 35,
     marginRight: 5,
     flex: 1,
-    fontSize: 17,
+    fontSize: 14,
     color: '#2e2b4f',
+    backgroundColor:'white',
     paddingLeft: 10,
     borderWidth:1,
-    borderColor:'#2e2b4f',
+    borderColor:'#e3decf',
     borderRadius:8,
+    fontFamily:'Raleway',
   },
   inputStyleAndroid: {
     height: 50,
