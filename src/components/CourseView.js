@@ -44,12 +44,44 @@ class CourseView extends Component {
   renderFeedback() {
     if(this.props.pastLesson.feedback_exist){
       return(
-      <Text style={{fontFamily: 'Raleway', color:'#7a5de8'}}>Done</Text>
+      <Text style={{fontFamily: 'Raleway', color:'#7a5de8', fontSize:14}}>Done</Text>
     );
     }
     return(
-      <Text style={{fontFamily: 'Raleway', color:'#7a5de8'}}>Need to wrtie</Text>
+      <Text style={{fontFamily: 'Raleway', color:'#7a5de8', fontSize:14}}>Need to wrtie</Text>
     );
+  }
+
+  renderDocs() {
+    if(this.props.pastLesson.web_view_link==null) {
+      return (
+        <View style={styles.rowStyle}>
+          <EvilIcon name='external-link' style={styles.iconStyle} />
+          <View style={styles.nameStyle}>
+          <Text style={{fontFamily: 'Raleway', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>GOOGLE DOCS</Text>
+          </View>
+          <View style={{paddingLeft:10}}>
+            <Text style={{fontFamily: 'Raleway', color:'#2e2b4f', fontSize:14}}>Not provided</Text>
+          </View>
+        </View>
+      )
+    }
+    else{
+      return (
+        <TouchableHighlight
+        onPress={() => Actions.renderWebView({ url: this.props.pastLesson.web_view_link, fromWhere: 'googleDocs' })}
+        underlayColor='#CCCCF2'
+        >
+          <View style={[styles.rowStyle, {width:300}]}>
+            <EvilIcon name='external-link' style={styles.iconStyle} />
+            <View style={{justifyContent:'space-between', flexDirection:'row', flex:1}}>
+            <Text style={{fontFamily: 'Raleway', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>GOOGLE DOCS</Text>
+            <EvilIcon name='chevron-right' style={{fontSize: 24, color: '#7a5de8'}} />
+            </View>
+          </View>
+        </TouchableHighlight>
+      )
+    }
   }
 
   renderScore() {
@@ -71,7 +103,7 @@ class CourseView extends Component {
             <Text style={{fontFamily: 'Raleway', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>STUDENT</Text>
             </View>
             <View style={{paddingLeft:10}}>
-              <Text style={{fontFamily: 'Raleway', color:'#2e2b4f'}}>{this.props.pastLesson.student_first_name} {this.props.pastLesson.student_last_name} </Text>
+              <Text style={{fontFamily: 'Raleway', color:'#2e2b4f', fontSize:14}}>{this.props.pastLesson.student_first_name} {this.props.pastLesson.student_last_name} </Text>
             </View>
           </View>
           <View style={styles.separator} />
@@ -109,18 +141,7 @@ class CourseView extends Component {
           </View>
           <View style={styles.separator} />
 
-          <TouchableHighlight
-          onPress={() => Actions.renderWebView({ url: this.props.pastLesson.web_view_link, fromWhere: 'googleDocs' })}
-          underlayColor='#CCCCF2'
-          >
-            <View style={[styles.rowStyle, {width:300}]}>
-              <EvilIcon name='external-link' style={styles.iconStyle} />
-              <View style={{justifyContent:'space-between', flexDirection:'row', flex:1}}>
-              <Text style={{fontFamily: 'Raleway', color:'#2e2b4f', fontSize:12, letterSpacing:1}}>GOOGLE DOCS</Text>
-              <EvilIcon name='chevron-right' style={{fontSize: 24, color: '#7a5de8'}} />
-              </View>
-            </View>
-          </TouchableHighlight>
+          {this.renderDocs()}
 
         </View>
       </View>
@@ -170,7 +191,7 @@ const styles = {
     paddingRight: 7
   },
   nameStyle: {
-    width: 100,
+    width: 120,
 
   },
   textStyle: {

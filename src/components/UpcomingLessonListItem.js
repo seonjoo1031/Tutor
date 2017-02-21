@@ -41,6 +41,7 @@ class UpcomingLessonListItem extends Component {
 	}
 
   renderModal() {
+    console.log(this.props.upcomingLesson);
 
     const { first_name, last_name, timezone, email } = this.props.upcomingLesson.student;
 
@@ -97,6 +98,9 @@ class UpcomingLessonListItem extends Component {
   }
 
   render() {
+    if(this.props.upcomingLesson.student==null){
+      return <View/>
+    }
     const { thumnail, start_time_short, course_title } = this.props.upcomingLesson;
     const { thumb, date, titleTextStyle, separator, textStyle, buttonStyle } = styles;
     return (

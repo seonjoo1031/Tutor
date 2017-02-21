@@ -80,7 +80,9 @@ class CourseView extends Component {
             }
           }).catch(err => console.error('An error occurred', err));
         } },
-          { text: 'CANCEL', onPress: () => console.log('download cancel')}
+        { text: 'CANCEL', onPress: () => console.log('download cancel')}
+
+
         ]
       );
     }

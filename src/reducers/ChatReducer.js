@@ -16,7 +16,6 @@ export default (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
     case CHAT_INSERTED:
-      console.log('chat inserted');
       return state;
     case APPEND_MESSAGE:
       console.log('action payload append message..');
@@ -26,7 +25,7 @@ export default (state = INITIAL_STATE, action) => {
       console.log('action payload append message..');
       console.log(action.payload);
       return { ...state, chatLogCounterPart: chatLogCounterPart.concat(action.payload) };
-    
+
     default:
       return state;
   }

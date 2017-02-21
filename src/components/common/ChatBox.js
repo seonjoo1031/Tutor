@@ -9,18 +9,17 @@ const ChatBox = ({ rowData, email }) => {
     return(
       <TouchableHighlight underlayColor='#dddddd'>
         <View style={{marginBottom:10, alignItems:'flex-start'}}>
-          <Text style={{color:'#28b496'}}>RINGLE</Text>
           <View style={chatbox_admin}>
-            <Text style={{fontSize:12,color:'black'}}>
-              {rowData.sender_first_name}
+            <Text style={{fontSize:14, fontFamily:'Raleway', color:'#7a5de8'}}>
+              Ringle
             </Text>
-            <View style={{padding:10}}>
-              <Text style={{fontSize:14,color:'black'}}>
+            <View style={{padding:5, paddingLeft:15}}>
+              <Text style={{fontSize:14,fontFamily:'Raleway', color:'#2e2b4f'}}>
                 {rowData.text}
               </Text>
             </View>
             <View style={{alignItems:'flex-end'}}>
-              <Text style={{fontSize:10}}>{rowData.date}</Text>
+              <Text style={{fontSize:10,fontFamily:'Raleway', color:'#2e2b4f'}}>{rowData.date}</Text>
             </View>
           </View>
         </View>
@@ -31,16 +30,16 @@ const ChatBox = ({ rowData, email }) => {
       <TouchableHighlight underlayColor='#dddddd'>
         <View style={{marginBottom:10, alignItems:'flex-end'}}>
           <View style={chatbox_student}>
-            <Text style={{fontSize:12,color:'white'}}>
+            <Text style={{fontSize:12, fontFamily:'Raleway', color:'#2e2b4f'}}>
               {rowData.sender_first_name}
               </Text>
-            <View style={{padding:10}}>
-              <Text style={{fontSize:14,color:'white'}}>
+            <View style={{padding:5, paddingLeft:15}}>
+              <Text style={{fontSize:14,fontFamily:'Raleway', color:'#2e2b4f'}}>
                 {rowData.text}
               </Text>
             </View>
             <View style={{alignItems:'flex-end'}}>
-              <Text style={{fontSize:10}}>{rowData.date}</Text>
+              <Text style={{fontSize:10,fontFamily:'Raleway', color:'#2e2b4f'}}>{rowData.date}</Text>
             </View>
           </View>
         </View>
@@ -54,20 +53,22 @@ const ChatBox = ({ rowData, email }) => {
 var styles = StyleSheet.create({
   chatbox_student: {
     width:200,
-    backgroundColor:'#7a5de8',
+    backgroundColor:'rgba(122,93,232,0.2)',
+    borderWidth: 1,
+    borderColor:'#e3decf',
     borderRadius: 8,
-    borderWidth: 2,
-    borderColor:'#7a5de8',
-    marginBottom:5
+    marginBottom:5,
+    padding:5
   },
 
   chatbox_admin: {
     width:200,
-    backgroundColor:'#CCCCF2',
+    backgroundColor:'rgba(255,255,255,0.8)',
+    borderWidth: 1,
+    borderColor:'#e3decf',
     borderRadius: 8,
-    borderWidth: 2,
-    borderColor:'#CCCCF2',
-    marginBottom:5
+    marginBottom:5,
+    padding:5
   }
 
 });

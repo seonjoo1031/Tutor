@@ -132,7 +132,7 @@ class Apply extends Component {
           <TouchableOpacity
           onPress={()=>this.onDecline(this.state.apply_array)}
           >
-            <MIcon name='clear' size={20} color='#897FA6' />
+            <MIcon name='clear' size={24} color='#897FA6' />
           </TouchableOpacity>
         </View>
 
@@ -223,7 +223,7 @@ class Apply extends Component {
       },
       currentDayCircle: {
       backgroundColor: '#7a5de8',
-    },
+      },
     }
 
     for (i = 0; i <= 6; i++){

@@ -4,6 +4,7 @@ import { FBLoginManager } from 'react-native-facebook-login';
 import { GoogleSignin } from 'react-native-google-signin';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 
@@ -143,6 +144,7 @@ class Login extends Component {
 
         {this.renderError()}
 
+
         <View style={{flexDirection:'row', width:width-60, alignItems:'center'}}>
           <MIcon name='email' style={styles.iconStyle} />
           <SignInput
@@ -154,7 +156,6 @@ class Login extends Component {
         </View>
 
         <View style={styles.separator} />
-
 
         <View style={{flexDirection:'row', width:width-60, alignItems:'center', marginTop:10}}>
           <MIcon name='lock' style={styles.iconStyle} />

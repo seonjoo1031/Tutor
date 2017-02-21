@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Pusher from 'pusher-js/react-native';
 import KeepAwake from 'react-native-keep-awake';
 import { Actions } from 'react-native-router-flux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import { ChatBox, Input } from './common';
 import Navibar from './common/Navibar';
 import { appendMessage, appendMessageCounterPart, sendToAdmin, sendToCounterPart } from '../actions';
@@ -14,6 +16,9 @@ const GF = require('./GF');
 
 var pusher = new Pusher('6f4e2acaf256ab429686');
 let handle = 0;
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 
 class LiveLesson extends Component {
@@ -30,6 +35,8 @@ class LiveLesson extends Component {
       is_admin_talk_enabled: false,
       is_counterpart_talk_enabled: false,
       device_emit: 0,
+      listHeight: 0,
+      scrollViewHeight: 0
     };
 
     const { lessonId } = this.props;
@@ -88,7 +95,6 @@ class LiveLesson extends Component {
 
 
     console.log('subscribing to presence-allchannel');
-    console.log(pusher);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -96,6 +102,7 @@ class LiveLesson extends Component {
   }
 
   componentDidMount() {
+
     if (Platform.OS === 'android') {
        handle = setInterval(() => {
         console.log('0--0--0--0--0--0--0--0--0--0--0--');
@@ -104,6 +111,10 @@ class LiveLesson extends Component {
         });
       }, 3000);
     }
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
   }
 
   componentWillUnmount() {
@@ -122,18 +133,18 @@ class LiveLesson extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
-    console.log('is chatlogcounterpart being updated?');
-    console.log(chatLogCounterPart);
+    console.log('chatLog', chatLog);
     this.dataSource = ds.cloneWithRows(chatLog);
-    this.dataSourceCounterPart = ds.cloneWithRows(chatLogCounterPart);
   }
 
-  function_test(h, device_height) {
-    this.refs.scrollView.scrollTo({ y: h, animated: true });
-  }
+  scrollToBottom(){
+    const bottomOfList = this.state.listHeight - this.state.scrollViewHeight
+    console.log('scrollToBottom', this.scrollView);
 
-  function_testCounterPart(h, device_height) {
-    this.refs.scrollViewCounterPart.scrollTo({ y: h, animated: true });
+    if(this.scrollView!==undefined && this.scrollView!==null){
+
+      this.scrollView.scrollTo({ y: bottomOfList })
+    }
   }
 
   pusher_unsubscribe() {
@@ -151,16 +162,6 @@ class LiveLesson extends Component {
     }
   }
 
-  _scrollTo() {
-    if (this.refs.scrollView !== null) {
-      this.refs.scrollView.scrollTo({y: this.state.h, animated: true });
-      return;
-    }
-    if (this.refs.scrollViewCounterPart !== null) {
-      this.refs.scrollViewCounterPart.scrollTo({ x: 0, y: this.state.hCounterPart-(this.state.device_height/2)+500, animated: true });
-      return;
-    }
-  }
 
   sendToAdmin() {
     console.log('send to admin!');
@@ -182,45 +183,17 @@ class LiveLesson extends Component {
       this.setState({
         text: ''
       });
-      this._scrollTo();
-    }
-  }
-
-  sendToCounterPart(){
-    console.log('send to admin!');
-    var date = new Date(Date.now());
-    const {email,first_name,id} = this.props.user;
-    const {lessonId} = this.props;
-
-    var text = this.state.text;
-    if ( Platform.OS == "ios"){
-      date = date.toISOString();
-    }
-    else{
-      date = date.toString();
-    }
-    if (this.state.text != ''){ //if text message exists!
-      const object = {sender_email: email, sender_first_name: first_name, text:this.state.text, date: date};
-      this.props.appendMessageCounterPart(object); //then rendering will be done//
-      const chatObject={email:email, text:text, date:date, channel_name:`test_channel_${lessonId}`, lesson_id: lessonId}
-      this.props.sendToCounterPart(chatObject);
-      this.setState({
-        text: "",
-      });
-      this._scrollTo();
     }
   }
 
   handleConfigResponse(rsp) {
     const { session_info } = rsp.response;
-    console.log(session_info);
 
     this.setState({
       session_id: session_info.session_id,
       token: session_info.token
     });
     console.log('finally..');
-    console.log(this.state);
   }
 
   _set_device_height(height){
@@ -256,7 +229,6 @@ class LiveLesson extends Component {
             const object = {sender_email: data.sender_email, sender_first_name: data.sender_first_name, text:data.message, date: data.date};
             this.props.appendMessage(object);
             console.log('message received..');
-            this._scrollTo();
           }
         }
       }
@@ -284,63 +256,39 @@ class LiveLesson extends Component {
             console.log(object);
 
             this.props.appendMessageCounterPart(object);
-            this._scrollTo();
           }
         }
       }
     }.bind(this));
   }
 
-  renderChatWithCounterPart() {
-    if (this.state.is_counterpart_talk_enabled) {
-      return (
-      <View style={{ height: 300, backgroundColor: '#f9f9f4' }}>
-        <View style={[{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }]}>
-          <Text style={{fontFamily:'Raleway', fontSize:14, marginLeft:5, marginBottom:10, color:'#2e2b4f'}}>To Student</Text>
-          <View style={[{ flexDirection: 'row' }]}>
-            <Input
-              placeholder="Enter your message."
-              onChangeText={this.onChangeText.bind(this)}
-              value={this.state.text}
-              autoCorrect={false}
-              maxLength={255}
-            />
-            <TouchableOpacity
-              style={{ backgroundColor: '#f9f9f4', width: 50, height: 35, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(122,93,232,0.8)', borderRadius:8}}
-              underlayColor='#CCCCF2'
-              onPress={() => this.sendToCounterPart()} >
-              <Text style={{ fontFamily:'Raleway', fontSize:14, color: '#f5f5fc'}}>Send</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <ScrollView
-          ref='scrollViewCounterPart'
-          style={[{ margin: 2, marginBottom: 20, backgroundColor: '#f9f9f4' }]}
-          onContentSizeChange={(w, h) => this.function_testCounterPart(h, this.state.device_height) }
-          onLayout={ev => this._set_device_height(ev.nativeEvent.layout.height) }>
-          <View>
-            <ListView style={styles.listView}
-              dataSource={this.dataSourceCounterPart}
-              renderRow={this.renderRow.bind(this)}
-              enableEmptySections />
-          </View>
-        </ScrollView>
-
-      </View>
-    );
-    }else{
-      return <View/>;
-    }
-  }
-
   renderChatWithAdmin(){
     if(this.state.is_admin_talk_enabled){
       return(
       <View style={{ height: 300, backgroundColor: '#f9f9f4' }}>
-        <View style={[{ paddingLeft: 10, paddingRight: 10, marginBottom: 0 }, GF.border('red')]}>
+      <ScrollView
+        ref={ (ref) => this.scrollView = ref }
+        style={[{ margin: 8, flex: 1, backgroundColor:'#f9f9f4'},GF.border('yellow')]}
+        onContentSizeChange={ (contentWidth, contentHeight) => {
+          this.setState({listHeight: contentHeight })
+        }}
+        onLayout={ (e) => {
+          const height = e.nativeEvent.layout.height
+          this.setState({scrollViewHeight: height })
+        }}>
+        <View>
+          <ListView style={styles.listView}
+            dataSource={this.dataSource}
+            renderRow={this.renderRow.bind(this)}
+            enableEmptySections/>
+        </View>
+      </ScrollView>
+
+        <View style={[{ paddingLeft: 10, paddingRight: 10}, GF.border('red')]}>
           <Text style={{fontFamily:'Raleway', fontSize:14, marginLeft:5, marginBottom:10, color:'#2e2b4f'}}>To Admin</Text>
           <View style={[{ flexDirection: 'row' }]}>
+            <KeyboardAwareScrollView>
+            <View>
             <Input
               placeholder="Enter your message."
               onChangeText={this.onChangeText.bind(this)}
@@ -348,6 +296,8 @@ class LiveLesson extends Component {
               autoCorrect={false}
               maxLength={255}
             />
+            </View>
+            </KeyboardAwareScrollView>
             <TouchableOpacity
               style={{ backgroundColor: '#f9f9f4', width: 50, height: 35, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(122,93,232,0.8)', borderRadius:8}}
               onPress={() => this.sendToAdmin()} >
@@ -355,18 +305,6 @@ class LiveLesson extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView
-          ref='scrollView'
-          style={[{ margin: 2, flex: 1, marginBottom: 10,backgroundColor:'#f9f9f4'},GF.border('yellow')]}
-          onContentSizeChange={(w, h) => this.function_test(h, this.state.device_height) }
-          onLayout={ev => this._set_device_height(ev.nativeEvent.layout.height) }>
-          <View>
-            <ListView style={styles.listView}
-              dataSource={this.dataSource}
-              renderRow={this.renderRow.bind(this)}
-              enableEmptySections/>
-          </View>
-        </ScrollView>
       </View>
     );
 
@@ -392,7 +330,7 @@ class LiveLesson extends Component {
               apiKey={OPENTOK_API_KEY}
               sessionId={this.state.session_id}
               token={this.state.token}
-              style={{ height: 400, flex: 1 }}
+              style={{ height: width, flex: 1 }}
             />
             <KeepAwake />
 
@@ -400,14 +338,13 @@ class LiveLesson extends Component {
         );
       } else {
         var publisherName = this.props.user.id + '_' + this.props.lessonId;
-        console.log("render state", this.state);
         return (
           <View style={[{ flex: 1 }, GF.border('red')]}>
             <SubscriberView
               apiKey={OPENTOK_API_KEY}
               sessionId={this.state.session_id}
               token={this.state.token}
-              style={{ height: 400}}
+              style={{ height: width}}
             />
             <PublisherView
             apiKey={OPENTOK_API_KEY}
@@ -446,14 +383,10 @@ class LiveLesson extends Component {
         <Navibar title='Live Lesson' />
           {this.renderOpenTok()}
 
-        <ScrollView
-          style={[{ marginTop: 10 }]}
-        >
+
           <View style={{ width: 0.1, height: 0.1 }}><Text>{this.state.device_emit}</Text></View>
-        </ScrollView>
         {this.renderChatWithAdmin()}
-        {this.renderChatWithCounterPart()}
-        <View style={{position:'absolute', bottom:20, left:25, backgroundColor: '#f9f9f4' }}>
+        <View style={{marginBottom:30, alignItems:'center', backgroundColor: '#f9f9f4' }}>
           <TouchableHighlight
             onPress={() => {
               this.setState({
@@ -466,21 +399,6 @@ class LiveLesson extends Component {
             style={chatStyle}
           >
             <Text style={{ color: '#f5f5fc', fontFamily:'Raleway', fontSize:14 }}>Chat with Admin</Text>
-          </TouchableHighlight>
-        </View>
-        <View style={{position:'absolute', bottom:20, right:25 }}>
-          <TouchableHighlight
-            onPress={() => {
-              this.setState({
-                is_counterpart_talk_enabled: !this.state.is_counterpart_talk_enabled,
-                is_admin_talk_enabled: false,
-                text:''
-              })
-          }}
-            underlayColor='#CCCCF2'
-            style={chatStyle}
-          >
-            <Text style={{ color: '#f5f5fc', fontFamily:'Raleway', fontSize:14 }}>Chat with Student</Text>
           </TouchableHighlight>
         </View>
 

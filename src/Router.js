@@ -14,7 +14,6 @@ import KeyQuestions from './components/KeyQuestions';
 import RenderWebView from './components/RenderWebView';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Login from './components/Login'; // 자동 로그인 처리 및 일정 시간 뒤 로그인으로
-import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import Splash from './components/Splash';
 import LiveLesson from './components/LiveLesson';
@@ -37,7 +36,6 @@ const RouterComponent = () => {
       <Scene key="splash" component={Splash} hideNavBar={true} type={ActionConst.RESET} />
       <Scene key="auth" type={ActionConst.RESET}>
         <Scene key="login" component={Login} hideNavBar={true} />
-        <Scene key="loginForm" component={LoginForm} title='LOGIN' hideNavBar={true}/>
         <Scene key="privacyPolicy" component={PrivacyPolicy} title='개인정보 보호정책' hideNavBar={true}/>
       </Scene>
 

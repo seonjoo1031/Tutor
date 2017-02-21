@@ -361,8 +361,8 @@ class LessonScrollContent extends Component {
     else{
       return (
         <CardSection style={{justifyContent:'space-between', paddingTop:10, paddingBottom:10, paddingLeft:30, paddingRight:30}}>
-          <Button onPress={this.onCancelAccept.bind(this)} style={{width:100}}>Accept</Button>
-          <Button onPress={this.onDecline.bind(this)} style={{width:100}}>Decline</Button>
+          <Button onPress={this.onCancelAccept.bind(this)} style={{width:100}}>Yes</Button>
+          <Button onPress={this.onDecline.bind(this)} style={{width:100}}>No</Button>
         </CardSection>
       );
 
