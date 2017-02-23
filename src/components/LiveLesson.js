@@ -139,11 +139,14 @@ class LiveLesson extends Component {
 
   scrollToBottom(){
     const bottomOfList = this.state.listHeight - this.state.scrollViewHeight
-    console.log('scrollToBottom', this.scrollView);
+    // console.log('scrollToBottom', this.scrollView);
 
     if(this.scrollView!==undefined && this.scrollView!==null){
 
       this.scrollView.scrollTo({ y: bottomOfList })
+    }
+    else{
+      console.log('scroll to bottom else');
     }
   }
 
@@ -162,10 +165,25 @@ class LiveLesson extends Component {
     }
   }
 
+  leadingZeros(n, digits) {
+    var zero = '';
+    n = n.toString();
+
+    if (n.length < digits) {
+      for (i = 0; i < digits - n.length; i++)
+        zero += '0';
+    }
+    return zero + n;
+  }
+
 
   sendToAdmin() {
     console.log('send to admin!');
-    var date = new Date(Date.now());
+    var date = new Date();
+    // var date =
+    // this.leadingZeros(d.getHours(), 2) + ':' +
+    // this.leadingZeros(d.getMinutes(), 2)
+
     const { email, first_name, id } = this.props.user;
     const { lessonId } = this.props;
 
@@ -177,7 +195,7 @@ class LiveLesson extends Component {
     }
     if (this.state.text !== '') { //if text message exists!
       const object = { sender_email: email, sender_first_name: first_name, text: this.state.text, date: date };
-      this.props.appendMessage(object); //then rendering will be done//
+      // this.props.appendMessage(object); //then rendering will be done//
       const chatObject={email:email, text:text, date:date, channel_name:`admin_channel_${lessonId}_userid_${id}`, lesson_id: lessonId}
       this.props.sendToAdmin(chatObject);
       this.setState({
@@ -220,8 +238,12 @@ class LiveLesson extends Component {
     console.log(channel_name);
     channel.bind('my_event', function(data) {
       console.log(data);
+
       if (data != null) {
         if (data.sender_email === email.toLowerCase()) {
+          const object = { sender_email: data.sender_email, sender_first_name: data.sender_first_name, text: data.message, date: data.date };
+          this.props.appendMessage(object);
+
         } else {
           if (data.message != null){
             console.log('data');
@@ -247,6 +269,7 @@ class LiveLesson extends Component {
       console.log('data at pusher subscription counter part..');
       if (data != null) {
         if (data.sender_email === email.toLowerCase()) {
+
         } else {
           if (data.message != null){
             console.log('data');
@@ -265,30 +288,29 @@ class LiveLesson extends Component {
   renderChatWithAdmin(){
     if(this.state.is_admin_talk_enabled){
       return(
-      <View style={{ height: 300, backgroundColor: '#f9f9f4' }}>
-      <ScrollView
-        ref={ (ref) => this.scrollView = ref }
-        style={[{ margin: 8, flex: 1, backgroundColor:'#f9f9f4'},GF.border('yellow')]}
-        onContentSizeChange={ (contentWidth, contentHeight) => {
-          this.setState({listHeight: contentHeight })
-        }}
-        onLayout={ (e) => {
-          const height = e.nativeEvent.layout.height
-          this.setState({scrollViewHeight: height })
-        }}>
-        <View>
-          <ListView style={styles.listView}
-            dataSource={this.dataSource}
-            renderRow={this.renderRow.bind(this)}
-            enableEmptySections/>
-        </View>
-      </ScrollView>
+
+      <View style={{ height: height*0.46, backgroundColor: '#f9f9f4' }}>
+        <ScrollView
+          ref={ (ref) => this.scrollView = ref }
+          style={[{ margin: 8, flex: 1, backgroundColor:'#f9f9f4'},GF.border('yellow')]}
+          onContentSizeChange={ (contentWidth, contentHeight) => {
+            this.setState({listHeight: contentHeight })
+          }}
+          onLayout={ (e) => {
+            const height = e.nativeEvent.layout.height
+            this.setState({scrollViewHeight: height })
+          }}>
+          <View>
+            <ListView style={styles.listView}
+              dataSource={this.dataSource}
+              renderRow={this.renderRow.bind(this)}
+              enableEmptySections/>
+          </View>
+        </ScrollView>
 
         <View style={[{ paddingLeft: 10, paddingRight: 10}, GF.border('red')]}>
           <Text style={{fontFamily:'Raleway', fontSize:14, marginLeft:5, marginBottom:10, color:'#2e2b4f'}}>To Admin</Text>
           <View style={[{ flexDirection: 'row' }]}>
-            <KeyboardAwareScrollView>
-            <View>
             <Input
               placeholder="Enter your message."
               onChangeText={this.onChangeText.bind(this)}
@@ -296,8 +318,6 @@ class LiveLesson extends Component {
               autoCorrect={false}
               maxLength={255}
             />
-            </View>
-            </KeyboardAwareScrollView>
             <TouchableOpacity
               style={{ backgroundColor: '#f9f9f4', width: 50, height: 35, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(122,93,232,0.8)', borderRadius:8}}
               onPress={() => this.sendToAdmin()} >
@@ -306,6 +326,7 @@ class LiveLesson extends Component {
           </View>
         </View>
       </View>
+
     );
 
     } else{
@@ -314,6 +335,15 @@ class LiveLesson extends Component {
   }
 
   renderOpenTok() {
+    console.log(this.state.is_admin_talk_enabled);
+    var h;
+    if(this.state.is_admin_talk_enabled){
+      h=width*0.6;
+    }
+    else{
+      h=width;
+    }
+
     if (this.state.session_id !== 'N/A') {
       if (Platform.OS === 'android') {
         var publisherName = this.props.user.id + '_' + this.props.lessonId;
@@ -344,7 +374,7 @@ class LiveLesson extends Component {
               apiKey={OPENTOK_API_KEY}
               sessionId={this.state.session_id}
               token={this.state.token}
-              style={{ height: width}}
+              style={{ height: h}}
             />
             <PublisherView
             apiKey={OPENTOK_API_KEY}
@@ -381,17 +411,20 @@ class LiveLesson extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#f9f9f4' }}>
         <Navibar title='Live Lesson' />
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={true}>
+
           {this.renderOpenTok()}
 
-
           <View style={{ width: 0.1, height: 0.1 }}><Text>{this.state.device_emit}</Text></View>
-        {this.renderChatWithAdmin()}
-        <View style={{marginBottom:30, alignItems:'center', backgroundColor: '#f9f9f4' }}>
+
+          {this.renderChatWithAdmin()}
+          </KeyboardAwareScrollView>
+
+        <View style={{marginBottom:20, alignItems:'center', backgroundColor: '#f9f9f4' }}>
           <TouchableHighlight
             onPress={() => {
               this.setState({
                 is_admin_talk_enabled: !this.state.is_admin_talk_enabled,
-                is_counterpart_talk_enabled: false,
                 text:''
               })
             }}

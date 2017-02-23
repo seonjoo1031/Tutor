@@ -15,7 +15,7 @@ import MIcon from 'react-native-vector-icons/MaterialIcons';
 const GF = require('./GF');
 
 class Main extends Component {
-
+  
 
   componentWillMount() {
     this.props.upcomingLessonsFetch(this.props.user.token);
@@ -55,6 +55,10 @@ class Main extends Component {
 
     this.notificationUnsubscribe = FCM.on("notification", notif => {
       console.log("Notification", notif);
+
+      console.log('fcm fetch');
+      this.props.upcomingLessonsFetch(this.props.user.token);
+      this.props.unAssignedLessonsFetch(this.props.user.token);
 
       this.sendRemote(notif);
     });

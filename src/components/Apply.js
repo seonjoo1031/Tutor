@@ -43,9 +43,6 @@ class Apply extends Component {
 
     };
 
-
-    this.onDateChange = this.onDateChange.bind(this);
-    this.onMonthChangeWithFetchingFromServer = this.onMonthChangeWithFetchingFromServer.bind(this);
   }
 
   componentWillMount(){
@@ -55,24 +52,6 @@ class Apply extends Component {
 
   }
 
-  onDateChange(day){
-    //1. day를 하나씩 누를 때는, 해당시간에 get_list를 call.
-    //2. when previous, next clicked => get_calendar call..
-    console.log(day);
-    console.log(day.getMonth()+1);
-    console.log(day.getDate());
-    console.log(day.getFullYear());
-    console.log(day.getTimezoneOffset()/60); // -9, -4 etc.. => i've only tested integer offset so far..
-    query = `https://www.ringleplus.com/api/v1/calendar/get_list?email=sungpah@stanford.edu&year=2017&month=1&day=1`;
-    fetch(query)
-    .then( response => response.json() )
-    .then( json => this.handleResponseDay(json.response))
-    .catch((error) => {
-      console.log(error);
-    })
-  }
-
-//    return <View><Text>{obj.classtime_str}</Text></View>;
 
   onClick(data) {
     const items = this.state.apply_array;
@@ -163,30 +142,6 @@ class Apply extends Component {
 
   }
 
-  onMonthChangeWithFetchingFromServer(year,month){
-    console.log('data.....prev, next clicked');
-    console.log(year,month);
-    //여기는 prev/next button이 눌릴 때 동작 하는 부분.
-    query = `https://www.ringleplus.com/api/v1/calendar/get_calendar?email=sungpah@stanford.edu&year=${year}&month=${month}`;
-    fetch(query)
-    .then( response => response.json() )
-    .then( json => this.handleResponseMonth(json.response))
-    .catch((error) => {
-      console.log(error);
-    })
-  }
-
-    handleResponseDay(response){
-      console.log('applied...');
-      console.log(response.week_panel);
-    }
-
-
-  handleResponseMonth(response){
-
-
-  }
-
   onDecline(obj) {
     this.setState({ visible: false });
     for(i=0; i<obj.length; i++){
@@ -201,7 +156,7 @@ class Apply extends Component {
 
 
       hasEventCircle: {
-        backgroundColor: '#CCCCF2'
+        backgroundColor: 'rgba(122,93,232,0.3)'
       },
       selectedDayCircle: {
         backgroundColor: '#7a5de8',
@@ -209,15 +164,11 @@ class Apply extends Component {
       day: {
         color: '#2e2b4f'
       },
-      dayHeading: {
-        color: '#2e2b4f'
-      },
+
       weekendDayText: {
         color: '#2e2b4f'
       },
-      weekendHeading: {
-        color: '#2e2b4f'
-      },
+
       currentDayText: {
         color: '#7a5de8'
       },
@@ -235,12 +186,18 @@ class Apply extends Component {
       }
     }
 
+
     return(
       <View style={{marginTop:20, borderWidth:1, borderColor:'#e3decf'}}>
         <Calendar
           eventDates={eventDates}
           customStyle={customStyle}
           weekStart={0}
+          nextButtonText={'Next'}
+          prevButtonText={'Prev'}
+          showControls={true}
+          today={this.props.today.substring(0,10)}
+          selectedDate={this.props.today.substring(0,10)}
           onDateSelect={(date) => {
             for (i = 0; i <= 6; i++){
               const obj = this.props.weekPanel.find(x => x.index === i);
@@ -255,6 +212,7 @@ class Apply extends Component {
             }
           }}
         />
+
       </View>
     );
   }
@@ -339,6 +297,19 @@ class Apply extends Component {
 
           {this.renderCalendar()}
 
+          <View style={{alignItems:'flex-end', width:width, paddingTop:4}}>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+              <MIcon name='brightness-1' size={18} color='#7a5de8' style={{paddingRight:3}}/>
+              <Text style={{fontFamily: 'Raleway', fontSize: 12, color: '#2e2b4f', paddingRight:13}}>
+                Selected day
+              </Text>
+              <MIcon name='brightness-1' size={18} color='rgba(122,93,232,0.3)' style={{paddingRight:3}}/>
+              <Text style={{fontFamily: 'Raleway', fontSize: 12, color: '#2e2b4f', paddingRight:5}}>
+                Available day for apply check
+              </Text>
+            </View>
+          </View>
+
           <Modal
             visible={this.state.visible}
             transparent
@@ -360,7 +331,9 @@ class Apply extends Component {
             </View>
           </Modal>
           {this.renderSpinner()}
+
         </View>
+
 
         <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, backgroundColor: '#e3decf' }} />
 
@@ -400,13 +373,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   const { user } = state.auth;
-  const { loading, weekPanel } = state.apply;
+  const { loading, weekPanel, today } = state.apply;
   const { timeNow } = state.upcomingLessons;
   return {
     user: user,
     weekPanel: weekPanel,
     loading: loading,
-    timeNow: timeNow
+    timeNow: timeNow,
+    today: today
   };
 
 };

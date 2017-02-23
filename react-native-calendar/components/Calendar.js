@@ -12,6 +12,9 @@ import Day from './Day';
 import moment from 'moment';
 import styles from './styles';
 
+import MIcon from 'react-native-vector-icons/MaterialIcons';
+
+
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const VIEW_INDEX = 2;
 
@@ -53,10 +56,10 @@ export default class Calendar extends Component {
   static defaultProps = {
     customStyle: {},
     width: DEVICE_WIDTH,
-    dayHeadings: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+    dayHeadings: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     eventDates: [],
-    monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'],
     nextButtonText: 'Next',
     prevButtonText: 'Prev',
     scrollEnabled: false,
@@ -76,7 +79,7 @@ export default class Calendar extends Component {
   componentDidUpdate() {
     this.scrollToItem(VIEW_INDEX);
   }
-  
+
   componentWillReceiveProps(props) {
     if (props.selectedDate) {
       this.setState({selectedMoment: props.selectedDate});
@@ -157,6 +160,8 @@ export default class Calendar extends Component {
   }
 
   renderMonthView(argMoment, eventsMap) {
+
+    console.log('calendar', this.props);
 
     let
       renderIndex = 0,
@@ -254,9 +259,7 @@ export default class Calendar extends Component {
             style={[styles.controlButton, this.props.customStyle.controlButton]}
             onPress={this.onPrev}
           >
-            <Text style={[styles.controlButtonText, this.props.customStyle.controlButtonText]}>
-              {this.props.prevButtonText}
-            </Text>
+            <MIcon name='chevron-left' size={25} color='white' style={{opacity:0.8}} />
           </TouchableOpacity>
           <Text style={[styles.title, this.props.customStyle.title]}>
             {localizedMonth} {this.state.currentMonthMoment.year()}
@@ -265,9 +268,7 @@ export default class Calendar extends Component {
             style={[styles.controlButton, this.props.customStyle.controlButton]}
             onPress={this.onNext}
           >
-            <Text style={[styles.controlButtonText, this.props.customStyle.controlButtonText]}>
-              {this.props.nextButtonText}
-            </Text>
+            <MIcon name='chevron-right' size={25} color='white' style={{opacity:0.8}} />
           </TouchableOpacity>
         </View>
       )

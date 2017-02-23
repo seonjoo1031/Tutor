@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Spinner, Input, Button, SignInput, LoginButton } from './common';
 import {
@@ -180,7 +180,7 @@ class Signup extends Component {
       </TouchableOpacity>
       </View>
 
-        <ScrollView style={{ backgroundColor: '#7a5de8'}}
+        <KeyboardAwareScrollView style={{ backgroundColor: '#7a5de8'}}
         keyboardShouldPersistTaps={true}>
           <View style={{ marginLeft: 20, marginRight: 20}}>
 
@@ -259,6 +259,7 @@ class Signup extends Component {
             </View>
             <View style={styles.separator} />
 
+
             <View style={{ alignItems: 'flex-end', marginTop:5 }}>
               <TouchableOpacity
               onPress={this.onReferralEmailCheck.bind(this)}
@@ -273,7 +274,7 @@ class Signup extends Component {
 
             {this.renderSigninButton()}
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View>
     );
   }

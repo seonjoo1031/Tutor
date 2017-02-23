@@ -5,13 +5,13 @@ import {
   GET_APPLY_SUCCESS
 } from '../actions/types';
 
-const INITIAL_STATE = { weekPanel: [], updatedApply: [], loading: false };
+const INITIAL_STATE = { weekPanel: [], updatedApply: [], loading: false, today:'' };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_APPLY_SUCCESS:
       console.log('apply action', action.weekPanel);
-      return { ...state, weekPanel: action.weekPanel, loading: false };
+      return { ...state, weekPanel: action.weekPanel, today: action.today, loading: false };
 
     case UPDATE_APPLY_SUCCESS:
       return { ...state, weekPanel: action.weekPanel, loading: false };

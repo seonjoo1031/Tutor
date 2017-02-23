@@ -11,6 +11,8 @@ const styles = StyleSheet.create({
   },
   calendarControls: {
     flexDirection: 'row',
+    alignItems:'center',
+    backgroundColor:'rgba(122,93,232,0.8)'
   },
   controlButton: {
   },
@@ -23,27 +25,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     margin: 10,
-    fontFamily:'Raleway'
+    fontFamily:'Raleway',
+    color:'white'
   },
   calendarHeading: {
     flexDirection: 'row',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
+    backgroundColor:'rgba(122,93,232,0.8)'
   },
   dayHeading: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14,
     textAlign: 'center',
     marginVertical: 5,
-    fontFamily:'Raleway'
+    fontFamily:'Raleway',
+    color:'white'
   },
   weekendHeading: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 14,
     textAlign: 'center',
     marginVertical: 5,
-    color: '#cccccc',
-    fontFamily:'Raleway'
+    fontFamily:'Raleway',
+    color:'white'
   },
   weekRow: {
     flexDirection: 'row',

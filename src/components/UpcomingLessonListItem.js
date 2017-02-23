@@ -55,8 +55,11 @@ class UpcomingLessonListItem extends Component {
           <TouchableWithoutFeedback onPress={this.onModalPress.bind(this)}>
             <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor: 'rgba(0, 0, 0, 0.75)'}}>
               <View>
-              <CardSection style={{ flexDirection: 'column', paddingTop:20, paddingBottom:20, width:width*0.75 }}>
-                <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
+              <CardSection style={{ flexDirection: 'column', paddingTop:15, paddingBottom:10, width:width*0.75 }}>
+              <Text style={{fontFamily: 'Raleway', fontSize: 13, color: 'rgba(122,93,232,0.7)', paddingLeft:10, paddingBottom:5}}>
+                Student Info
+              </Text>
+                <View style={{flexDirection:'row', alignItems:'center', marginBottom:5}}>
                   <MIcon name='account-circle' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
                   <View>
                     <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
@@ -66,7 +69,9 @@ class UpcomingLessonListItem extends Component {
                   </View>
                 </View>
 
-                <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
+                <View style={styles.separator} />
+
+                <View style={{flexDirection:'row', alignItems:'center', marginBottom:5}}>
                   <MIcon name='location-on' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
                   <View>
                     <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
@@ -76,11 +81,61 @@ class UpcomingLessonListItem extends Component {
                   </View>
                 </View>
 
-                <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
+                <View style={styles.separator} />
+
+                <View style={{flexDirection:'row', alignItems:'center', marginBottom:5}}>
                   <MIcon name='email' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
                   <View>
                     <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
                       Email
+                    </Text>
+                    <Text style={[styles.modalTextStyle]}>{email}</Text>
+                  </View>
+                </View>
+                <View style={{height: 1,
+                backgroundColor: '#dddddd'}} />
+
+                <View style={{height: 10,
+                backgroundColor: '#f9f9f4'}} />
+
+                <Text style={{fontFamily: 'Raleway', fontSize: 13, color: 'rgba(122,93,232,0.7)', paddingLeft:10, paddingTop:10, paddingBottom:5}}>
+                  Lesson Info
+                </Text>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                  <MIcon name='info' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+                  <View>
+                    <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                      Lesson Style
+                    </Text>
+                    <Text style={[styles.modalTextStyle]}>{email}</Text>
+                  </View>
+                </View>
+
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                  <MIcon name='info' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+                  <View>
+                    <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                      Lesson Style
+                    </Text>
+                    <Text style={[styles.modalTextStyle]}>{email}</Text>
+                  </View>
+                </View>
+
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                  <MIcon name='info' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+                  <View>
+                    <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                      Lesson Style
+                    </Text>
+                    <Text style={[styles.modalTextStyle]}>{email}</Text>
+                  </View>
+                </View>
+
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                  <MIcon name='info' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+                  <View>
+                    <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
+                      Lesson Style
                     </Text>
                     <Text style={[styles.modalTextStyle]}>{email}</Text>
                   </View>
@@ -121,7 +176,7 @@ class UpcomingLessonListItem extends Component {
              <PreparationOptionButton
              type='student'
              onPress={this.preparationOptionFunction}
-             buttonText='Student Info'
+             buttonText='Lesson Info'
              />
 
 
@@ -176,7 +231,7 @@ const styles = {
     marginLeft: 15
   },
   modalTextStyle: {
-    fontSize: 15,
+    fontSize: 14,
     color: '#2e2b4f',
     fontFamily: 'Raleway'
   },

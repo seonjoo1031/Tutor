@@ -22,7 +22,8 @@ export const applyFetch = (email) => {
 export const getApplySuccess = (dispatch, response) => {
   dispatch({
     type: GET_APPLY_SUCCESS,
-    weekPanel: response.week_panel
+    weekPanel: response.week_panel,
+    today: response.today
   });
 };
 

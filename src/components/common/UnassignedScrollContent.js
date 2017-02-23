@@ -173,8 +173,8 @@ class UnassignedScrollContent extends Component {
           >
             <View style={containerStyle}>
               <CardSection style={cardSectionStyle}>
-                <View style={{alignItems:'center'}}>
-                <Text style={[styles.textStyle, {paddingBottom:10}]}>{this.state.dataArray[0].description}</Text>
+                <View style={{alignItems:'center', padding:10}}>
+                <Text style={[styles.textStyle, {paddingBottom:5}]}>{this.state.dataArray[0].description}</Text>
                 <Text style={[styles.textStyle, {color:'#7a5de8'}]}>Cacellation Policy</Text>
                 </View>
               </CardSection>
@@ -192,7 +192,7 @@ class UnassignedScrollContent extends Component {
                 </ScrollView>
               </CardSection>
 
-              <CardSection style={{justifyContent:'center'}}>
+              <CardSection style={[cardSectionStyle, {padding:5}]}>
                 <Button onPress={this.onAccept.bind(this)} style={{width:100, marginRight:30}}>Yes</Button>
                 <Button onPress={this.onDecline.bind(this)} style={{width:100, marginLeft:30}}>No</Button>
               </CardSection>
@@ -219,7 +219,7 @@ class UnassignedScrollContent extends Component {
 
         </View>
 
-        <View style={{ paddingTop: 4, flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
           <MainButton onPress={this.onConfirmPress.bind(this)} style={{width:100}}>CONFIRM</MainButton>
         </View>
       </View>
@@ -240,7 +240,7 @@ class UnassignedScrollContent extends Component {
             <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#897FA6'}}>
               {'Lesson ID  '}
             </Text>
-            <Text style={{fontFamily: 'Raleway', fontSize: 20, color: '#2e2b4f'}}>
+            <Text style={{fontFamily: 'Raleway', fontSize: 15, color: '#2e2b4f'}}>
               {lesson_id}
             </Text>
           </View>

@@ -182,9 +182,60 @@ class LessonScrollContent extends Component {
     }
   }
 
-  renderConfirm() {
-    const { containerStyle, cardSectionStyle } = styles;
+  renderConfirmContent() {
+    const date = new Date();
+    const currentTime = date.getTime();
+    const { start_time_mil } = this.props.course;
 
+    var diff = start_time_mil - currentTime;
+
+    if(diff<0){
+      return (
+        <View>
+          <CardSection style={{ flexDirection: 'column', padding:15 }}>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.textStyle}>This is a past lesson.</Text>
+            </View>
+          </CardSection>
+
+          <CardSection style={{justifyContent:'center', paddingTop:10, paddingBottom:10, paddingLeft:30, paddingRight:30}}>
+            <Button onPress={this.onDecline.bind(this)} style={{width:100}}>OK</Button>
+          </CardSection>
+        </View>
+      );
+    }
+    return(
+      <View>
+      <CardSection style={styles.cardSectionStyle}>
+        <View style={{alignItems:'center', padding:10}}>
+        <Text style={[styles.textStyle, {paddingBottom:5}]}>{this.state.dataArray[0].description}</Text>
+        <Text style={[styles.textStyle, {color:'#7a5de8'}]}>Cacellation Policy</Text>
+        </View>
+      </CardSection>
+      <CardSection style={{ flexDirection: 'column', height: height*0.7 }}>
+        <ScrollView
+          style={[GF.border('red')]}
+        >
+          {this.renderPolicy()}
+          <Checkbox
+            style={{ padding: 10 }}
+            data={this.state.dataArray[10]}
+            onClick={() => this.onClick(this.state.dataArray[10])}
+            text={'Check all items.'}
+          />
+        </ScrollView>
+      </CardSection>
+
+      <CardSection style={[styles.cardSectionStyle, {padding:5}]}>
+        <Button onPress={this.onAccept.bind(this)} style={{width:100, marginRight:30}}>Yes</Button>
+        <Button onPress={this.onDecline.bind(this)} style={{width:100, marginLeft:30}}>No</Button>
+      </CardSection>
+      </View>
+    );
+  }
+
+  renderConfirm() {
+    const { containerStyle } = styles;
     if (this.state.showConfirmModal) {
       return (
         <View>
@@ -194,31 +245,8 @@ class LessonScrollContent extends Component {
             animationType="slide"
             onRequestClose={() => {}}
           >
-            <View style={containerStyle}>
-              <CardSection style={cardSectionStyle}>
-                <View style={{alignItems:'center'}}>
-                <Text style={[styles.textStyle, {paddingBottom:10}]}>{this.state.dataArray[0].description}</Text>
-                <Text style={[styles.textStyle, {color:'#7a5de8'}]}>Cacellation Policy</Text>
-                </View>
-              </CardSection>
-              <CardSection style={{ flexDirection: 'column', height: height*0.7 }}>
-                <ScrollView
-                  style={[GF.border('red')]}
-                >
-                  {this.renderPolicy()}
-                  <Checkbox
-                    style={{ padding: 10 }}
-                    data={this.state.dataArray[10]}
-                    onClick={() => this.onClick(this.state.dataArray[10])}
-                    text={'Check all items.'}
-                  />
-                </ScrollView>
-              </CardSection>
-
-              <CardSection style={{justifyContent:'center'}}>
-                <Button onPress={this.onAccept.bind(this)} style={{width:100, marginRight:30}}>Yes</Button>
-                <Button onPress={this.onDecline.bind(this)} style={{width:100, marginLeft:30}}>No</Button>
-              </CardSection>
+            <View>
+              {this.renderConfirmContent()}
             </View>
           </Modal>
         </View>
@@ -235,9 +263,9 @@ class LessonScrollContent extends Component {
       var fee = ((12-hours)/12)*10;
       return (
         <View style={{flexDirection:'row', alignItems:'center'}}>
-          <MIcon name='monetization-on' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+          <MIcon name='monetization-on' size={30} color='#7a5de8' style={{padding:8, opacity:0.5}} />
           <View>
-          <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>{' Your fee '}</Text>
+          <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>Fee</Text>
           <Text style={[styles.textStyle]}>${fee.toFixed(2)}</Text>
           </View>
         </View>
@@ -246,7 +274,7 @@ class LessonScrollContent extends Component {
     else if (hours > 12) {
       return (
         <View style={{flexDirection:'row', alignItems:'center'}}>
-          <MIcon name='monetization-on' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+          <MIcon name='monetization-on' size={30} color='#7a5de8' style={{padding:8, opacity:0.5}} />
           <View>
             <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
               Fee
@@ -270,7 +298,7 @@ class LessonScrollContent extends Component {
 
     if(diff<0){
       return (
-        <View style={{alignItems:'center'}}>
+        <View style={{alignItems:'center', marginLeft:50, marginRight:50}}>
           <Text style={styles.textStyle}>This is a past lesson.</Text>
         </View>
       );
@@ -290,7 +318,7 @@ class LessonScrollContent extends Component {
       return (
         <View>
           <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
-            <MIcon name='watch-later' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+            <MIcon name='watch-later' size={30} color='#7a5de8' style={{padding:8, opacity:0.5}} />
             <View>
               <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
                 Current Time
@@ -300,7 +328,7 @@ class LessonScrollContent extends Component {
           </View>
 
           <View style={{flexDirection:'row', alignItems:'center', marginBottom:10}}>
-            <MIcon name='timer' size={30} color='#7a5de8' style={{padding:10, opacity:0.5}} />
+            <MIcon name='timer' size={30} color='#7a5de8' style={{padding:8, opacity:0.5}} />
             <View>
               <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#7a5de8', paddingBottom:5}}>
                 Time left to Cancel
@@ -320,13 +348,32 @@ class LessonScrollContent extends Component {
     if (this.state.showCancelModal) {
       return (
         <View>
-          <CardSection style={{ flexDirection: 'column', paddingTop:20, paddingBottom:20, width:width*0.85 }}>
+          <CardSection style={{ flexDirection: 'column', paddingTop:20, paddingBottom:20}}>
             {this.renderTimeCalc()}
           </CardSection>
         </View>
       );
     }
     else if (this.state.showUnconfirmedCancelModal) {
+
+      const date = new Date();
+      const currentTime = date.getTime();
+      const { start_time_mil } = this.props.course;
+
+      var diff = start_time_mil - currentTime;
+
+      if(diff<0){
+        return (
+          <View>
+          <CardSection style={{ flexDirection: 'column', padding:15 }}>
+            <View style={{alignItems:'center', marginLeft:50, marginRight:50}}>
+              <Text style={styles.textStyle}>This is a past lesson.</Text>
+            </View>
+          </CardSection>
+          </View>
+        );
+      }
+
       return (
         <View>
         <CardSection style={{ flexDirection: 'column', padding:15 }}>
@@ -428,8 +475,8 @@ class LessonScrollContent extends Component {
         </View>
 
         <View style={{ paddingTop: 4, flexDirection: 'row', justifyContent: 'center' }}>
-          <MainButton onPress={this.onConfirmPress.bind(this)} style={{width:90}}>CONFIRM</MainButton>
-          <MainButton onPress={this.onUnconfirmedCancelPress.bind(this)} style={{width:90}}>CANCEL</MainButton>
+          <MainButton onPress={this.onConfirmPress.bind(this)} style={{width:width*0.24}}>CONFIRM</MainButton>
+          <MainButton onPress={this.onUnconfirmedCancelPress.bind(this)} style={{width:width*0.24}}>CANCEL</MainButton>
         </View>
       </View>
     );
@@ -447,7 +494,7 @@ class LessonScrollContent extends Component {
               <Text style={{fontFamily: 'Raleway', fontSize: 13, color: '#897FA6'}}>
                 {'Lesson ID  '}
               </Text>
-              <Text style={{fontFamily: 'Raleway', fontSize: 20, color: '#2e2b4f'}}>
+              <Text style={{fontFamily: 'Raleway', fontSize: 15, color: '#2e2b4f'}}>
                 {id}
               </Text>
             </View>

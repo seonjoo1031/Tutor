@@ -85,8 +85,3 @@ const handleChatInsert = (dispatch, response) => {
     type: CHAT_INSERTED
   });
 };
-
-const handleChatInsertCounterPart = (dispatch, response) => {
-  //존재 할 필요는 없음. 이부분은, 써버에 내가 쓴 텍스트를 보내늑 것인데, 렌더링은 여기서 하지는
-  console.log('chat inserted!!');//이건 왜 존재
-};

@@ -1,6 +1,5 @@
 import React from 'react';
 import { TextInput, View, Platform } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 //<!-- add max length property!
@@ -9,7 +8,6 @@ const SignInput = ({ value, onChangeText, placeholder, secureTextEntry, maxLengt
   const { inputStyleAndroid, containerStyle, inputStyleIOS } = styles;
 
   return (
-    <KeyboardAwareScrollView>
 
     <View style={containerStyle}>
       <TextInput
@@ -25,7 +23,6 @@ const SignInput = ({ value, onChangeText, placeholder, secureTextEntry, maxLengt
         underlineColorAndroid={underlineColorAndroid}
       />
     </View>
-    </KeyboardAwareScrollView>
 
   );
 };

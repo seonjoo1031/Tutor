@@ -4,6 +4,7 @@ import { FBLoginManager } from 'react-native-facebook-login';
 import { GoogleSignin } from 'react-native-google-signin';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
@@ -155,6 +156,7 @@ class Login extends Component {
           />
         </View>
 
+
         <View style={styles.separator} />
 
         <View style={{flexDirection:'row', width:width-60, alignItems:'center', marginTop:10}}>
@@ -215,7 +217,7 @@ class Login extends Component {
     console.log(width, height);
 
     return (
-      <ScrollView style={[{ flex: 1, backgroundColor: '#7a5de8' }, GF.border('red')]} >
+      <KeyboardAwareScrollView style={[{ flex: 1, backgroundColor: '#7a5de8' }, GF.border('red')]} keyboardShouldPersistTaps={true}>
         <StatusBar
          backgroundColor="#7a5de8"
          barStyle="default"
@@ -234,7 +236,7 @@ class Login extends Component {
 
 
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }
